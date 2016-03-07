@@ -58,7 +58,7 @@ function loadRecords(dateStr, startTime, endTime) {
             }
         },
         error: function(msg, status) {
-        	$.toast('加载打卡记录出错');
+        	$.toast('加载打卡记录失败');
         }
     });
 }
