@@ -1,0 +1,235 @@
+{
+  "status": 10001,
+  "data": {
+    "list": [
+      {
+        "id": 16,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽",
+        "start_time": 1451251800,
+        "end_time": 1451370600,
+        "times": 0,
+        "status": 1,
+        "leave_type": {
+          "id": 1,
+          "name": "事假"
+        },
+        "boss": null
+      },
+	  {
+        "id": 16,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽哈喽",
+        "start_time": 1451251800,
+        "end_time": 1451370600,
+        "times": 0,
+        "status": 1,
+        "leave_type": {
+          "id": 1,
+          "name": "事假"
+        },
+        "boss": null
+      },
+      {
+        "id": 12,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "哈哈彼此",
+        "start_time": 1448868600,
+        "end_time": 1448879400,
+        "times": 0,
+        "status": 0,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 9,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "dhjsjvshjs",
+        "start_time": 1448764200,
+        "end_time": 1448796600,
+        "times": 0,
+        "status": 0,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 5,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "tttyuuhhhgf",
+        "start_time": 1448620200,
+        "end_time": 1448634600,
+        "times": 0,
+        "status": 1,
+        "leave_type": {
+          "id": 4,
+          "name": "年假"
+        },
+        "boss": null
+      },
+      {
+        "id": 4,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "djsidhbdjsks",
+        "start_time": 1448620200,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": 1,
+        "leave_type": {
+          "id": 3,
+          "name": "调休"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "user_name": "余勃",
+        "reason": "shjshdjdjdjss",
+        "start_time": 1448605800,
+        "end_time": 1448706600,
+        "times": 0,
+        "status": -2,
+        "leave_type": {
+          "id": 2,
+          "name": "病假"
+        },
+        "boss": null
+      }
+    ],
+    "offset": 0,
+    "skip": 0,
+    "total": 6
+  }
+}

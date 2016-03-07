@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>办公</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style type="text/css">
+        .cell {
+            height: 150px;
+            text-align: center;
+            padding-top: 15px;
+        }
+        img {
+            width: 85px;
+            height: 85px;
+        }
+        p {
+            margin-top: 5px;
+            font-size: 15px;
+            color: black;
+            font-weight: lighter;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-group">
+        <div class="page page-current">
+            <div class="content">
+                <div class="content-padded grid-demo">
+                    <div class="row">                        
+                        <div class="col-33 cell bg">
+                            <a href="javascript: openWindow('http://192.168.1.170:8088/jQueryMobileOffice/leave.html')">
+                                <img src="images/ic_apply_for_leave.png">
+                                <p>请假申请</p>
+                            </a>
+                        </div>
+                        <div class="col-33 cell">
+                            <a href="javascript: openWindow('http://192.168.1.170:8088/jQueryMobileOffice/overtime.html')">
+                                <img src="images/ic_apply_for_extra_work.png">
+                                <p>加班申请</p>
+                            </a>
+                        </div>
+                        <div class="col-33 cell">
+                            <a href="javascript: openWindow('http://192.168.1.170:8088/jQueryMobileOffice/records.html')">
+                                <img src="images/ic_checkin_record.png">
+                                <p>打卡记录</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">                        
+                        <div class="col-33 cell">
+                            <a href="javascript: window.js_interface.takeSamplesForEmployee()">
+                                <img src="images/ic_take_samples.png">
+                                <p>人脸采样</p>
+                            </a>
+                        </div>
+                        <div class="col-33 cell">
+                            <a href="javascript: openWindow('http://192.168.1.170:8088/jQueryMobileOffice/statistics.html')">
+                                <img src="images/ic_data_statistics.png">
+                                <p>数据统计</p>
+                            </a>
+                        </div>
+                        <!-- <div class="col-33 cell">
+                            <a style="display: none;" href="javascript: openWindow('http://192.168.1.170:8088/jQueryMobileOffice/records/records.html')">
+                                <img src="images/ic_checkin_record.png">
+                                <p>打卡记录</p>
+                            </a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src='js/common.js'></script>
+</body>
+
+</html>

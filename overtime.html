@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>加班申请</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style>
+    .item-img {
+        width: 3.2rem;
+        height: 3.2rem;
+    }
+    .tab-page-block {
+        margin: 2rem 0;
+        padding: 0;
+    }
+    .modal {
+        text-align: left;
+    }
+    .buttons-tab .button.active {
+        color: #ff6101;
+        border-color: #ff6101;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="buttons-tab fixed-tab buttons-fixed">
+            <a href="#tab1" class="tab-link active button">历史加班记录</a>
+            <a href="#tab2" class="tab-link button">新建加班申请</a>
+        </div>
+        <div class="tabs">
+            <div id="tab1" class="tab active">
+                <div class="content-block tab-page-block" id="tab_page_list" style="padding: 0;"></div>
+            </div>
+            <div id="tab2" class="tab">
+                <div class="content-block tab-page-block" id="tab_page_new">
+                    <div class="list-block">
+                        <ul>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">加班类型</div>
+                                        <div class="item-input">
+                                            <input type="text" placeholder="选择加班类型" id="select-type">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">   
+                                    <div class="item-inner">
+                                        <div class="item-title label">加班原因</div>
+                                        <div class="item-input">
+                                            <textarea id="overtime-reason" placeholder="填写加班原因"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">开始时间</div>
+                                        <div class="item-input">
+                                            <input type="text" placeholder="请选择开始时间" id="start-time-picker" class="date-picker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">结束时间</div>
+                                        <div class="item-input">
+                                            <input type="text" placeholder="请选择结束时间" id="end-time-picker" class="date-picker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-50"><a href="#" id="btn-clear" class="button button-big button-fill button-danger">清空</a></div>
+                            <div class="col-50"><a href="#" id="btn-submit" class="button button-big button-fill button-success">提交</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/overtime.js"></script>
+</body>
+
+</html>
