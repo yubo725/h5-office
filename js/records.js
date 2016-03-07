@@ -40,7 +40,8 @@ function loadRecords(dateStr, startTime, endTime) {
 	            	for(var i = arr.length - 1; i >= 0; i--) {
 	            		content += '<li class="item-content">';
 	            		content += '<div class="item-inner">';
-	            		content += '<div class="item-title">' + arr[i].user_name + '</div>';
+	            		content += '<div class="item-title">' + (arr.length - i) + '</div>';
+	            		content += '<div class="item-after">' + arr[i].user_name + '</div>';
 	            		content += '<div class="item-after">' + getTimeStr(arr[i].check_time) + '</div>';
 	            		content += '<div class="item-after">打卡正常</div>';
 	            		content += '</div>';

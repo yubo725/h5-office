@@ -17,8 +17,12 @@ function loadList() {
 
 //显示请假列表
 function showList(response) {
-    var str = '<div class="list-block media-list"><ul>';
     var dataList = response.data.list;
+    if(dataList == null || dataList.length == 0) {
+        $('#tab_page_list').html('<div class="hint">暂无数据</div>');
+        return ;
+    }
+    var str = '<div class="list-block media-list"><ul>';
     var type = '';
     var startTime = '';
     var endTime = '';
