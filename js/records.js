@@ -52,9 +52,13 @@ function loadRecords(dateStr, startTime, endTime) {
 	            	$('#list').css('margin-top', height);
 	            	$('#list').html(content);
             	}else{
-            		// $.toast(dateStr + '');
+					// $.toast(dateStr);
+            		var height = $('#calendar-container').height();
+            		$('#list').css('margin-top', height);
             		$('#list').html('<div class="hint">' + dateStr + '没有打卡记录</div>');
             	}
+            }else{
+            	$.toast('错误' + response.status);
             }
         },
         error: function(msg, status) {
