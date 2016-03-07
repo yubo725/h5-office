@@ -1,4 +1,3 @@
-// $.showPreloader('loading...');
 var token = "mf1sdmiYnhK5SY6Ozn66Hu7Kl7M4lXRphI03hzddasM=";
 //加载请假列表
 function loadList() {
@@ -14,22 +13,6 @@ function loadList() {
         },
         error: function(msg, status) {}
     });
-
-
-    // $.ajax({
-    //     type: 'get',
-    //     url: 'http://www.baidu.com',
-    //     // url: 'http://api.listome.com/v1/companies/users/leave',
-    //     // url: './leave_list_data.json',
-    //     dataType:"json",
-    //     beforeSend:function(request){
-    //         // request.setRequestHeader('Authorization','Bearer C925Ci+So5oWRIvdyWp0BluKuoqH1lLymBVK4zeuosQ=');
-    //     },
-    //     success: function(response) {
-    //         alert(response);
-    //         // showList(response);
-    //     }
-    // });
 }
 
 //显示请假列表
@@ -83,7 +66,7 @@ function showList(response) {
         var time = $(this).find('#time').text();
         var result = $(this).find('#result').text();
         var content = type + '<br/>' + reason + '<br/>' + time + '<br/>' + result;
-        $.alert(content, '详情');
+        $.alert(content, '请假详情');
         $('.modal').css('text-align', 'left'); //让对话框中的文本左对齐
     });
 }
@@ -95,13 +78,12 @@ var leaveTypesNameArray = [];
 function loadLeaveTypes() {
     $.ajax({
         type: 'GET',
-        url: './leave_types.json',
+        url: 'http://api.listome.com/v1/companies/leave/types',
         headers: {
             // 'Authorization': 'Bearer ' + window.js_interface.getAccessToken()
             'Authorization': 'Bearer ' + token
         },
         success: function(response) {
-            console.log(JSON.stringify(response));
             if (response.status == 10001) {
                 var arr = response.data.list;
                 leaveTypesArray = arr;
@@ -138,17 +120,9 @@ $('input.date-picker').datetimePicker({
 //清空表单内容
 $('#btn-clear').click(function() {
     $.confirm('确定要清空填写的内容吗？', '提示', function() {
-        //清空表单
-        $('#select-type').val('');
-        $('#leave-reason').val('');
-        $('#start-time-picker').val('');
-        $('#end-time-picker').val('');
+        clearForm();
     });
 })
-
-function isEmpty(val) {
-    return val == null || val == '' || val.trim() == '';
-}
 
 //提交表单
 $('#btn-submit').click(function() {
@@ -156,6 +130,7 @@ $('#btn-submit').click(function() {
     var reason = $('#leave-reason').val();
     var startTime = $('#start-time-picker').val();
     var endTime = $('#end-time-picker').val();
+    var hours = $('#hours').val();
     if (isEmpty(type)) {
         $.toast('请选择请假类型');
         return;
@@ -168,14 +143,20 @@ $('#btn-submit').click(function() {
         $.toast('请选择请假时间');
         return;
     }
+    if(isEmpty(hours)) {
+        $.toast('请填写请假小时');
+        return ;
+    }
     //可以提交数据了
-    submit()
+    submit(getLeaveTypeIdByName(type), reason, startTime, endTime, hours);
+    // alert('type = ' +  + ', reason = ' + reason + ', startTime = ' + startTime + ', endTime = ' + endTime);
 })
 
-function submit(id, reason, startTime, endTime) {
-    $.showPreloader('loading...');
+//提交请假
+function submit(id, reason, startTime, endTime, hours) {
+    $.showPreloader('请稍等...');
     $.ajax({
-        url: 'http://api.listome.cn/app/v1/companies/users/leave',
+        url: 'http://api.listome.com/v1/companies/users/leave',
         type: 'POST',
         headers: {
             // 'Authorization' : 'Bearer ' + window.js_interface.getAccessToken()
@@ -185,30 +166,43 @@ function submit(id, reason, startTime, endTime) {
             leave_type: id,
             reason: reason,
             start_time: startTime + ':00',
-            end_time: endTime + ':00'
+            end_time: endTime + ':00',
+            times: hours
         },
         success: function(response) {
-            $.toast('success');
+            $.toast('提交成功');
             $.hidePreloader();
+            clearForm();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $.toast('fail' + textStatus);
+            $.toast('提交失败');
             $.hidePreloader();
         }
     })
 }
 
+//根据请假名称获取对应的ID
+function getLeaveTypeIdByName(typeName) {
+    var obj;
+    var name;
+    for(var i = 0; i < leaveTypesArray.length; i++) {
+        obj = leaveTypesArray[i];
+        name = obj.name;
+        if(name == typeName) {
+            return obj.id;
+        }
+    }
+    return 1;
+}
+
+//清空表单数据
+function clearForm() {
+    $('#select-type').val('');
+    $('#leave-reason').val('');
+    $('#start-time-picker').val('');
+    $('#end-time-picker').val('');
+    $('#hours').val('');
+}
+
 loadList();
 loadLeaveTypes();
-// $.ajax({
-//     type: 'GET',
-//     url: 'http://api.listome.com/v1/companies/users/leave',
-//     contentType: 'text/plain',
-//     headers: {
-//         "Authorization": "Bearer mf1sdmiYnhK5SY6Ozn66Hu7Kl7M4lXRphI03hzddasM="
-//     },
-//     success: function(data) {
-//         alert(JSON.stringify(data));
-//     },
-//     error: function(msg, status) {}
-// });

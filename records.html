@@ -15,15 +15,47 @@
     #calendar {
         background-color: white;
     }
+    .divider {
+        width: 100%;
+        height: 1px;
+        background-color: #0894EC;
+    }
+    .item-text {
+        font-size: 0.75rem;
+    }
+    .hint {
+        width: 100%;
+        padding-top: 50px;
+        text-align: center;
+    }
     </style>
 </head>
 
 <body>
     <div class="content">
-       <div>
-           <div id="calendar"></div>
-           <div class="divider"></div>
-       </div>
+        <div id="calendar-container" class="fixed-tab buttons-fixed">
+            <div>
+                <div class="divider"></div>
+                <div id="calendar"></div>
+                <div class="divider"></div>
+            </div>
+        </div>
+        <div id="list">
+        </div>
+
+  <!--       <div id="list">
+            <div class="list-block">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">余勃</div>
+                            <div class="item-after">2016-3-3 12:50</div>
+                            <div class="item-after">打卡正常</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div> -->
     </div>
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>

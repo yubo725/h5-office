@@ -1,13 +1,15 @@
-var baseUrl = 'http://api.listome.com/v1/';
 
+//菜单按下时添加背景颜色
 $('.cell').bind('touchstart', function() {
     $(this).css('background-color', '#dcdcdc');
 });
 
+//菜单不被按下时取消背景颜色
 $('.cell').bind('touchend', function() {
     $(this).css('background-color', '');
 });
 
+//APP跳转到新的窗口，并加载指定url
 function openWindow(url) {
     if (typeof(window.js_interface) == "undefined") {
         location.href = url;
@@ -16,6 +18,7 @@ function openWindow(url) {
     }
 }
 
+//根据Unix时间戳获取对应的格式化时间，格式为yyyy/MM/dd HH:mm
 function getTimeStr(unixTime) {
     var date = new Date(unixTime * 1000);
     var year = date.getFullYear();
@@ -23,7 +26,14 @@ function getTimeStr(unixTime) {
     var day = date.getDate();
     var hours = date.getHours();
     var min = date.getMinutes();
-    return year + '/' + month + '/' + day + ' ' + hours + ':' + min;
+    return year + '-' + numberProcess(month) + '-' + numberProcess(day) + ' ' + numberProcess(hours) + ':' + numberProcess(min);
+}
+
+function numberProcess(n) {
+    if(n < 10) {
+        return '0' + n;
+    }
+    return '' + n;
 }
 
 var dateNow = new Date();
@@ -38,6 +48,7 @@ var dayNowStr = dayNow < 10 ? ('0' + dayNow) : ('' + dayNow);
 var hoursNowStr = hoursNow < 10 ? ('0' + hoursNow) : ('' + hoursNow);
 var minutesNowStr = minutesNow < 10 ? ('0' + minutesNow) : ('' + minutesNow);
 
+//获取当前时间对象
 function getTimeNow() {
     return {
         year: yearNow,
@@ -53,13 +64,7 @@ function getTimeNow() {
     }
 }
 
-var overtimeTypes = ['工作日加班', '双休日加班', '法定节假日加班', '其他'];
-
-//根据加班类型获取加班类型ID
-function getOvertimeTypeId(name) {
-    for(var i = 0; i < overtimeTypes.length; i++) {
-        if(name == overtimeTypes[i])
-            return i;
-    }
-    return -1;
+//判断一个字符串是否为空
+function isEmpty(val) {
+    return val == null || val == '' || val.trim() == '';
 }

@@ -1,10 +1,13 @@
+var token = "mf1sdmiYnhK5SY6Ozn66Hu7Kl7M4lXRphI03hzddasM=";
+var overtimeTypes = ['工作日加班', '双休日加班', '法定节假日加班', '其他'];
+
 //加载加班申请列表
 function loadList() {
     $.ajax({
         type: 'GET',
-        url: './overtime_list_data.json',
+        url: 'http://api.listome.com/v1/companies/users/overtime',
         headers: {
-            'Authorization': 'Bearer zrFZJMz1y9s1Rji8PhQ4s7QVpD4A3aDLcRKCkmGHpvw='
+            'Authorization': 'Bearer ' + token
             // 'Authorization': 'Bearer ' + window.js_interface.getAccessToken()
         },
         success: function(response) {
@@ -68,7 +71,8 @@ function showList(response) {
         var time = $(this).find('#time').text();
         var result = $(this).find('#result').text();
         var content = title + '<br/>' + reason + '<br/>' + time + '<br>' + result;
-        $.alert(content, '详情');
+        $.alert(content, '加班详情');
+        $('.modal').css('text-align', 'left'); //让对话框中的文本左对齐
     });
 }
 
@@ -83,21 +87,86 @@ $("#select-type").picker({
     }]
 });
 
-var timeNow = getTimeNow();
+var timeNow = getTimeNow(); //common.js中的方法
 $('input.date-picker').datetimePicker({
     value: [timeNow.yearStr, timeNow.monthStr, 
         timeNow.dayStr, timeNow.hourStr, timeNow.minuteStr]
 });
 
-//清空表单内容
+//点击清空按钮，清空表单内容
 $('#btn-clear').click(function() {
     $.confirm('确定要清空填写的内容吗？', '提示', function() {
-        //清空表单
-        $('#select-type').val('');
-        $('#overtime-reason').val('');
-        $('#start-time-picker').val('');
-        $('#end-time-picker').val('');
+        clearForm();
     });
 })
+
+//点击提交按钮，提交表单数据
+$('#btn-submit').click(function() {
+    var typeName = $('#select-type').val();
+    var title = $('#overtime-title').val();
+    var reason = $('#overtime-reason').val();
+    var startTime = $('#start-time-picker').val();
+    var endTime = $('#end-time-picker').val();
+    var hours = $('#hours').val();
+    if (isEmpty(typeName)) {
+        $.toast('请选择加班类型');
+        return ;
+    }
+    if (isEmpty(title)) {
+        $.toast('请填写加班标题' + title);
+        return ;
+    }
+    if (isEmpty(reason)) {
+        $.toast('请填写加班原因');
+        return ;
+    }
+    if (isEmpty(startTime) || isEmpty(endTime)) {
+        $.toast('请选择加班时间');
+        return ;
+    }
+    if(isEmpty(hours)) {
+        $.toast('请填写加班小时');
+        return ;
+    }
+    submit(title, reason, startTime, endTime, hours);
+})
+
+function submit(title, reason, startTime, endTime, hours) {
+    $.showPreloader('请稍等...');
+    $.ajax({
+        url: 'http://api.listome.com/v1/companies/users/overtime',
+        type: 'POST',
+        headers: {
+            // 'Authorization' : 'Bearer ' + window.js_interface.getAccessToken()
+            'Authorization': 'Bearer ' + token
+        },
+        data: {
+            title: title,
+            reason: reason,
+            start_time: startTime + ':00',
+            end_time: endTime + ':00',
+            times: hours
+        },
+        success: function(response) {
+            $.toast('提交成功');
+            $.hidePreloader();
+            clearForm();
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $.toast('提交失败');
+            $.hidePreloader();
+        }
+    })
+}
+
+//清空表单
+function clearForm() {
+    $('#select-type').val('');
+    $('#overtime-title').val('');
+    $('#overtime-reason').val('');
+    $('#start-time-picker').val('');
+    $('#end-time-picker').val('');
+    $('#hours').val('');
+}
 
 loadList();
