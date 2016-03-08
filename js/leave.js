@@ -1,15 +1,17 @@
-var token = "mf1sdmiYnhK5SY6Ozn66Hu7Kl7M4lXRphI03hzddasM=";
 //加载请假列表
 function loadList() {
     $.ajax({
         type: 'GET',
         url: 'http://api.listome.com/v1/companies/users/leave',
         headers: {
-            "Authorization": "Bearer " + token
+            "Authorization": "Bearer " + getToken()
         },
         success: function(data) {
-            //alert(JSON.stringify(data));
-            showList(data);
+            if(data.status == 10001) {
+                showList(data);
+            }else{
+                $.toast('错误' + data.status);
+            }
         },
         error: function(msg, status) {}
     });
@@ -91,8 +93,7 @@ function loadLeaveTypes() {
         type: 'GET',
         url: 'http://api.listome.com/v1/companies/leave/types',
         headers: {
-            // 'Authorization': 'Bearer ' + window.js_interface.getAccessToken()
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + getToken()
         },
         success: function(response) {
             if (response.status == 10001) {
@@ -154,8 +155,16 @@ $('#btn-submit').click(function() {
         $.toast('请选择请假时间');
         return;
     }
+    if(compareDateStr(startTime + ':00', endTime + ':00') != -1) {
+        $.toast('开始时间必须在结束时间之前');
+        return ;
+    } 
     if(isEmpty(hours)) {
         $.toast('请填写请假小时');
+        return ;
+    }
+    if(!isNumber(hours) || hours <= 0) {
+        $.toast('请假小时数填写有误');
         return ;
     }
     //可以提交数据了
@@ -170,8 +179,7 @@ function submit(id, reason, startTime, endTime, hours) {
         url: 'http://api.listome.com/v1/companies/users/leave',
         type: 'POST',
         headers: {
-            // 'Authorization' : 'Bearer ' + window.js_interface.getAccessToken()
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + getToken()
         },
         data: {
             leave_type: id,

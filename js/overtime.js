@@ -1,4 +1,3 @@
-var token = "mf1sdmiYnhK5SY6Ozn66Hu7Kl7M4lXRphI03hzddasM=";
 var overtimeTypes = ['工作日加班', '双休日加班', '法定节假日加班', '其他'];
 
 //加载加班申请列表
@@ -7,8 +6,7 @@ function loadList() {
         type: 'GET',
         url: 'http://api.listome.com/v1/companies/users/overtime',
         headers: {
-            'Authorization': 'Bearer ' + token
-            // 'Authorization': 'Bearer ' + window.js_interface.getAccessToken()
+            'Authorization': 'Bearer ' + getToken()
         },
         success: function(response) {
             showList(response);
@@ -129,8 +127,16 @@ $('#btn-submit').click(function() {
         $.toast('请选择加班时间');
         return ;
     }
+    if (compareDateStr(startTime + ':00', endTime + ':00') != -1) {
+        $.toast('开始时间必须在结束时间之前');
+        return ;
+    }
     if(isEmpty(hours)) {
         $.toast('请填写加班小时');
+        return ;
+    }
+    if(!isNumber(hours) || hours <= 0) {
+        $.toast('请假小时数填写有误');
         return ;
     }
     submit(title, reason, startTime, endTime, hours);
@@ -142,8 +148,7 @@ function submit(title, reason, startTime, endTime, hours) {
         url: 'http://api.listome.com/v1/companies/users/overtime',
         type: 'POST',
         headers: {
-            // 'Authorization' : 'Bearer ' + window.js_interface.getAccessToken()
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + getToken()
         },
         data: {
             title: title,

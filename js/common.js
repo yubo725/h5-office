@@ -1,3 +1,10 @@
+//获取AccessToken
+function getToken() {
+    if(window.js_interface) {
+        return window.js_interface.getAccessToken();
+    }
+    return 'b85FZCuYVyi1JegXGfIcJFRzXK7JNuXa+kP1HyFdmAs=';
+}
 
 //菜单按下时添加背景颜色
 $('.cell').bind('touchstart', function() {
@@ -67,4 +74,27 @@ function getTimeNow() {
 //判断一个字符串是否为空
 function isEmpty(val) {
     return val == null || val == '' || val.trim() == '';
+}
+
+//判断是否是数字
+function isNumber(n) {
+    return !isNaN(n);
+}
+
+//字符串转日期，字符串格式为yyyy-MM-dd HH:mm:ss
+function strToDate(str) {
+    var s = str.replace(/-/g,"/");
+    return new Date(s);
+}
+
+//比较两个格式为yyyy-MM-dd HH:mm:ss的字符串对应的时间大小，dateStr1大于dateStr2则返回1，小于则返回-1，相等返回0
+function compareDateStr(dateStr1, dateStr2) {
+    var date1 = strToDate(dateStr1).getTime();
+    var date2 = strToDate(dateStr2).getTime();
+    if(date1 > date2) {
+        return 1;
+    }else if(date1 == date2) {
+        return 0;
+    }
+    return -1;
 }

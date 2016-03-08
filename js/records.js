@@ -1,4 +1,3 @@
-var token = "mf1sdmiYnhK5SY6Ozn66Hu7Kl7M4lXRphI03hzddasM=";
 
 var dateNow = getTimeNow();
 $('#calendar').calendar({
@@ -24,7 +23,7 @@ function loadRecords(dateStr, startTime, endTime) {
         type: 'GET',
         url: 'http://api.listome.com/v1/companies/users/checkin_records',
         headers: {
-            "Authorization": "Bearer " + token
+            "Authorization": "Bearer " + getToken()
         },
         data: {
         	start_time: startTime,
