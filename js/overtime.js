@@ -169,8 +169,8 @@ function clearForm() {
     $('#select-type').val('');
     $('#overtime-title').val('');
     $('#overtime-reason').val('');
-    $('#start-time-picker').val('');
-    $('#end-time-picker').val('');
+    // $('#start-time-picker').val('');
+    // $('#end-time-picker').val('');
     $('#hours').val('');
 }
 

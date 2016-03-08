@@ -75,6 +75,13 @@ function showList(response) {
     });
 }
 
+//选择抄送对象，调用Java的选择企业通讯录方法
+$('#item-deliver').click(function() {
+    if(window.js_interface) {
+        window.js_interface.selectDeliver();
+    }
+})
+
 var leaveTypesArray = [];
 var leaveTypesNameArray = [];
 
@@ -203,8 +210,7 @@ function getLeaveTypeIdByName(typeName) {
 function clearForm() {
     $('#select-type').val('');
     $('#leave-reason').val('');
-    $('#start-time-picker').val('');
-    $('#end-time-picker').val('');
+    // $('#st  ime-picker').val('');
     $('#hours').val('');
 }
 
