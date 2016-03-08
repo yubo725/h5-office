@@ -1,3 +1,13 @@
+if (isBoss) {
+    //显示审核选项卡
+    $('#tab-check-leaves').css('display', '');
+    $('#tab3').css('display', '');
+} else {
+    //隐藏审核选项卡
+    $('#tab-check-leaves').css('display', 'none');
+    $('#tab3').css('display', 'none');
+}
+
 //加载请假列表
 function loadList() {
     $.ajax({
@@ -7,22 +17,24 @@ function loadList() {
             "Authorization": "Bearer " + getToken()
         },
         success: function(data) {
-            if(data.status == 10001) {
+            if (data.status == 10001) {
                 showList(data);
-            }else{
+            } else {
                 $.toast('错误' + data.status);
             }
         },
-        error: function(msg, status) {}
+        error: function(msg, status) {
+            $.toast('加载请假记录出错');
+        }
     });
 }
 
 //显示请假列表
 function showList(response) {
     var dataList = response.data.list;
-    if(dataList == null || dataList.length == 0) {
-        $('#tab_page_list').html('<div class="hint">暂无数据</div>');
-        return ;
+    if (dataList == null || dataList.length == 0) {
+        $('#tab-page-list').html('<div class="hint">暂无历史请假记录</div>');
+        return;
     }
     var str = '<div class="list-block media-list"><ul>';
     var type = '';
@@ -65,7 +77,7 @@ function showList(response) {
         str += '</li>';
     }
     str += "</ul></div>";
-    $('#tab_page_list').html(str);
+    $('#tab-page-list').html(str);
     $('li.list-item').click(function() {
         var type = $(this).find('#type').text();
         var reason = $(this).find('#reason').text();
@@ -79,7 +91,7 @@ function showList(response) {
 
 //选择抄送对象，调用Java的选择企业通讯录方法
 $('#item-deliver').click(function() {
-    if(window.js_interface) {
+    if (window.js_interface) {
         window.js_interface.selectDeliver();
     }
 })
@@ -129,6 +141,121 @@ $('input.date-picker').datetimePicker({
     ]
 });
 
+//加载请假审核列表
+function loadCheckLeaveList() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.listome.com/v1/companies/users/leave/check',
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        success: function(response) {
+            if(response.status == 10001) {
+                var list = response.data.list;
+                if(list.length > 0) {
+                    showCheckLeaveList(list);
+                }else{
+                    showNoCheckLeaveHint();
+                }
+            }
+        },
+        error: function() {
+            showNoCheckLeaveHint();
+        }
+    })
+}
+
+//显示请假审核列表
+function showCheckLeaveList(list) {
+    var content = '';
+    for(var i = 0; i < list.length; i++) {
+        var obj = list[i];
+        var id = obj.id;
+        var name = obj.user_name;
+        var reason = obj.reason;
+        var startTime = getTimeStr(obj.start_time);
+        var endTime = getTimeStr(obj.end_time);
+        content += '<div class="card" id="card-id-' + id + '">';
+        content += '<div class="card-header orange-color">' + name + '的请假申请</div>';
+        content += '<div class="card-content">';
+        content += '</div>';
+        content += '<div class="card-content-inner">';
+        content += '<span>原因：' + reason + '</span><br/>';
+        content += '<span>时间：' + startTime + '至' + endTime + '</span>';
+        content += '</div>';
+        content += '<div class="card-footer">';
+        content += '<a href="#" id="' + id + '" class="link agree">同意</a>';
+        content += '<a href="#" id="' + id + '"  class="link disagree">拒绝</a>';
+        content += '<a href="#" class="link">发消息</a>';
+        content += '</div>';
+        content += '</div>';
+    }
+    $('#tab-page-check-content').html(content);
+    
+    //同意按钮的点击处理
+    $('[class="link agree"]').click(function() {
+        showAgreeOrNotDialog($(this).attr('id'), true, list);
+        // $.toast('agree id = ' + $(this).attr('id'));
+    });
+    //不同意按钮的点击处理
+    $('[class="link disagree"]').click(function() {
+        showAgreeOrNotDialog($(this).attr('id'), false, list);
+        // $.toast('disagree id = ' + $(this).attr('id'));
+    });
+}
+
+//显示同意或拒绝对话框
+function showAgreeOrNotDialog(id, isAgree, list) {
+    var msg = '';
+    if(isAgree) {
+        msg = '确定要同意该请假申请吗？';
+    }else{
+        msg = '确定要拒绝该请假申请吗？';
+    }
+    $.confirm(msg, '提示', function() {
+        //确定同意或拒绝
+        operateAgreeOrNot(id, isAgree, list);
+    });
+}
+
+//操作某条申请，同意或者拒绝
+function operateAgreeOrNot(id, isAgree, list) {
+    var url = 'http://api.listome.com/v1/companies/users/leave/' + id;
+    var type = 'PUT';
+    if(!isAgree) {
+        //拒绝加班申请，请求的method为delete，同意的method为put
+        type = "DELETE";
+    }
+    $.ajax({
+        url: url,
+        type: type,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        success: function(response) {
+            if(response.status == 10001) {
+                $.toast('操作成功');
+                //删除当前列表中的操作项
+                $('div#card-id-' + id).remove();
+                if(list.length == 1) {
+                    //删除成功后，列表为空，则显示提示信息
+                    showNoCheckLeaveHint();
+                }
+            }else{
+                $.toast('操作失败，错误码：' + response.status);
+            }
+        },
+        error: function() {
+            $.toast('操作失败');
+        }
+    })
+}
+
+//提示无待审核的请假申请
+function showNoCheckLeaveHint() {
+    $('#tab-page-check-content').html('<div class="hint">暂无待审核的请假申请</div>');
+}
+
 //清空表单内容
 $('#btn-clear').click(function() {
     $.confirm('确定要清空填写的内容吗？', '提示', function() {
@@ -155,17 +282,17 @@ $('#btn-submit').click(function() {
         $.toast('请选择请假时间');
         return;
     }
-    if(compareDateStr(startTime + ':00', endTime + ':00') != -1) {
+    if (compareDateStr(startTime + ':00', endTime + ':00') != -1) {
         $.toast('开始时间必须在结束时间之前');
-        return ;
-    } 
-    if(isEmpty(hours)) {
-        $.toast('请填写请假小时');
-        return ;
+        return;
     }
-    if(!isNumber(hours) || hours <= 0) {
+    if (isEmpty(hours)) {
+        $.toast('请填写请假小时');
+        return;
+    }
+    if (!isNumber(hours) || hours <= 0) {
         $.toast('请假小时数填写有误');
-        return ;
+        return;
     }
     //可以提交数据了
     submit(getLeaveTypeIdByName(type), reason, startTime, endTime, hours);
@@ -204,10 +331,10 @@ function submit(id, reason, startTime, endTime, hours) {
 function getLeaveTypeIdByName(typeName) {
     var obj;
     var name;
-    for(var i = 0; i < leaveTypesArray.length; i++) {
+    for (var i = 0; i < leaveTypesArray.length; i++) {
         obj = leaveTypesArray[i];
         name = obj.name;
-        if(name == typeName) {
+        if (name == typeName) {
             return obj.id;
         }
     }
@@ -222,5 +349,11 @@ function clearForm() {
     $('#hours').val('');
 }
 
+//加载请假记录
 loadList();
+
+//加载请假类型
 loadLeaveTypes();
+
+//加载请假审核列表
+loadCheckLeaveList();

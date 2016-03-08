@@ -16,10 +16,18 @@
         width: 3rem;
         height: 3rem;
     }
+
+    .list-block .item-inner:after {
+        height: 0.15rem;
+    }
     
     .tab-page-block {
-        margin: 2rem 0;
+        margin: 2.5rem 0;
         padding: 0;
+    }
+
+    .orange-color {
+        color: #ff6101;
     }
     
     .buttons-tab .button.active {
@@ -32,21 +40,26 @@
         padding-top: 50px;
         text-align: center;
     }
+
+    #tab-check-leaves #tab3 {
+        display: none;
+    }
     </style>
 </head>
 
 <body>
     <div class="content">
         <div class="buttons-tab fixed-tab buttons-fixed">
-            <a href="#tab1" class="tab-link button active">历史请假记录</a>
-            <a href="#tab2" class="tab-link button">新建请假申请</a>
+            <a href="#tab1" class="tab-link button active">请假记录</a>
+            <a href="#tab2" class="tab-link button">请假申请</a>
+            <a id="tab-check-leaves" href="#tab3" class="tab-link button">请假审核</a>
         </div>
         <div class="tabs">
             <div id="tab1" class="tab active">
-                <div class="content-block tab-page-block" id="tab_page_list" style="padding: 0;"></div>
+                <div class="content-block tab-page-block" id="tab-page-list"></div>
             </div>
             <div id="tab2" class="tab">
-                <div class="content-block tab-page-block" id="tab_page_new">
+                <div class="content-block tab-page-block" id="tab-page-new">
                     <div class="list-block">
                         <ul>
                             <li>
@@ -128,6 +141,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div id="tab3" class="tab">
+                <div class="content-block tab-page-block" id="tab-page-check-content"></div>
             </div>
         </div>
     </div>

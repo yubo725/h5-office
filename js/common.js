@@ -98,3 +98,24 @@ function compareDateStr(dateStr1, dateStr2) {
     }
     return -1;
 }
+
+var isBoss = getIsBoss();
+
+//判断当前用户是否是上级，上级有审核选项卡
+function getIsBoss() {
+    var boss = false;
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.listome.com/v1/companies/users/isboss',
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        async:false,
+        success: function(response) {
+            if(response.status == 10001){
+                boss = true;
+            }
+        }
+    });
+    return boss;
+}

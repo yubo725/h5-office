@@ -1,5 +1,15 @@
 var overtimeTypes = ['工作日加班', '双休日加班', '法定节假日加班', '其他'];
 
+if(isBoss) {
+    //显示审核选项卡
+    $('#tab3').css('display', '');
+    $('#tab-check-overtime').css('display', '');
+}else{
+    //隐藏审核选项卡
+    $('#tab3').css('display', 'none');
+    $('#tab-check-overtime').css('display', 'none');
+}
+
 //加载加班申请列表
 function loadList() {
     $.ajax({
@@ -18,7 +28,7 @@ function loadList() {
 function showList(response) {
     var dataList = response.data.list;
     if(dataList == null || dataList.length == 0) {
-        $('#tab_page_list').html('<div class="hint">暂无数据</div>');
+        $('#tab-page-list').html('<div class="hint">暂无历史加班记录</div>');
         return ;
     }
     var str = '<div class="list-block media-list"><ul>';
@@ -66,7 +76,7 @@ function showList(response) {
         str += '</li>';
     }
     str += "</ul></div>";
-    $('#tab_page_list').html(str);
+    $('#tab-page-list').html(str);
     $('li.list-item').click(function() {
         var type = $(this).find('#type').text();
         var title = $(this).find('#title').text();
@@ -77,6 +87,120 @@ function showList(response) {
         $.alert(content, '加班详情');
         $('.modal').css('text-align', 'left'); //让对话框中的文本左对齐
     });
+}
+
+//加载加班审核列表
+function loadCheckOvertimeList() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.listome.com/v1/companies/users/overtime/check',
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        success: function(response) {
+            if(response.status == 10001) {
+                var list = response.data.list;
+                if(list.length > 0) {
+                    showCheckOvertimeList(list);
+                }else{
+                    showNoCheckOvertimeHint();
+                }
+            }
+        },
+        error: function() {
+            showNoCheckOvertimeHint();
+        }
+    })
+}
+
+//显示加班审核列表
+function showCheckOvertimeList(list) {
+    var content = '';
+    for(var i = 0; i < list.length; i++) {
+        var obj = list[i];
+        var id = obj.id;
+        var name = obj.user_name;
+        var reason = obj.reason;
+        var startTime = getTimeStr(obj.start_time);
+        var endTime = getTimeStr(obj.end_time);
+        content += '<div class="card" id="card-id-' + id + '">';
+        content += '<div class="card-header orange-color">' + name + '的加班申请</div>';
+        content += '<div class="card-content">';
+        content += '</div>';
+        content += '<div class="card-content-inner">';
+        content += '<span>原因：' + reason + '</span><br/>';
+        content += '<span>时间：' + startTime + '至' + endTime + '</span>';
+        content += '</div>';
+        content += '<div class="card-footer">';
+        content += '<a href="#" id="' + id + '" class="link agree">同意</a>';
+        content += '<a href="#" id="' + id + '"  class="link disagree">拒绝</a>';
+        content += '<a href="#" class="link">发消息</a>';
+        content += '</div>';
+        content += '</div>';
+    }
+    $('#tab-page-check-content').html(content);
+    
+    //同意按钮的点击处理
+    $('[class="link agree"]').click(function() {
+        showAgreeOrNotDialog($(this).attr('id'), true, list);
+        // $.toast('agree id = ' + $(this).attr('id'));
+    });
+    //不同意按钮的点击处理
+    $('[class="link disagree"]').click(function() {
+        showAgreeOrNotDialog($(this).attr('id'), false, list);
+        // $.toast('disagree id = ' + $(this).attr('id'));
+    });
+}
+
+//显示同意或拒绝对话框
+function showAgreeOrNotDialog(id, isAgree, list) {
+    var msg = '';
+    if(isAgree) {
+        msg = '确定要同意该加班申请吗？';
+    }else{
+        msg = '确定要拒绝该加班申请吗？';
+    }
+    $.confirm(msg, '提示', function() {
+        //确定同意或拒绝
+        operateAgreeOrNot(id, isAgree, list);
+    });
+}
+
+//操作某条申请，同意或者拒绝
+function operateAgreeOrNot(id, isAgree, list) {
+    var url = 'http://api.listome.com/v1/companies/users/overtime/' + id;
+    var type = 'PUT';
+    if(!isAgree) {
+        //拒绝加班申请，请求的method为delete，同意的method为put
+        type = "DELETE";
+    }
+    $.ajax({
+        url: url,
+        type: type,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        success: function(response) {
+            if(response.status == 10001) {
+                $.toast('操作成功');
+                //删除当前列表中的操作项
+                $('div#card-id-' + id).remove();
+                if(list.length == 1) {
+                    showNoCheckOvertimeHint();
+                }
+            }else{
+                $.toast('操作失败，错误码：' + response.status);
+            }
+        },
+        error: function() {
+            $.toast('操作失败');
+        }
+    })
+}
+
+//显示无待审核加班申请提示信息
+function showNoCheckOvertimeHint() {
+    $('#tab-page-check-content').html('<div class="hint">暂无待审核的加班申请</div>');
 }
 
 $("#select-type").picker({
@@ -180,3 +304,4 @@ function clearForm() {
 }
 
 loadList();
+loadCheckOvertimeList();
