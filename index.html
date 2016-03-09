@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="row">                        
-                        <div class="col-33 cell">
+                        <div id="menu-take-sample" class="col-33 cell">
                             <a href="javascript: window.js_interface.takeSamplesForEmployee()">
                                 <img src="images/ic_take_samples.png">
                                 <p>人脸采样</p>
@@ -83,6 +83,14 @@
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
     <script type="text/javascript" src='js/common.js'></script>
+    <script type="text/javascript">
+        var role = getRole();
+        if(role == 1 || role == 2) {
+            $('#menu-take-sample').show();
+        }else{
+            $('#menu-take-sample').hide();
+        }
+    </script>
 </body>
 
 </html>

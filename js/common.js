@@ -3,7 +3,7 @@ function getToken() {
     if(window.js_interface) {
         return window.js_interface.getAccessToken();
     }
-    return 'b85FZCuYVyi1JegXGfIcJFRzXK7JNuXa+kP1HyFdmAs=';
+    return 'qbVlfah+8/SKc/o4YsuZYnfJAtQykxKbuY2EL1FMhsk=';
 }
 
 //菜单按下时添加背景颜色
@@ -129,4 +129,23 @@ function getUrlParam(name) {
         return unescape(r[2]); 
     }
     return null; //返回参数值
+}
+
+//获取当前用户的角色，如果是人事，则显示人脸采样菜单，否则隐藏
+function getRole() {
+    var role = 0;
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.listome.com/v1/companies/users/roles',
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        async: false,
+        success: function(response) {
+            if(response.status == 10001){
+                role = response.data.id;
+            }
+        }
+    });
+    return role;
 }
