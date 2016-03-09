@@ -1,3 +1,12 @@
+//url链接中带有check=true参数，则显示审核选项卡
+if(getUrlParam('check')) {
+    //显示审核部分
+    $('.tab-link').removeClass('active');
+    $('.tab').removeClass('active');
+    $('#tab3').addClass('active');
+    $('#tab-check-leaves').addClass('active');
+}
+
 if (isBoss) {
     //显示审核选项卡
     $('#tab-check-leaves').css('display', '');
