@@ -1,3 +1,5 @@
+var baseUrl = "http://192.168.1.170:8088/h5Office/";
+
 //获取AccessToken
 function getToken() {
     if(window.js_interface) {

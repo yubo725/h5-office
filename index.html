@@ -37,33 +37,33 @@
                 <div class="content-padded grid-demo">
                     <div class="row">                        
                         <div class="col-33 cell bg">
-                            <a href="javascript: openWindow('http://192.168.1.170:8088/h5Office/leave.html')">
+                            <a href="#" id="menu-leave">
                                 <img src="images/ic_apply_for_leave.png">
                                 <p>请假申请</p>
                             </a>
                         </div>
                         <div class="col-33 cell">
-                            <a href="javascript: openWindow('http://192.168.1.170:8088/h5Office/overtime.html')">
+                            <a href="#" id="menu-overtime">
                                 <img src="images/ic_apply_for_extra_work.png">
                                 <p>加班申请</p>
                             </a>
                         </div>
                         <div class="col-33 cell">
-                            <a href="javascript: openWindow('http://192.168.1.170:8088/h5Office/records.html')">
+                            <a href="#" id="menu-records">
                                 <img src="images/ic_checkin_record.png">
                                 <p>打卡记录</p>
                             </a>
                         </div>
                     </div>
                     <div class="row">                        
-                        <div id="menu-take-sample" class="col-33 cell">
-                            <a href="javascript: window.js_interface.takeSamplesForEmployee()">
+                        <div id="take-sample" class="col-33 cell">
+                            <a href="#" id="menu-take-sample">
                                 <img src="images/ic_take_samples.png">
                                 <p>人脸采样</p>
                             </a>
                         </div>
                         <div class="col-33 cell">
-                            <a href="javascript: openWindow('http://192.168.1.170:8088/h5Office/statistics.html')">
+                            <a href="#" id="menu-statistics">
                                 <img src="images/ic_data_statistics.png">
                                 <p>数据统计</p>
                             </a>
@@ -86,10 +86,36 @@
     <script type="text/javascript">
         var role = getRole();
         if(role == 1 || role == 2) {
-            $('#menu-take-sample').show();
+            $('#take-sample').show();
         }else{
-            $('#menu-take-sample').hide();
+            $('#take-sample').hide();
         }
+        $('div.row a').click(function() {
+            var id = $(this).attr('id');
+            // $.toast(id);
+            if(id == 'menu-take-sample') {
+                if(window.js_interface) {
+                    window.js_interface.takeSamplesForEmployee();
+                }
+                return ;
+            }
+            var url = baseUrl;
+            switch(id) {
+                case 'menu-leave':
+                url += 'leave.html';
+                break;
+                case 'menu-overtime':
+                url += 'overtime.html';
+                break;
+                case 'menu-records':
+                url += 'records.html';
+                break;
+                case 'menu-statistics':
+                url += 'statistics.html';
+                break;
+            }
+            openWindow(url);
+        })
     </script>
 </body>
 
