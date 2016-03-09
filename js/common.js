@@ -52,7 +52,8 @@ var minutesNow = dateNow.getMinutes();
 var yearNowStr = '' + yearNow;
 var monthNowStr = monthNow < 10 ? ('0' + monthNow) : ('' + monthNow);
 var dayNowStr = dayNow < 10 ? ('0' + dayNow) : ('' + dayNow);
-var hoursNowStr = hoursNow < 10 ? ('0' + hoursNow) : ('' + hoursNow);
+// var hoursNowStr = hoursNow < 10 ? ('0' + hoursNow) : ('' + hoursNow);
+var hoursNowStr = '' + hoursNow;
 var minutesNowStr = minutesNow < 10 ? ('0' + minutesNow) : ('' + minutesNow);
 
 //获取当前时间对象

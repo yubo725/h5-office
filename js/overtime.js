@@ -1,5 +1,14 @@
 var overtimeTypes = ['工作日加班', '双休日加班', '法定节假日加班', '其他'];
 
+//url链接中带有check=true参数，则显示审核选项卡
+if(getUrlParam('check')) {
+    //显示审核部分
+    $('.tab-link').removeClass('active');
+    $('.tab').removeClass('active');
+    $('#tab3').addClass('active');
+    $('#tab-check-overtime').addClass('active');
+}
+
 if(isBoss) {
     //显示审核选项卡
     $('#tab3').css('display', '');
@@ -260,7 +269,7 @@ $('#btn-submit').click(function() {
         return ;
     }
     if(!isNumber(hours) || hours <= 0) {
-        $.toast('请假小时数填写有误');
+        $.toast('加班小时数填写有误');
         return ;
     }
     submit(title, reason, startTime, endTime, hours);
