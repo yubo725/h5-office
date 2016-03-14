@@ -5,7 +5,7 @@ function getToken() {
     if(window.js_interface) {
         return window.js_interface.getAccessToken();
     }
-    return 'qbVlfah+8/SKc/o4YsuZYnfJAtQykxKbuY2EL1FMhsk=';
+    return 'QPawo6Oc1ja4EdUxzjFXsfObXRPz/Pq5ve6z1mbHWgM=';
 }
 
 //菜单按下时添加背景颜色

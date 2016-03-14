@@ -260,6 +260,28 @@ function operateAgreeOrNot(id, isAgree, list) {
     })
 }
 
+//获取我的领导
+function getMyLeader() {
+    var url = "http://api.listome.com/v1/companies/users/boss";
+    $.ajax({
+        type: 'GET',
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        success: function(response) {
+            if(response.status == 10001) {
+                $('#my_leader').val(response.data.name);
+            }else{
+                $('#my_leader').val('加载领导信息失败');
+            }
+        },
+        error: function() {
+            $('#my_leader').val('加载领导信息失败');
+        }
+    })
+}
+
 //提示无待审核的请假申请
 function showNoCheckLeaveHint() {
     $('#tab-page-check-content').html('<div class="hint">暂无待审核的请假申请</div>');
@@ -366,3 +388,6 @@ loadLeaveTypes();
 
 //加载请假审核列表
 loadCheckLeaveList();
+
+//加载我的上级信息
+getMyLeader();
