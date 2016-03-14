@@ -312,5 +312,11 @@ function clearForm() {
     $('#hours').val('');
 }
 
+//加载加班申请列表
 loadList();
+
+//加载加班审核列表
 loadCheckOvertimeList();
+
+//加载我的上级信息
+getMyLeader();

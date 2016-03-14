@@ -151,3 +151,25 @@ function getRole() {
     });
     return role;
 }
+
+//获取我的领导
+function getMyLeader() {
+    var url = "http://api.listome.com/v1/companies/users/boss";
+    $.ajax({
+        type: 'GET',
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        success: function(response) {
+            if(response.status == 10001) {
+                $('#my_leader').val(response.data.name);
+            }else{
+                $('#my_leader').val('加载领导信息失败');
+            }
+        },
+        error: function() {
+            $('#my_leader').val('加载领导信息失败');
+        }
+    })
+}
