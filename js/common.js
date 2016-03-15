@@ -5,7 +5,7 @@ function getToken() {
     if(window.js_interface) {
         return window.js_interface.getAccessToken();
     }
-    return 'QPawo6Oc1ja4EdUxzjFXsfObXRPz/Pq5ve6z1mbHWgM=';
+    return 'VBVCoO4MJVn/9khetvY/FCZ+ZhQTsjGo+LUEYwxCRL4=';
 }
 
 //菜单按下时添加背景颜色
@@ -152,6 +152,8 @@ function getRole() {
     return role;
 }
 
+var myLeaderEaseMobUsername = '';
+
 //获取我的领导
 function getMyLeader() {
     var url = "http://api.listome.com/v1/companies/users/boss";
@@ -164,6 +166,8 @@ function getMyLeader() {
         success: function(response) {
             if(response.status == 10001) {
                 $('#my_leader').val(response.data.name);
+                //获取上级的环信用户名
+                myLeaderEaseMobUsername = response.data.easemob_user;
             }else{
                 $('#my_leader').val('加载领导信息失败');
             }

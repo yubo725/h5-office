@@ -7,6 +7,7 @@ if(getUrlParam('check')) {
     $('#tab-check-leaves').addClass('active');
 }
 
+//判断是否是上级，上级有审核选项卡
 if (isBoss) {
     //显示审核选项卡
     $('#tab-check-leaves').css('display', '');
@@ -303,13 +304,16 @@ $('#btn-submit').click(function() {
         $.toast('请假小时数填写有误');
         return;
     }
+    //要发给上级的聊天消息数据
+    var msg = '请假单\n类型：' + type + '\n原因：'
+                + reason + '\n开始时间：' + startTime
+                + '\n结束时间：' + endTime;
     //可以提交数据了
-    submit(getLeaveTypeIdByName(type), reason, startTime, endTime, hours);
-    // alert('type = ' +  + ', reason = ' + reason + ', startTime = ' + startTime + ', endTime = ' + endTime);
+    submit(getLeaveTypeIdByName(type), reason, startTime, endTime, hours, msg);
 })
 
 //提交请假
-function submit(id, reason, startTime, endTime, hours) {
+function submit(id, reason, startTime, endTime, hours, msg) {
     $.showPreloader('请稍等...');
     $.ajax({
         url: 'http://api.listome.com/v1/companies/users/leave',
@@ -328,6 +332,11 @@ function submit(id, reason, startTime, endTime, hours) {
             $.toast('提交成功');
             $.hidePreloader();
             clearForm();
+            //提交数据前，用聊天消息的形式发送给上级
+            if(window.js_interface && !isEmpty(myLeaderEaseMobUsername)) {
+                var url = baseUrl + "leave.html?check=true";
+                window.js_interface.sendApplyMessage(msg, myLeaderEaseMobUsername, url);
+            }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             $.toast('提交失败');
