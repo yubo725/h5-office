@@ -305,7 +305,7 @@ $('#btn-submit').click(function() {
         return;
     }
     //要发给上级的聊天消息数据
-    var msg = '请假单\n类型：' + type + '\n原因：'
+    var msg = '请假申请单\n类型：' + type + '\n原因：'
                 + reason + '\n开始时间：' + startTime
                 + '\n结束时间：' + endTime;
     //可以提交数据了
@@ -332,7 +332,7 @@ function submit(id, reason, startTime, endTime, hours, msg) {
             $.toast('提交成功');
             $.hidePreloader();
             clearForm();
-            //提交数据前，用聊天消息的形式发送给上级
+            //用聊天消息的形式发送给上级
             if(window.js_interface && !isEmpty(myLeaderEaseMobUsername)) {
                 var url = baseUrl + "leave.html?check=true";
                 window.js_interface.sendApplyMessage(msg, myLeaderEaseMobUsername, url);

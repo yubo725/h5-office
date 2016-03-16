@@ -272,10 +272,14 @@ $('#btn-submit').click(function() {
         $.toast('加班小时数填写有误');
         return ;
     }
-    submit(title, reason, startTime, endTime, hours);
+    //要发给上级的聊天消息数据
+    var msg = '加班申请单\n类型：' + typeName + '\n原因：'
+                + reason + '\n开始时间：' + startTime
+                + '\n结束时间：' + endTime;
+    submit(title, reason, startTime, endTime, hours, msg);
 })
 
-function submit(title, reason, startTime, endTime, hours) {
+function submit(title, reason, startTime, endTime, hours, msg) {
     $.showPreloader('请稍等...');
     $.ajax({
         url: 'http://api.listome.com/v1/companies/users/overtime',
@@ -294,6 +298,11 @@ function submit(title, reason, startTime, endTime, hours) {
             $.toast('提交成功');
             $.hidePreloader();
             clearForm();
+            //用聊天消息的形式发送给上级
+            if(window.js_interface && !isEmpty(myLeaderEaseMobUsername)) {
+                var url = baseUrl + "overtime.html?check=true";
+                window.js_interface.sendApplyMessage(msg, myLeaderEaseMobUsername, url);
+            }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             $.toast('提交失败');
