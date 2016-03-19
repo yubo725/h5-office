@@ -68,12 +68,12 @@
                                 <p>数据统计</p>
                             </a>
                         </div>
-                        <!-- <div class="col-33 cell">
-                            <a style="display: none;" href="javascript: openWindow('http://192.168.1.170:8088/jQueryMobileOffice/records/records.html')">
+                        <div class="col-33 cell">
+                            <a href="#" id="menu-entrance-guard">
                                 <img src="images/ic_checkin_record.png">
-                                <p>打卡记录</p>
+                                <p>WiFi门禁</p>
                             </a>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,6 +82,7 @@
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="js/apply.js"></script>
     <script type="text/javascript" src='js/common.js'></script>
     <script type="text/javascript">
         var role = getRole();
@@ -92,10 +93,19 @@
         }
         $('div.row a').click(function() {
             var id = $(this).attr('id');
-            // $.toast(id);
-            if(id == 'menu-take-sample') {
+            if(id == 'menu-take-sample') {//采样
                 if(window.js_interface) {
                     window.js_interface.takeSamplesForEmployee();
+                }else {
+                    $.toast('请在工厂宝APP上使用本功能');
+                }
+                return ;
+            }
+            if(id == 'menu-entrance-guard') {//门禁
+                if(window.js_interface) {
+                    window.js_interface.entranceGuard();
+                }else {
+                    $.toast('请在工厂宝APP上使用本功能');
                 }
                 return ;
             }
@@ -120,3 +130,4 @@
 </body>
 
 </html>
+<!--

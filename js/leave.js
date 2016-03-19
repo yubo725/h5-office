@@ -309,41 +309,8 @@ $('#btn-submit').click(function() {
                 + reason + '\n开始时间：' + startTime
                 + '\n结束时间：' + endTime;
     //可以提交数据了
-    submit(getLeaveTypeIdByName(type), reason, startTime, endTime, hours, msg);
+    submitLeaveApply(getLeaveTypeIdByName(type), reason, startTime, endTime, hours, msg);
 })
-
-//提交请假
-function submit(id, reason, startTime, endTime, hours, msg) {
-    $.showPreloader('请稍等...');
-    $.ajax({
-        url: 'http://api.listome.com/v1/companies/users/leave',
-        type: 'POST',
-        headers: {
-            'Authorization': 'Bearer ' + getToken()
-        },
-        data: {
-            leave_type: id,
-            reason: reason,
-            start_time: startTime + ':00',
-            end_time: endTime + ':00',
-            times: hours
-        },
-        success: function(response) {
-            $.toast('提交成功');
-            $.hidePreloader();
-            clearForm();
-            //用聊天消息的形式发送给上级
-            if(window.js_interface && !isEmpty(myLeaderEaseMobUsername)) {
-                var url = baseUrl + "leave.html?check=true";
-                window.js_interface.sendApplyMessage(msg, myLeaderEaseMobUsername, url);
-            }
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $.toast('提交失败');
-            $.hidePreloader();
-        }
-    })
-}
 
 //根据请假名称获取对应的ID
 function getLeaveTypeIdByName(typeName) {
