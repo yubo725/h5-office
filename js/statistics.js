@@ -1,22 +1,45 @@
-// if(window.js_interface) {
-// 	window.js_interface.useGoBack(true);
-// }
+if(window.js_interface) {
+	window.js_interface.useGoBack(true);
+}
 
-// $('li').click(function(){
-// 	window.location = "statistics_employer_attendance.html";
-// });
+$('#boss-menu-attendance').click(function(){
+	window.location = "statistics_employer_attendance.html";
+});
 
-// $('#boss-menu-salary').click(function(){
-// 	window.location = "statistics_employer_salary.html";
-// });
+$('#boss-menu-salary').click(function(){
+	window.location = "statistics_employer_salary.html";
+});
 
-// $('#employee-menu-attendance').click(function(){
-// 	window.location = "statistics_employee_attendance.html";
-// });
+$('#employee-menu-attendance').click(function(){
+	window.location = "statistics_employee_attendance.html";
+});
 
-// $('#employee-menu-hours').click(function(){
-// 	window.location = "statistics_employee_hours.html";
-// });
+$('#employee-menu-hours').click(function(){
+	window.location = "statistics_employee_hours.html";
+});
+
+//获取整体出勤数据
+function getWholeAttendance() {
+    $.ajax({
+        url: 'http://api.listome.cn/v1/companies/statistic/companies/checkin',
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        data: {
+            start_time: '',
+            end_time: ''
+        },
+        success: function(response) {
+
+        },
+        error: function() {
+
+        }
+    })
+}
+
+/****
 var titles = ['整体出勤率统计', '工资发放统计', '本月出勤统计', '本月工时统计'];
 var clickHandlers = [loadAllAttendance, loadAllSalary, loadEmployeeAttendance, loadEmployeeHours];
 var btnGroup1 = [];
@@ -191,6 +214,7 @@ function loadEmployeeHours() {
     myChart.setOption(pieOption);
 }
 
+****/
 // 加上
 // 1）一个月迟到率部门每天线性统计图
 // 2）一个月迟到人数清单，重点突出前十名
