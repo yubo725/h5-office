@@ -2,10 +2,26 @@ var baseUrl = "http://api.listome.com/app/";
 
 //获取AccessToken
 function getToken() {
-    if(window.js_interface) {
-        return window.js_interface.getAccessToken();
+    if(typeof(window.js_interface) == "undefined"){
+        var storage = window.localStorage;
+        var token = storage.getItem('token');
+        if(token == null){
+            storage.setItem('token','Cte+VeLicOfMxGEyYEd2z74jl3UOBXDbHnvFRDX6Nkc=')
+            return 'Cte+VeLicOfMxGEyYEd2z74jl3UOBXDbHnvFRDX6Nkc=';
+        }
+        return token;
     }
-    return 'Cte+VeLicOfMxGEyYEd2z74jl3UOBXDbHnvFRDX6Nkc=';
+
+    var token = window.js_interface.getAccessToken();
+    if (!Terminal.platform.android){
+        var storage = window.localStorage;
+        storage.setItem('token',token);
+    }
+    return token;
+    // if(window.js_interface) {
+    //     return window.js_interface.getAccessToken();
+    // }
+    // return 'Cte+VeLicOfMxGEyYEd2z74jl3UOBXDbHnvFRDX6Nkc=';
 }
 
 //菜单按下时添加背景颜色
