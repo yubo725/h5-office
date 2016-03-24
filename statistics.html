@@ -18,6 +18,9 @@
     .item-title {
         color: #6d6d72;
     }
+    .list-block {
+        display: none;
+    }
     </style>
 </head>
 
@@ -36,36 +39,64 @@
     </div> -->
     <div class="page-group">
         <div class="page" id='router'>
-            <div class="content-block-title">老板</div>
-            <div class="list-block">
+            <div class="list-block" id="list-boss">
                 <ul>
                     <li class="item-content item-link" id="boss-menu-attendance">
                         <div class="item-media"><i class="icon icon-f7"></i></div>
                         <div class="item-inner">
-                            <div class="item-title">整体出勤率统计</div>
+                            <div class="item-title">整体考勤数据统计</div>
+                        </div>
+                    </li>
+                    <li class="item-content item-link" id="boss-menu-overtime">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">整体加班数据统计</div>
+                        </div>
+                    </li>
+                    <li class="item-content item-link" id="boss-menu-leave">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">整体请假数据统计</div>
                         </div>
                     </li>
                     <li class="item-content item-link" id="boss-menu-salary">
                         <div class="item-media"><i class="icon icon-f7"></i></div>
                         <div class="item-inner">
-                            <div class="item-title">工资统计</div>
+                            <div class="item-title">整体工资发放统计</div>
+                        </div>
+                    </li>
+                    <li class="item-content item-link" id="boss-menu-overtime-top10">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">加班前十名统计</div>
+                        </div>
+                    </li>
+                    <li class="item-content item-link" id="boss-menu-late-top10">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">迟到前十名统计</div>
                         </div>
                     </li>
                 </ul>
             </div>
-            <div class="content-block-title">员工</div>
-            <div class="list-block">
+            <div class="list-block" id="list-employee">
                 <ul>
                     <li class="item-content item-link" id="employee-menu-attendance">
                         <div class="item-media"><i class="icon icon-f7"></i></div>
                         <div class="item-inner">
-                            <div class="item-title">本月出勤天数统计</div>
+                            <div class="item-title">个人考勤数据统计</div>
                         </div>
                     </li>
-                    <li class="item-content item-link" id="employee-menu-hours">
+                    <li class="item-content item-link" id="employee-menu-overtime">
                         <div class="item-media"><i class="icon icon-f7"></i></div>
                         <div class="item-inner">
-                            <div class="item-title">本月工时统计</div>
+                            <div class="item-title">个人加班数据统计</div>
+                        </div>
+                    </li>
+                    <li class="item-content item-link" id="employee-menu-leave">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">个人请假数据统计</div>
                         </div>
                     </li>
                 </ul>

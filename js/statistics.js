@@ -2,219 +2,60 @@ if(window.js_interface) {
 	window.js_interface.useGoBack(true);
 }
 
+//老板  整体出勤统计
 $('#boss-menu-attendance').click(function(){
-	window.location = "statistics_employer_attendance.html";
+	window.location = "statistics/statistics_boss_attendance.html";
 });
 
+//老板  整体加班统计
+$('#boss-menu-overtime').click(function(){
+    window.location = "statistics/statistics_boss_overtime.html";
+});
+
+//老板  整体请假统计
+$('#boss-menu-leave').click(function(){
+    window.location = "statistics/statistics_boss_leave.html";
+});
+
+//老板  整体工资统计
 $('#boss-menu-salary').click(function(){
-	window.location = "statistics_employer_salary.html";
+	window.location = "statistics/statistics_boss_salary.html";
 });
 
+//老板  加班前十统计
+$('#boss-menu-overtime-top10').click(function(){
+    window.location = "statistics/statistics_boss_overtime_top.html";
+});
+
+//老板  迟到前十统计
+$('#boss-menu-late-top10').click(function(){
+    window.location = "statistics/statistics_boss_late_top.html";
+});
+
+//员工  个人考勤统计
 $('#employee-menu-attendance').click(function(){
-	window.location = "statistics_employee_attendance.html";
+	window.location = "statistics/statistics_employee_attendance.html";
 });
 
-$('#employee-menu-hours').click(function(){
-	window.location = "statistics_employee_hours.html";
+//员工  个人加班统计
+$('#employee-menu-overtime').click(function(){
+    window.location = "statistics/statistics_employee_overtime.html";
 });
 
-//获取整体出勤数据
-function getWholeAttendance() {
-    $.ajax({
-        url: 'http://api.listome.cn/v1/companies/statistic/companies/checkin',
-        type: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + getToken()
-        },
-        data: {
-            start_time: '',
-            end_time: ''
-        },
-        success: function(response) {
+//员工  个人请假统计
+$('#employee-menu-leave').click(function(){
+    window.location = "statistics/statistics_employee_leave.html";
+});
 
-        },
-        error: function() {
-
-        }
-    })
+var role = getRole();
+if(role == 3) {
+    $('#list-boss').show();
+    $('#list-employee').hide();
+}else{
+    $('#list-boss').show();
+    $('#list-employee').show();
 }
 
-/****
-var titles = ['整体出勤率统计', '工资发放统计', '本月出勤统计', '本月工时统计'];
-var clickHandlers = [loadAllAttendance, loadAllSalary, loadEmployeeAttendance, loadEmployeeHours];
-var btnGroup1 = [];
-for (var i = 0; i < titles.length; i++) {
-    btnGroup1.push({
-        text: titles[i],
-        onClick: clickHandlers[i]
-    })
-}
-var btnGroup2 = [{
-    text: '取消',
-    bg: 'danger'
-}];
-var groups = [btnGroup1, btnGroup2];
-
-//弹出操作表
-$('#title-select').click(function() {
-    $.actions(groups);
-})
-
-loadAllAttendance();
-
-//加载整体出勤率统计表
-function loadAllAttendance() {
-	$('.item-title').text(titles[0]);
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    var dataLabelFontSize = 30;
-
-    var pieOption = {
-        title: {
-            text: '本月出勤天数统计图',
-            subtext: '单位：人/天',
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            orient: 'horizontal',
-            top: 60,
-            data: ['正常上下班', '迟到', '早退', '请假', '调休', '旷工']
-        },
-        series: [{
-            name: '出勤率',
-            type: 'pie',
-            radius: '55%',
-            data: [
-                { value: 300, name: '正常上下班' },
-                { value: 20, name: '迟到' },
-                { value: 5, name: '早退' },
-                { value: 30, name: '请假' },
-                { value: 80, name: '调休' },
-                { value: 5, name: '旷工' },
-            ]
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(pieOption);
-}
-
-//加载整体工资统计表
-function loadAllSalary() {
-	$('.item-title').text(titles[1]);
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    var dataLabelFontSize = 30;
-
-    var pieOption = {
-        title: {
-            text: '本月工资统计图',
-            subtext: '单位：万',
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            orient: 'horizontal',
-            top: 60,
-            data: ['正常上班发放工资', '加班发放工资']
-        },
-        series: [{
-            name: '本月工时统计',
-            type: 'pie',
-            radius: '55%',
-            data: [
-                { value: 302.3, name: '正常上班发放工资' },
-                { value: 20.8, name: '加班发放工资' },
-            ]
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(pieOption);
-}
-
-//加载某个员工的出勤率统计表
-function loadEmployeeAttendance() {
-	$('.item-title').text(titles[2]);
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    var dataLabelFontSize = 30;
-
-    var pieOption = {
-        title: {
-            text: '本月出勤天数统计图',
-            subtext: '单位：天',
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            orient: 'horizontal',
-            top: 60,
-            data: ['正常上下班', '迟到', '早退', '请假', '调休', '旷工']
-        },
-        series: [{
-            name: '出勤率',
-            type: 'pie',
-            radius: '55%',
-            data: [
-                { value: 20, name: '正常上下班' },
-                { value: 6, name: '迟到' },
-                { value: 1, name: '早退' },
-                { value: 1, name: '请假' },
-                { value: 1, name: '调休' },
-                { value: 1, name: '旷工' },
-            ]
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(pieOption);
-}
-
-//加载某个员工的工资统计表
-function loadEmployeeHours() {
-	$('.item-title').text(titles[3]);
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    var dataLabelFontSize = 30;
-
-    var pieOption = {
-        title: {
-            text: '本月工时统计图',
-            subtext: '单位：小时',
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            orient: 'horizontal',
-            top: 60,
-            data: ['正常上班工时', '加班工时']
-        },
-        series: [{
-            name: '本月工时统计',
-            type: 'pie',
-            radius: '55%',
-            data: [
-                { value: 38, name: '正常上班工时' },
-                { value: 12, name: '加班工时' },
-            ]
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(pieOption);
-}
-
-****/
 // 加上
 // 1）一个月迟到率部门每天线性统计图
 // 2）一个月迟到人数清单，重点突出前十名

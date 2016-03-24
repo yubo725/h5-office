@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>整体加班数据统计</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <script src="http://cdn.bootcss.com/echarts/3.0.0/echarts.common.min.js"></script>
+    <style type="text/css">
+    .chart-content {
+        width: 100%;
+        height: 500px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="content-block-title">整体加班数据统计列表</div>
+        <div class="list-block" id="list-content">
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript">
+    var data = {};
+    getOvertime();
+
+    //获取公司整体加班数据
+    function getOvertime() {
+        $.ajax({
+            url: 'http://api.listome.com/v1/companies/statistic/overtimes',
+            type: 'GET',
+            async: false,
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            data: getStartEndTime(yearNow, monthNow),
+            success: function(response) {
+                console.log("response = " + JSON.stringify(response));
+                if (response.status == 10001) {
+                    data = response.data;
+                    showData(data);
+                } else {
+                    $.toast('获取数据失败');
+                }
+            },
+            error: function() {
+                console.log("request error!");
+                $.toast('获取数据失败');
+            }
+        })
+    }
+
+    //显示数据
+    function showData(obj) {
+        var str = '<ul>';
+        str += generateListItem('总加班时间', obj.times + '小时');
+        str += generateListItem('总加班次数', obj.count + '次');
+        str += generateListItem('加班人数', obj.person_count  + '次');
+        str += '</ul>';
+        $('#list-content').html(str);
+    }
+
+    //生成一个列表item
+    function generateListItem(title, after) {
+        var str = '';
+        str += '<li class="item-content">';
+        str += '<div class="item-inner">';
+        str += '<div class="item-title">' + title + '</div>';
+        str += '<div class="item-after">' + after + '</div>';
+        str += '</div>';
+        str += '</li>';
+        return str;
+    }
+    </script>
+</body>
+
+</html>

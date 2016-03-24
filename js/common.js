@@ -5,7 +5,7 @@ function getToken() {
     if(window.js_interface) {
         return window.js_interface.getAccessToken();
     }
-    return 'JANAjYt1p2tLTS2neRFgYy81WDEgNH6PNfvQ96GVctI=';
+    return 'Cte+VeLicOfMxGEyYEd2z74jl3UOBXDbHnvFRDX6Nkc=';
 }
 
 //菜单按下时添加背景颜色
@@ -36,6 +36,25 @@ function getTimeStr(unixTime) {
     var hours = date.getHours();
     var min = date.getMinutes();
     return year + '-' + numberProcess(month) + '-' + numberProcess(day) + ' ' + numberProcess(hours) + ':' + numberProcess(min);
+}
+
+//根据年月获取该月的起止时间
+function getStartEndTime(year, month) {
+    var startDateStr = year + '/' + month + '/01 ' + '00:00:00';
+    var endDateStr = '';
+    if(month == 12) {
+        endDateStr = (year + 1) + '/01/01 ' + '00:00:00';
+    }else{
+        endDateStr = (year) + '/' + (month + 1) + '/01 ' + '00:00:00';
+    }
+    var startDate = new Date(startDateStr);
+    var endDate = new Date(endDateStr);
+    var obj = {
+        start_time: startDate / 1000,
+        end_time: endDate / 1000 - 1
+    };
+    console.log(obj);
+    return obj; 
 }
 
 function numberProcess(n) {
@@ -88,6 +107,11 @@ function isNumber(n) {
 function strToDate(str) {
     var s = str.replace(/-/g,"/");
     return new Date(s);
+}
+
+//字符串时间转Unix时间戳
+function strToUnixTimestamp(str) {
+    return strToDate(str).getTime() / 1000;
 }
 
 //比较两个格式为yyyy-MM-dd HH:mm:ss的字符串对应的时间大小，dateStr1大于dateStr2则返回1，小于则返回-1，相等返回0

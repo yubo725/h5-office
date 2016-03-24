@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>公司整体工资统计</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <script src="http://cdn.bootcss.com/echarts/3.0.0/echarts.common.min.js"></script>
+</head>
+<body>
+	<div class="content">
+        <div class="content-block">
+            <div class="buttons-row">
+                <a href="#tab1" class="tab-link active button" id="tab-menu1">饼状图</a>
+                <a href="#tab2" class="tab-link button" id="tab-menu2">柱状图</a>
+            </div>
+        </div>
+        <div id="main" class="chart-content"></div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+	<script type="text/javascript">
+    var data = {};
+    getWholeAttendance();
+
+    //获取整体出勤数据
+    function getWholeAttendance() {
+        $.ajax({
+            url: 'http://api.listome.com/v1/companies/statistic/salaries',
+            type: 'GET',
+            async: false,
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            data: getStartEndTime(yearNow, monthNow),
+            success: function(response) {
+                console.log("response = " + JSON.stringify(response));
+                if (response.status == 10001) {
+                    data = response.data;
+                    showPieCharts(data);
+                } else {
+                    $.toast('获取数据失败');
+                }
+            },
+            error: function() {
+                console.log("request error!");
+                $.toast('获取数据失败');
+            }
+        })
+    }
+
+	$('#tab-menu1').click(function(){
+		$(this).addClass('active');
+		$('#tab-menu2').removeClass('active');
+    	showPieCharts(data);
+    });    
+
+    $('#tab-menu2').click(function(){
+    	$(this).addClass('active');
+		$('#tab-menu1').removeClass('active');
+    	showBarCharts(data);
+    });
+
+    //显示饼状图
+    function showPieCharts(obj) {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var dataLabelFontSize = 30;
+
+        console.log("data = " + JSON.stringify(obj));
+
+        var legendData = ['正常发放工资', '加班发放工资'];
+        var seriesData = [{
+            value: obj.salay,
+            name: '正常发放工资'
+        }, {
+            value: obj.overtime_salay,
+            name: '加班发放工资'
+        }];
+
+        var pieOption = {
+            title: {
+                text: '公司整体工资统计图',
+                subtext: '单位：元',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'horizontal',
+                top: 60,
+                data: legendData
+            },
+            series: [{
+                name: '工资',
+                type: 'pie',
+                radius: '55%',
+                data: seriesData
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(pieOption);
+    }
+
+    //显示柱状图
+    function showBarCharts(obj) {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '公司整体工资统计图',
+                subtext: '单位：元',
+                x: 'center'
+            },
+            tooltip: {},
+            legend: {
+                data: ['工资'],
+                top: 60
+            },
+            xAxis: {
+                data: ['正常发放工资', '加班发放工资']
+            },
+            yAxis: {},
+            series: [{
+                name: '工资',
+                type: 'bar',
+                data: [obj.salay, obj.overtime_salay]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+    </script>
+</body>
+</html>
