@@ -10,8 +10,8 @@ function submitLeaveApply(id, reason, startTime, endTime, hours, msg) {
         data: {
             leave_type: id,
             reason: reason,
-            start_time: startTime + ':00',
-            end_time: endTime + ':00',
+            start_time: getUnixTimestamp(startTime + ':00'),
+            end_time: getUnixTimestamp(endTime + ':00'),
             times: hours
         },
         success: function(response) {
@@ -36,6 +36,7 @@ function submitLeaveApply(id, reason, startTime, endTime, hours, msg) {
     })
 }
 
+//提交加班申请
 function submitOvertimeApply(title, reason, startTime, endTime, hours, msg) {
     $.showPreloader('请稍等...');
     $.ajax({
@@ -47,8 +48,8 @@ function submitOvertimeApply(title, reason, startTime, endTime, hours, msg) {
         data: {
             title: title,
             reason: reason,
-            start_time: startTime + ':00',
-            end_time: endTime + ':00',
+            start_time: getUnixTimestamp(startTime + ':00'),
+            end_time: getUnixTimestamp(endTime + ':00'),
             times: hours
         },
         success: function(response) {
@@ -71,6 +72,11 @@ function submitOvertimeApply(title, reason, startTime, endTime, hours, msg) {
             $.hidePreloader();
         }
     })
+}
+
+function getUnixTimestamp(str) {
+    var date = new Date(str);
+    return date.getTime() / 1000;
 }
 
 //提交请假申请

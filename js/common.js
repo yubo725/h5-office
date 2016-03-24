@@ -1,4 +1,4 @@
-var baseUrl = "http://192.168.1.170:8088/h5Office/";
+var baseUrl = "http://api.listome.com/app/";
 
 //获取AccessToken
 function getToken() {
