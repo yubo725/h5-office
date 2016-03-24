@@ -1,5 +1,24 @@
 var baseUrl = "http://api.listome.com/app/";
 
+var Terminal = {
+    // 辨别移动终端类型
+    platform : function() {
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return {
+            // 是否为iPhone或者QQHD浏览器
+            iPhone : u.indexOf('iPhone') > -1,
+            // 是否iPad
+            iPad : u.indexOf('iPad') > -1,
+            // 是否微信
+            weixin : u.toLowerCase().indexOf("micromessenger") > -1,
+            // android终端或者uc浏览器
+            android : u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+            // 是否WinPhone
+            wp : u.indexOf('Windows Phone') > -1
+        };
+    }(),
+}
+
 //获取AccessToken
 function getToken() {
     if(typeof(window.js_interface) == "undefined"){
