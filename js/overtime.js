@@ -143,7 +143,7 @@ function showCheckOvertimeList(list) {
         content += '<div class="card-footer">';
         content += '<a href="#" id="' + id + '" class="link agree">同意</a>';
         content += '<a href="#" id="' + id + '"  class="link disagree">拒绝</a>';
-        content += '<a href="#" class="link">发消息</a>';
+        content += '<a href="#" class="link" style="display:none;">发消息</a>';
         content += '</div>';
         content += '</div>';
     }
