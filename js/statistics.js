@@ -52,7 +52,7 @@ if(role == 3) {
     $('#list-boss').show();
     $('#list-employee').hide();
 }else{
-    $('#list-boss').show();
+    $('#list-boss').hide();
     $('#list-employee').show();
 }
 
