@@ -1,8 +1,8 @@
 //release
-// var baseUrl = "http://api.listome.com/app/";
+var baseUrl = "http://api.listome.com/app/";
 
 //debug
-var baseUrl = "http://192.168.1.170:8088/h5Office/";
+// var baseUrl = "http://192.168.1.170:8088/h5Office/";
 // var baseUrl = "http://yubo725.sinaapp.com/h5Office/";
 
 var Terminal = {
