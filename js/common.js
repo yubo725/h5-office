@@ -30,8 +30,8 @@ function getToken() {
         var storage = window.localStorage;
         var token = storage.getItem('token');
         if(token == null){
-            storage.setItem('token','iT/DpJwGAYBvfckMCK0+zV1WCHmSdhQBJcGks73vnMI=')
-            return 'iT/DpJwGAYBvfckMCK0+zV1WCHmSdhQBJcGks73vnMI=';
+            storage.setItem('token','g953R+bcjTiMYDwouAfNIhFAwACI2RURt135VJu+MNw=')
+            return 'g953R+bcjTiMYDwouAfNIhFAwACI2RURt135VJu+MNw=';
         }
         return token;
     }
