@@ -96,7 +96,7 @@
         var pieOption = {
             title: {
                 text: '个人考勤数据统计图',
-                subtext: '单位：人',
+                subtext: '单位：天',
                 x: 'center'
             },
             tooltip: {
@@ -108,7 +108,7 @@
                 data: legendData
             },
             series: [{
-                name: '出勤率',
+                name: '天数',
                 type: 'pie',
                 radius: '55%',
                 data: seriesData
@@ -127,12 +127,12 @@
         var option = {
             title: {
                 text: '个人考勤数据统计图',
-                subtext: '单位：人',
+                subtext: '单位：天',
                 x: 'center'
             },
             tooltip: {},
             legend: {
-                data: ['人数'],
+                data: ['天数'],
                 top: 60
             },
             xAxis: {
@@ -140,7 +140,7 @@
             },
             yAxis: {},
             series: [{
-                name: '人数',
+                name: '天数',
                 type: 'bar',
                 data: [obj.nomarl_check, obj.late_count, obj.early_count, obj.leave_count]
             }]

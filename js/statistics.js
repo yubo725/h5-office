@@ -1,57 +1,49 @@
-if(window.js_interface) {
-	window.js_interface.useGoBack(true);
-}
+//添加返回到上一页功能。iOS没有提供接口
+// if(window.js_interface) {
+// 	window.js_interface.useGoBack(true);
+// }
 
-//老板  整体出勤统计
-$('#boss-menu-attendance').click(function(){
-	window.location = "statistics/statistics_boss_attendance.html";
+//点击列表跳转到对应的统计页面
+$('.item-content').click(function() {
+    var id = $(this).attr('id');
+    var url = '';
+    switch(id) {
+        case "boss-menu-attendance"://老板  整体出勤统计
+        url = "statistics/statistics_boss_attendance.html";
+        break;
+        case "boss-menu-overtime"://老板  整体加班统计
+        url = "statistics/statistics_boss_overtime.html";
+        break;
+        case "boss-menu-leave"://老板  整体请假统计
+        url = "statistics/statistics_boss_leave.html";
+        break;
+        case "boss-menu-salary"://老板  整体工资统计
+        url = "statistics/statistics_boss_salary.html";
+        break;
+        case "boss-menu-overtime-top10"://老板  加班前十统计
+        url = "statistics/statistics_boss_overtime_top.html";
+        break;
+        case "boss-menu-late-top10"://老板  迟到前十统计
+        url = "statistics/statistics_boss_late_top.html";
+        break;
+        case "employee-menu-attendance"://员工  个人考勤统计
+        url = "statistics/statistics_employee_attendance.html";
+        break;
+        case "employee-menu-overtime"://员工  个人加班统计
+        url = "statistics/statistics_employee_overtime.html";
+        break;
+        case "employee-menu-leave"://员工  个人请假统计
+        url = "statistics/statistics_employee_leave.html";
+        break;
+    }
+    window.location = url;
 });
 
-//老板  整体加班统计
-$('#boss-menu-overtime').click(function(){
-    window.location = "statistics/statistics_boss_overtime.html";
-});
-
-//老板  整体请假统计
-$('#boss-menu-leave').click(function(){
-    window.location = "statistics/statistics_boss_leave.html";
-});
-
-//老板  整体工资统计
-$('#boss-menu-salary').click(function(){
-	window.location = "statistics/statistics_boss_salary.html";
-});
-
-//老板  加班前十统计
-$('#boss-menu-overtime-top10').click(function(){
-    window.location = "statistics/statistics_boss_overtime_top.html";
-});
-
-//老板  迟到前十统计
-$('#boss-menu-late-top10').click(function(){
-    window.location = "statistics/statistics_boss_late_top.html";
-});
-
-//员工  个人考勤统计
-$('#employee-menu-attendance').click(function(){
-	window.location = "statistics/statistics_employee_attendance.html";
-});
-
-//员工  个人加班统计
-$('#employee-menu-overtime').click(function(){
-    window.location = "statistics/statistics_employee_overtime.html";
-});
-
-//员工  个人请假统计
-$('#employee-menu-leave').click(function(){
-    window.location = "statistics/statistics_employee_leave.html";
-});
-
-var role = getRole();
-if(role == 3) {
+var role = getRole(); 
+if(role == 3) {  //角色为老板，显示两个列表
     $('#list-boss').show();
-    $('#list-employee').hide();
-}else{
+    $('#list-employee').show();
+}else{  //角色为普通员工，显示个人列表
     $('#list-boss').hide();
     $('#list-employee').show();
 }

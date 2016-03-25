@@ -1,4 +1,8 @@
-var baseUrl = "http://api.listome.com/app/";
+//release
+// var baseUrl = "http://api.listome.com/app/";
+
+//debug
+var baseUrl = "http://192.168.1.170:8088/h5Office/";
 
 var Terminal = {
     // 辨别移动终端类型
@@ -25,8 +29,8 @@ function getToken() {
         var storage = window.localStorage;
         var token = storage.getItem('token');
         if(token == null){
-            storage.setItem('token','Cte+VeLicOfMxGEyYEd2z74jl3UOBXDbHnvFRDX6Nkc=')
-            return 'Cte+VeLicOfMxGEyYEd2z74jl3UOBXDbHnvFRDX6Nkc=';
+            storage.setItem('token','iT/DpJwGAYBvfckMCK0+zV1WCHmSdhQBJcGks73vnMI=')
+            return 'iT/DpJwGAYBvfckMCK0+zV1WCHmSdhQBJcGks73vnMI=';
         }
         return token;
     }
