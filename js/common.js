@@ -3,6 +3,7 @@
 
 //debug
 var baseUrl = "http://192.168.1.170:8088/h5Office/";
+// var baseUrl = "http://yubo725.sinaapp.com/h5Office/";
 
 var Terminal = {
     // 辨别移动终端类型
@@ -35,16 +36,17 @@ function getToken() {
         return token;
     }
 
-    var token = window.js_interface.getAccessToken();
+    var token = '';
+    try {
+        token = window.js_interface.getAccessToken();
+    }catch(e) {
+        console.log(e);
+    }
     if (!Terminal.platform.android){
         var storage = window.localStorage;
         storage.setItem('token',token);
     }
     return token;
-    // if(window.js_interface) {
-    //     return window.js_interface.getAccessToken();
-    // }
-    // return 'Cte+VeLicOfMxGEyYEd2z74jl3UOBXDbHnvFRDX6Nkc=';
 }
 
 //菜单按下时添加背景颜色
@@ -62,7 +64,11 @@ function openWindow(url) {
     if (typeof(window.js_interface) == "undefined") {
         location.href = url;
     } else {
-        window.js_interface.jumpToDetail(url);
+        try {
+            window.js_interface.jumpToDetail(url);
+        }catch (e) {
+            console.log(e);
+        }
     }
 }
 

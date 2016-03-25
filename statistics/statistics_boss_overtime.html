@@ -19,8 +19,7 @@
 <body>
     <div class="content">
         <div class="content-block-title">整体加班数据统计列表</div>
-        <div class="list-block" id="list-content">
-        </div>
+        <div class="list-block" id="list-content"></div>
     </div>
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
@@ -61,7 +60,7 @@
         var str = '<ul>';
         str += generateListItem('总加班时间', obj.times + '小时');
         str += generateListItem('总加班次数', obj.count + '次');
-        str += generateListItem('加班人数', obj.person_count  + '人');
+        str += generateListItem('加班人数', obj.person_count + '人');
         str += '</ul>';
         $('#list-content').html(str);
     }
@@ -81,3 +80,4 @@
 </body>
 
 </html>
+<!--

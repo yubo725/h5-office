@@ -95,7 +95,11 @@
             var id = $(this).attr('id');
             if(id == 'menu-take-sample') {//采样
                 if(window.js_interface) {
-                    window.js_interface.takeSamplesForEmployee();
+                    try {
+                        window.js_interface.takeSamplesForEmployee();
+                    }catch(e) {
+                        console.log(e);
+                    }
                 }else {
                     $.toast('请在工厂宝APP上使用本功能');
                 }

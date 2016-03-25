@@ -26,7 +26,11 @@ function submitLeaveApply(id, reason, startTime, endTime, hours, msg) {
                     myLeaderEaseMobUsername: myLeaderEaseMobUsername,
                     url: url
                 };
-                window.js_interface.sendApplyMessage(JSON.stringify(jsonObj));
+                try {
+                    window.js_interface.sendApplyMessage(JSON.stringify(jsonObj));
+                }catch(e) {
+                    console.log(e);
+                }
             }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -64,7 +68,11 @@ function submitOvertimeApply(title, reason, startTime, endTime, hours, msg) {
                     myLeaderEaseMobUsername: myLeaderEaseMobUsername,
                     url: url
                 };
-                window.js_interface.sendApplyMessage(JSON.stringify(obj));
+                try {
+                    window.js_interface.sendApplyMessage(JSON.stringify(obj));
+                }catch(e) {
+                    console.log(e);
+                }
             }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
