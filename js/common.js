@@ -1,8 +1,8 @@
 //release
-// var baseUrl = "http://api.listome.com/app/";
+var baseUrl = "http://api.listome.com/app/";
 
 //debug
-var baseUrl = "http://192.168.1.170:8088/h5Office/";
+// var baseUrl = "http://192.168.1.170:8088/h5Office/";
 // var baseUrl = "http://yubo725.sinaapp.com/h5Office/";
 
 var Terminal = {
@@ -24,14 +24,16 @@ var Terminal = {
     }(),
 }
 
+var testToken = "frIhzgycRh8Bz5jf69vNg70GPUyBQgwwftxGdnPh6J0=";
+
 //获取AccessToken
 function getToken() {
     if(typeof(window.js_interface) == "undefined"){
         var storage = window.localStorage;
         var token = storage.getItem('token');
         if(token == null){
-            storage.setItem('token','g953R+bcjTiMYDwouAfNIhFAwACI2RURt135VJu+MNw=')
-            return 'g953R+bcjTiMYDwouAfNIhFAwACI2RURt135VJu+MNw=';
+            storage.setItem('token', testToken)
+            return testToken;
         }
         return token;
     }
@@ -44,7 +46,7 @@ function getToken() {
     }
     if (!Terminal.platform.android){
         var storage = window.localStorage;
-        storage.setItem('token',token);
+        storage.setItem('token', token);
     }
     return token;
 }

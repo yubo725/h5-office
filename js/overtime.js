@@ -28,7 +28,14 @@ function loadList() {
             'Authorization': 'Bearer ' + getToken()
         },
         success: function(response) {
-            showList(response);
+            if (response.status == 10001) {
+                showList(response);
+            } else {
+                $.toast('错误' + response.status);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+             $.toast('加载加班记录出错' + jqXHR.status);
         }
     });
 }
@@ -201,8 +208,8 @@ function operateAgreeOrNot(id, isAgree, list) {
                 $.toast('操作失败，错误码：' + response.status);
             }
         },
-        error: function() {
-            $.toast('操作失败');
+        error: function(jqXHR, textStatus, errorThrown) {
+            $.toast('操作失败' + jqXHR.status);
         }
     })
 }

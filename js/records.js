@@ -60,8 +60,8 @@ function loadRecords(dateStr, startTime, endTime) {
             	$.toast('错误' + response.status);
             }
         },
-        error: function(msg, status) {
-        	$.toast('加载打卡记录失败');
+        error: function(jqXHR, textStatus, errorThrown) {
+        	$.toast('加载打卡记录失败' + jqXHR.status);
         }
     });
 }

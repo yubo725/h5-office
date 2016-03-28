@@ -33,8 +33,8 @@ function loadList() {
                 $.toast('错误' + data.status);
             }
         },
-        error: function(msg, status) {
-            $.toast('加载请假记录出错');
+        error: function(jqXHR, textStatus, errorThrown) {
+            $.toast('加载请假记录出错' + jqXHR.status);
         }
     });
 }
@@ -255,8 +255,8 @@ function operateAgreeOrNot(id, isAgree, list) {
                 $.toast('操作失败，错误码：' + response.status);
             }
         },
-        error: function() {
-            $.toast('操作失败');
+        error: function(jqXHR, textStatus, errorThrown) {
+            $.toast('操作失败' + jqXHR.status);
         }
     })
 }
