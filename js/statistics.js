@@ -1,7 +1,7 @@
 //添加返回到上一页功能。iOS没有提供接口
 if(window.js_interface) {
     try {
-	   window.js_interface.useGoBack(true);
+        window.js_interface.useGoBack(true);
     }catch (e) {
         console.log(e);
     }

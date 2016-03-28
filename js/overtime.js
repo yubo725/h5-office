@@ -279,6 +279,8 @@ $('#btn-submit').click(function() {
         $.toast('加班小时数填写有误');
         return ;
     }
+    startTime = startTime.replace(/-/g,"/");
+    endTime = endTime.replace(/-/g,"/");
     //要发给上级的聊天消息数据
     var msg = '加班申请单\n类型：' + typeName + '\n原因：'
                 + reason + '\n开始时间：' + startTime

@@ -10,8 +10,8 @@ function submitLeaveApply(id, reason, startTime, endTime, hours, msg) {
         data: {
             leave_type: id,
             reason: reason,
-            start_time: getUnixTimestamp(startTime + ':00'),
-            end_time: getUnixTimestamp(endTime + ':00'),
+            start_time: strToUnixTimestamp(startTime + ':00'),
+            end_time: strToUnixTimestamp(endTime + ':00'),
             times: hours
         },
         success: function(response) {
@@ -52,8 +52,8 @@ function submitOvertimeApply(title, reason, startTime, endTime, hours, msg) {
         data: {
             title: title,
             reason: reason,
-            start_time: getUnixTimestamp(startTime + ':00'),
-            end_time: getUnixTimestamp(endTime + ':00'),
+            start_time: strToUnixTimestamp(startTime + ':00'),
+            end_time: strToUnixTimestamp(endTime + ':00'),
             times: hours
         },
         success: function(response) {
@@ -80,10 +80,4 @@ function submitOvertimeApply(title, reason, startTime, endTime, hours, msg) {
             $.hidePreloader();
         }
     })
-}
-
-//字符串转Unix时间戳
-function getUnixTimestamp(str) {
-    var date = new Date(str);
-    return date.getTime() / 1000;
 }
