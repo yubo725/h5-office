@@ -19,6 +19,17 @@ if(isBoss) {
     $('#tab-check-overtime').css('display', 'none');
 }
 
+//是否带薪的CheckBox处理
+$("[type='checkbox']").click(function() {
+    var isChecked = $(this).attr("checked");
+    var hintLabel = $(".label_checkbox-hint");
+    if(isChecked) {
+        hintLabel.text("带薪");
+    }else{
+        hintLabel.text("不带薪");
+    }
+})
+
 //加载加班申请列表
 function loadList() {
     $.ajax({

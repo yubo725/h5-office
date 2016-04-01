@@ -18,6 +18,17 @@ if (isBoss) {
     $('#tab3').css('display', 'none');
 }
 
+//是否带薪的CheckBox处理
+$("[type='checkbox']").click(function() {
+    var isChecked = $(this).attr("checked");
+    var hintLabel = $(".label_checkbox-hint");
+    if(isChecked) {
+        hintLabel.text("带薪");
+    }else{
+        hintLabel.text("不带薪");
+    }
+})
+
 //加载请假列表
 function loadList() {
     $.ajax({
