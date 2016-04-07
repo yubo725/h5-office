@@ -1,5 +1,5 @@
 //提交请假申请
-function submitLeaveApply(id, reason, startTime, endTime, hours, msg) {
+function submitLeaveApply(id, reason, startTime, endTime, hours, have_salary, msg) {
     $.showPreloader('请稍等...');
     $.ajax({
         url: 'http://api.listome.com/v1/companies/users/leave',
@@ -12,7 +12,8 @@ function submitLeaveApply(id, reason, startTime, endTime, hours, msg) {
             reason: reason,
             start_time: strToUnixTimestamp(startTime + ':00'),
             end_time: strToUnixTimestamp(endTime + ':00'),
-            times: hours
+            times: hours,
+            have_salary: have_salary
         },
         success: function(response) {
             $.toast('提交成功');
@@ -41,7 +42,7 @@ function submitLeaveApply(id, reason, startTime, endTime, hours, msg) {
 }
 
 //提交加班申请
-function submitOvertimeApply(title, reason, startTime, endTime, hours, msg) {
+function submitOvertimeApply(title, reason, startTime, endTime, hours, have_salary, msg) {
     $.showPreloader('请稍等...');
     $.ajax({
         url: 'http://api.listome.com/v1/companies/users/overtime',
@@ -54,7 +55,8 @@ function submitOvertimeApply(title, reason, startTime, endTime, hours, msg) {
             reason: reason,
             start_time: strToUnixTimestamp(startTime + ':00'),
             end_time: strToUnixTimestamp(endTime + ':00'),
-            times: hours
+            times: hours,
+            have_salary: have_salary
         },
         success: function(response) {
             $.toast('提交成功');

@@ -291,6 +291,15 @@ $('#btn-submit').click(function() {
     var startTime = $('#start-time-picker').val();
     var endTime = $('#end-time-picker').val();
     var hours = $('#hours').val();
+    var isChecked = $("[type='checkbox']").attr('checked');
+    var have_salary;
+    if(isChecked) {
+        have_salary = 1;
+        // $.toast('带薪');
+    }else{
+        // $.toast('不带薪');
+        have_salary = 2;
+    }
     if (isEmpty(type)) {
         $.toast('请选择请假类型');
         return;
@@ -322,7 +331,7 @@ $('#btn-submit').click(function() {
                 + reason + '\n开始时间：' + startTime
                 + '\n结束时间：' + endTime;
     //可以提交数据了
-    submitLeaveApply(getLeaveTypeIdByName(type), reason, startTime, endTime, hours, msg);
+    submitLeaveApply(getLeaveTypeIdByName(type), reason, startTime, endTime, hours, have_salary, msg);
 })
 
 //根据请假名称获取对应的ID

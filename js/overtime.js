@@ -262,6 +262,13 @@ $('#btn-submit').click(function() {
     var startTime = $('#start-time-picker').val();
     var endTime = $('#end-time-picker').val();
     var hours = $('#hours').val();
+    var isChecked = $("[type='checkbox']").attr('checked');
+    var have_salary;
+    if(isChecked) {
+        have_salary = 1;
+    }else{
+        have_salary = 2;
+    }
     if (isEmpty(typeName)) {
         $.toast('请选择加班类型');
         return ;
@@ -296,7 +303,7 @@ $('#btn-submit').click(function() {
     var msg = '加班申请单\n类型：' + typeName + '\n原因：'
                 + reason + '\n开始时间：' + startTime
                 + '\n结束时间：' + endTime;
-    submitOvertimeApply(title, reason, startTime, endTime, hours, msg);
+    submitOvertimeApply(title, reason, startTime, endTime, hours, have_salary, msg);
 })
 
 //清空表单

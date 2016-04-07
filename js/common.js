@@ -1,8 +1,8 @@
 //release
-// var baseUrl = "http://api.listome.com/app/";
+var baseUrl = "http://api.listome.com/app/";
 
 //debug
-var baseUrl = "http://192.168.1.170:8088/h5Office/";
+// var baseUrl = "http://192.168.1.170:8088/h5Office/";
 // var baseUrl = "http://yubo725.sinaapp.com/h5Office/";
 
 var Terminal = {
@@ -24,7 +24,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "gQuzGScoF9iAbvMxbtp8ayY0cTAs/1EvljTucCOHeWQ=";
+var testToken = "t80/Bui8P/0ef5zyVSVZJOWf6Y5dXFhub22R8S8k46I=";
 
 //获取AccessToken
 function getToken() {
