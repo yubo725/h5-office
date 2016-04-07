@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>机床详情</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="content-block-title">机床详细信息</div>
+        <div class="list-block">
+            <ul>
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">机床编号</div>
+                        <div class="item-after">#001</div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">机床型号</div>
+                        <div class="item-after">GL8-V</div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">购入日期</div>
+                        <div class="item-after">2016-03-06</div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">保养周期</div>
+                        <div class="item-after">每20天一次</div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">备注</div>
+                        <div class="item-input">
+                            <input type="text" id="remark-input" placeholder="填写备注信息">
+                        </div>
+                        <div class="item-after">
+                            <a href="#" class="button" id="btn-submit-remark">提交</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block-title">机床操作</div>
+        <div class="list-block">
+            <ul>
+                <li class="item-content item-link" id="menu-new-task">
+                    <div class="item-inner">
+                        <div class="item-title">新建任务</div>
+                    </div>
+                </li>
+                <li class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title">故障拍照</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript">
+    $('#menu-new-task').click(function() {
+        window.location = baseUrl + 'machine/machine_task.html';
+    });
+    </script>
+</body>
+
+</html>
+<!--

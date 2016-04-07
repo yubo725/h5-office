@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>机床列表</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style>
+    .warning * {
+        background-color: red;
+        color: white;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="content-block-title">一号车间</div>
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="row">
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床1-1</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床1-2</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                        <div class="col-33">
+                            <div class="card warning">
+                                <div class="card-header">机床1-3</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行异常</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床1-4</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床1-5</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床1-6</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block-title">二号车间</div>
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="row">
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床2-1</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床2-2</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床2-3</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床2-4</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                        <div class="col-33">
+                            <div class="card">
+                                <div class="card-header">机床2-5</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">机床信息</div>
+                                </div>
+                                <div class="card-footer">运行正常</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+    //菜单按下时添加背景颜色
+    $('.card').bind('touchstart', function() {
+        $(this).css('background-color', '#dcdcdc');
+    });
+
+    //菜单不被按下时取消背景颜色
+    $('.card').bind('touchend', function() {
+        $(this).css('background-color', '');
+    });
+
+    //点击卡片跳转到机床详情
+    $('.card').click(function() {
+        window.location = baseUrl + 'machine/machine_detail.html';
+    });
+    </script>
+</body>
+
+</html>
+<!--

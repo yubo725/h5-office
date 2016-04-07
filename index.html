@@ -74,6 +74,12 @@
                                 <p>WiFi门禁</p>
                             </a>
                         </div>
+                        <div class="col-33 cell">
+                            <a href="#" id="menu-machine">
+                                <img src="images/ic_machine.png">
+                                <p>机床监控</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -126,6 +132,9 @@
                 break;
                 case 'menu-statistics':
                 url += 'statistics.html';
+                break;
+                case 'menu-machine':
+                url += 'machine.html';
                 break;
             }
             openWindow(url);
