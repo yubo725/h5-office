@@ -12,8 +12,20 @@
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
     <style>
-    .warning * {
+    .running * {  /** 正常运行，绿色 */
+        background-color: #93D728;
+        color: white;
+    }
+    .warning * {  /** 出现故障，红色 */
         background-color: red;
+        color: white;
+    }
+    .await * {  /** 待机状态，黄色 */
+        background-color: #FDD100;
+        color: white;
+    }
+    .stop * {
+        background-color: black;
         color: white;
     }
     </style>
@@ -27,7 +39,7 @@
                 <li>
                     <div class="row">
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card running">
                                 <div class="card-header">机床1-1</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
@@ -36,7 +48,7 @@
                             </div>
                         </div>
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card running">
                                 <div class="card-header">机床1-2</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
@@ -50,7 +62,7 @@
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
                                 </div>
-                                <div class="card-footer">运行异常</div>
+                                <div class="card-footer">出现故障</div>
                             </div>
                         </div>
                     </div>
@@ -58,7 +70,7 @@
                 <li>
                     <div class="row">
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card running">
                                 <div class="card-header">机床1-4</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
@@ -67,7 +79,7 @@
                             </div>
                         </div>
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card running">
                                 <div class="card-header">机床1-5</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
@@ -76,7 +88,7 @@
                             </div>
                         </div>
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card running">
                                 <div class="card-header">机床1-6</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
@@ -94,7 +106,7 @@
                 <li>
                     <div class="row">
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card running">
                                 <div class="card-header">机床2-1</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
@@ -103,16 +115,16 @@
                             </div>
                         </div>
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card await">
                                 <div class="card-header">机床2-2</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
                                 </div>
-                                <div class="card-footer">运行正常</div>
+                                <div class="card-footer">待机中</div>
                             </div>
                         </div>
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card running">
                                 <div class="card-header">机床2-3</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
@@ -125,16 +137,16 @@
                 <li>
                     <div class="row">
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card stop">
                                 <div class="card-header">机床2-4</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
                                 </div>
-                                <div class="card-footer">运行正常</div>
+                                <div class="card-footer">已停机</div>
                             </div>
                         </div>
                         <div class="col-33">
-                            <div class="card">
+                            <div class="card running">
                                 <div class="card-header">机床2-5</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">机床信息</div>
@@ -152,14 +164,14 @@
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
     <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript">
-    //菜单按下时添加背景颜色
+    //菜单按下时改变背景透明度
     $('.card').bind('touchstart', function() {
-        $(this).css('background-color', '#dcdcdc');
+        $(this).css('opacity', '0.6');
     });
 
-    //菜单不被按下时取消背景颜色
+    //菜单不被按下时取消透明度
     $('.card').bind('touchend', function() {
-        $(this).css('background-color', '');
+        $(this).css('opacity', '');
     });
 
     //点击卡片跳转到机床详情
@@ -171,3 +183,7 @@
 
 </html>
 <!--
+
+机床状态分为1）正常运行2）待机3）故障（报警，手机工厂宝会有报警提醒，并有记录）4）停机
+
+1）正常运行绿色2）待机 黄色3）故障（报警，手机工厂宝会有报警提醒，并有记录）红色4）停机黑色
