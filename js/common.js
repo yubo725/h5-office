@@ -24,7 +24,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "t80/Bui8P/0ef5zyVSVZJOWf6Y5dXFhub22R8S8k46I=";
+var testToken = "LHmlBkVAF0QMvmpMeh+vYu7ekhQa2AVnANFxRsRKmW0=";
 
 //获取AccessToken
 function getToken() {

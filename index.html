@@ -33,8 +33,8 @@
 <body>
     <div class="page-group">
         <div class="page page-current">
-            <div class="content">
-                <div class="content-padded grid-demo">
+            <div class="content" id="content">
+                <!-- <div class="content-padded grid-demo">
                     <div class="row">                        
                         <div class="col-33 cell bg">
                             <a href="#" id="menu-leave">
@@ -81,7 +81,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -139,6 +139,80 @@
             }
             openWindow(url);
         })
+
+var moduleUrl = "http://api.listome.cn/v1/companies/app/h5/modules";
+$.ajax({
+    url: moduleUrl,
+    type: 'GET',
+    headers: {
+        'Authorization': 'Bearer ' + getToken()
+    },
+    success: function(response) {
+        if(response.status == 10001) {
+            showModules(response.data);
+        }else{
+            $.toast('获取模块出错' + response.status);    
+        }
+    },
+    error: function(req, status, errorThrown) {
+        $.toast('获取模块出错' + status);
+    }
+})
+
+//显示模块
+function showModules(modules) {
+    var html = '<div class="content-padded grid-demo">';
+    var menu = ''; 
+    var picUrl = ''; 
+    var title = '';
+    var detailUrl = '';
+    for(var i = 0; i < modules.length; i++) {
+        menu = modules[i];
+        picUrl = menu.icon;
+        title = menu.name;
+        detailUrl = menu.url;
+        if(i % 3 == 0) { //一行开始
+            html = html + '<div class="row">' + getMenuHtml(picUrl, title, detailUrl);
+        }else if(i % 3 == 2 || i == modules.length - 1) { //一行结束
+            html = html + getMenuHtml(picUrl, title, detailUrl) + '</div>';
+        }else { //不是一行的开始也不是结束
+            html += getMenuHtml(picUrl, title, detailUrl);
+        }
+    }
+    html += '</div>';
+    $('#content').html(html);
+
+    //处理菜单点击事件
+    $('div.cell').click(function() {
+        var detailUrl = $(this).find('span').text();
+        if(!isEmpty(detailUrl)) {
+            if(detailUrl.indexOf('http://') == 0) {
+                openWindow(detailUrl);
+            }else if(detailUrl.indexOf('window.js_interface') == 0) {
+                if(window.js_interface) {
+                    eval(detailUrl);
+                }else{
+                    $.toast('请在工厂宝APP中使用本功能')
+                }
+            }else {
+                console.log('error! no detail!');
+            }
+        }
+    })
+}
+
+//根据菜单的图片url、菜单标题、跳转url，生成一个菜单DOM
+function getMenuHtml(picUrl, title, detailUrl) {
+    var str = '<div class="col-33 cell">';
+    str += '<a href="#" id="menu-machine">';
+    str += '<span hidden>' + detailUrl + '</span>';
+    str += '<img src="' + picUrl + '">';
+    str += '<p>' + title + '</p>';
+    str += '</a>';
+    str += '</div>';
+    return str;
+}
+
     </script>
 </body>
 
