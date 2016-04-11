@@ -181,7 +181,10 @@ function showModules(modules) {
     }
     html += '</div>';
     $('#content').html(html);
+    addClickAndTouchOperation();
+}
 
+function addClickAndTouchOperation() {
     //处理菜单点击事件
     $('div.cell').click(function() {
         var detailUrl = $(this).find('span').text();
@@ -190,15 +193,29 @@ function showModules(modules) {
                 openWindow(detailUrl);
             }else if(detailUrl.indexOf('window.js_interface') == 0) {
                 if(window.js_interface) {
-                    eval(detailUrl);
+                    try {
+                        eval(detailUrl);  //js调用本地方法
+                    }catch(e) {
+                        $.toast(e.toString());
+                    }
                 }else{
                     $.toast('请在工厂宝APP中使用本功能')
                 }
             }else {
-                console.log('error! no detail!');
+                $.toast('error! no detail!');
             }
         }
     })
+
+    //菜单按下时添加背景颜色
+    $('.cell').bind('touchstart', function() {
+        $(this).css('background-color', '#dcdcdc');
+    });
+
+    //菜单不被按下时取消背景颜色
+    $('.cell').bind('touchend', function() {
+        $(this).css('background-color', '');
+    });
 }
 
 //根据菜单的图片url、菜单标题、跳转url，生成一个菜单DOM

@@ -51,16 +51,6 @@ function getToken() {
     return token;
 }
 
-//菜单按下时添加背景颜色
-$('.cell').bind('touchstart', function() {
-    $(this).css('background-color', '#dcdcdc');
-});
-
-//菜单不被按下时取消背景颜色
-$('.cell').bind('touchend', function() {
-    $(this).css('background-color', '');
-});
-
 //APP跳转到新的窗口，并加载指定url
 function openWindow(url) {
     if (typeof(window.js_interface) == "undefined") {
