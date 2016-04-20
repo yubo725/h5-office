@@ -28,7 +28,7 @@
         var id = getUrlParam('id');
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.com/v1/companies/notices/' + id,
+            url: requestBaseUrl + 'companies/notices/' + id,
             headers: {
                 'Authorization': 'Bearer '+ getToken()
             },

@@ -36,7 +36,7 @@
     //获取加班前十数据
     function getOvertimeTop() {
         $.ajax({
-            url: 'http://api.listome.com/v1/companies/statistic/overtimes/10',
+            url: requestBaseUrl + 'companies/statistic/overtimes/10',
             type: 'GET',
             async: false,
             headers: {

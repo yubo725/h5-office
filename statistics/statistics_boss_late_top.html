@@ -36,7 +36,7 @@
     //获取整体出勤数据
     function getLateTop() {
         $.ajax({
-            url: 'http://api.listome.com/v1/companies/statistic/checkin/later/10',
+            url: requestBaseUrl + 'companies/statistic/checkin/later/10',
             type: 'GET',
             async: false,
             headers: {

@@ -1,9 +1,8 @@
-//release
-// var baseUrl = "http://api.listome.com/app/";
+//整个项目的根路径
+var projectBaseUrl = "http://api.listome.cn/app/";
 
-//debug
-var baseUrl = "http://192.168.1.170:8088/h5Office/";
-// var baseUrl = "http://yubo725.sinaapp.com/h5Office/";
+//数据请求的根路径
+var requestBaseUrl = "http://api.listome.cn/v1/";
 
 var Terminal = {
     // 辨别移动终端类型
@@ -24,7 +23,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "LHmlBkVAF0QMvmpMeh+vYu7ekhQa2AVnANFxRsRKmW0=";
+var testToken = "2ANXPlchN0j5l4cyhkXhYu4XKq0XFladXcMV64KCcwc=";
 
 //获取AccessToken
 function getToken() {

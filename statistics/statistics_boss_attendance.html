@@ -37,7 +37,7 @@
     //获取整体出勤数据
     function getWholeAttendance() {
         $.ajax({
-            url: 'http://api.listome.com/v1/companies/statistic/checkin',
+            url: requestBaseUrl + 'companies/statistic/checkin',
             type: 'GET',
             async: false,
             headers: {

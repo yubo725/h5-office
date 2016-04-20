@@ -31,7 +31,7 @@
     //获取公司整体请假数据
     function getOvertime() {
         $.ajax({
-            url: 'http://api.listome.com/v1/companies/statistic/leavies',
+            url: requestBaseUrl + 'companies/statistic/leavies',
             type: 'GET',
             async: false,
             headers: {

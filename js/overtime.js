@@ -34,7 +34,7 @@ $("[type='checkbox']").click(function() {
 function loadList() {
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.com/v1/companies/users/overtime',
+        url: requestBaseUrl + 'companies/users/overtime',
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -120,7 +120,7 @@ function showList(response) {
 function loadCheckOvertimeList() {
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.com/v1/companies/users/overtime/check',
+        url: requestBaseUrl + 'companies/users/overtime/check',
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -195,7 +195,7 @@ function showAgreeOrNotDialog(id, isAgree, list) {
 
 //操作某条申请，同意或者拒绝
 function operateAgreeOrNot(id, isAgree, list) {
-    var url = 'http://api.listome.com/v1/companies/users/overtime/' + id;
+    var url = requestBaseUrl + 'companies/users/overtime/' + id;
     var type = 'PUT';
     if(!isAgree) {
         //拒绝加班申请，请求的method为delete，同意的method为put

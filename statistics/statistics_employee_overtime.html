@@ -31,7 +31,7 @@
     //获取个人加班数据
     function getOvertime() {
         $.ajax({
-            url: 'http://api.listome.com/v1/companies/statistic/overtimes/employees',
+            url: requestBaseUrl + 'companies/statistic/overtimes/employees',
             type: 'GET',
             async: false,
             headers: {

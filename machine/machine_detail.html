@@ -12,43 +12,46 @@
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
     <style>
-
+    img.machine-img {
+        width: 100%;
+    }
     </style>
 </head>
 
 <body>
-    <div class="content">
+    <script type="text/html" id="machine-detail">
+        <img class="machine-img" src="../images/machine_default.png">
         <div class="content-block-title">机床详细信息</div>
         <div class="list-block">
             <ul>
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title">机床编号</div>
-                        <div class="item-after">#001</div>
+                        <div class="item-after">{{data.sn}}</div>
                     </div>
                 </li>
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title">机床类型</div>
-                        <div class="item-after">CNC</div>
+                        <div class="item-after">{{data.type}}</div>
                     </div>
                 </li>
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title">机床型号</div>
-                        <div class="item-after">GL8-V</div>
+                        <div class="item-after">{{data.model}}</div>
                     </div>
                 </li>
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title">机床品牌</div>
-                        <div class="item-after">德玛吉</div>
+                        <div class="item-after">{{data.brand}}</div>
                     </div>
                 </li>
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title">购入日期</div>
-                        <div class="item-after">2016-01-06</div>
+                        <div class="item-after">{{data.buy_date | getTimeStr:''}}</div>
                     </div>
                 </li>
                 <li class="item-content">
@@ -66,12 +69,7 @@
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title label">备注</div>
-                        <div class="item-input">
-                            <input type="text" id="remark-input" placeholder="填写备注信息">
-                        </div>
-                        <div class="item-after">
-                            <a href="#" class="button" id="btn-submit-remark">提交</a>
-                        </div>
+                        <div class="item-after">{{data.remark}}</div>
                     </div>
                 </li>
             </ul>
@@ -91,15 +89,70 @@
                 </li>
             </ul>
         </div>
+    </script>
+    <div class="content" id="content">
     </div>
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="../js/arttemplate.js"></script>
     <script type="text/javascript" src="../js/common.js"></script>
     <script type="text/javascript">
-    $('#menu-new-task').click(function() {
-        window.location = baseUrl + 'machine/machine_task.html';
+    //获取车间和机床的ID
+    var workshopId = getUrlParam('workshopId');
+    var machineId = getUrlParam('machineId');
+
+    getMachineDetail(workshopId, machineId);
+
+    //获取机床详情
+    function getMachineDetail(workshopId, machineId) {
+        $.ajax({
+            type: 'GET',
+            url: requestBaseUrl + 'iot/companies/workshops/' + workshopId + '/machines/' + machineId,
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            success: function(response) {
+                if (response.status == 10001) {
+                    showMachineDetail(response.data);
+                } else {
+                    $.toast('获取机床详情出错' + response.status);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $.toast('获取机床详情出错' + textStatus);
+            }
+        })
+    }
+
+    template.helper('getTimeStr', function(unixTime, format) {
+        var date = new Date(unixTime * 1000);
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var hours = date.getHours();
+        var min = date.getMinutes();
+        return year + '-' + numberProcess(month) + '-' + numberProcess(day);
     });
+
+    //显示机床详情
+    function showMachineDetail(data) {
+        var data = {
+            data: data
+        };
+        var html = template('machine-detail', data);
+        $('#content').html(html);
+        addClickOperation();
+    }
+
+    //添加点击处理
+    function addClickOperation() {
+        //新建任务
+        $('#menu-new-task').click(function() {
+            window.location = 'http://192.168.1.170:8088/h5Office/machine/machine_task.html';
+        });
+    }
+
     </script>
 </body>
 

@@ -2,7 +2,7 @@
 function submitLeaveApply(id, reason, startTime, endTime, hours, have_salary, msg) {
     $.showPreloader('请稍等...');
     $.ajax({
-        url: 'http://api.listome.com/v1/companies/users/leave',
+        url: requestBaseUrl + 'companies/users/leave',
         type: 'POST',
         headers: {
             'Authorization': 'Bearer ' + getToken()
@@ -21,7 +21,7 @@ function submitLeaveApply(id, reason, startTime, endTime, hours, have_salary, ms
             clearForm();
             //用聊天消息的形式发送给上级
             if(window.js_interface && !isEmpty(myLeaderEaseMobUsername)) {
-                var url = baseUrl + "leave.html?check=true";
+                var url = projectBaseUrl + "leave.html?check=true";
                 var jsonObj = {
                     msg: msg,
                     myLeaderEaseMobUsername: myLeaderEaseMobUsername,
@@ -45,7 +45,7 @@ function submitLeaveApply(id, reason, startTime, endTime, hours, have_salary, ms
 function submitOvertimeApply(title, reason, startTime, endTime, hours, have_salary, msg) {
     $.showPreloader('请稍等...');
     $.ajax({
-        url: 'http://api.listome.com/v1/companies/users/overtime',
+        url: requestBaseUrl + 'companies/users/overtime',
         type: 'POST',
         headers: {
             'Authorization': 'Bearer ' + getToken()
@@ -64,7 +64,7 @@ function submitOvertimeApply(title, reason, startTime, endTime, hours, have_sala
             clearForm();
             //用聊天消息的形式发送给上级
             if(window.js_interface && !isEmpty(myLeaderEaseMobUsername)) {
-                var url = baseUrl + "overtime.html?check=true";
+                var url = projectBaseUrl + "overtime.html?check=true";
                 var obj = {
                     msg: msg,
                     myLeaderEaseMobUsername: myLeaderEaseMobUsername,

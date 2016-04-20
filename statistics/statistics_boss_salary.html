@@ -32,7 +32,7 @@
     //获取整体出勤数据
     function getWholeAttendance() {
         $.ajax({
-            url: 'http://api.listome.com/v1/companies/statistic/salaries',
+            url: requestBaseUrl + 'companies/statistic/salaries',
             type: 'GET',
             async: false,
             headers: {

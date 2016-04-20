@@ -35,7 +35,7 @@
     //获取个人出勤数据
     function getPersonalAttendance() {
         $.ajax({
-            url: 'http://api.listome.com/v1/companies/statistic/checkin/employees',
+            url: requestBaseUrl + 'companies/statistic/checkin/employees',
             type: 'GET',
             async: false,
             headers: {

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>车间列表</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style>
+        .icon-operated {
+            width: 35px;
+            height: 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 这里是车间列表的模板 -->
+    <script type="text/html" id="workshop-item">
+        {{each list}}
+        <li class="item-content item-link workshop-item" id={{$value.id}}>
+            <div class="item-inner">
+                <div class="item-title">{{$value.name}}</div>
+                <div class="item-after">{{$value.machine_count}}台机床</div>
+            </div>
+        </li>
+        <div class="row" id={{ "machine-list-" + $value.id}} hidden="hidden">
+        </div>
+        {{/each}}
+    </script>
+    <!-- 这里是机床列表的模板 -->
+    <script type="text/html" id="machine-item">
+        {{each list}}
+        <div class="col-50">
+            <div class="card" id={{$value.workshop_id + '-' + $value.id}}>
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <div class="list-block">
+                        <li class="item-content">
+                            <div class="item-media"><img src="images/ic_operated_punch.png" class="icon-operated"></div>
+                            <div class="item-inner">
+                                <div class="item-title">{{$value.name}}</div>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+    <div class="content">
+        <div class="content-block-title">车间列表</div>
+        <div class="list-block">
+            <ul id="workshop-list"></ul>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="js/arttemplate.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/machine.js"></script>
+    <script type="text/javascript">
+    //获取车间列表
+    getWorkshops();
+    //菜单按下时改变背景透明度
+    $('.card').bind('touchstart', function() {
+        $(this).css('opacity', '0.6');
+    });
+
+    //菜单不被按下时取消透明度
+    $('.card').bind('touchend', function() {
+        $(this).css('opacity', '');
+    });
+
+    //点击卡片跳转到机床详情
+    $('.card').click(function() {
+        window.location = baseUrl + 'machine/machine_detail.html';
+    });
+    </script>
+</body>
+
+</html>
+<!--
+
+机床状态分为1）正常运行2）待机3）故障（报警，手机工厂宝会有报警提醒，并有记录）4）停机
+
+1）正常运行绿色2）待机 黄色3）故障（报警，手机工厂宝会有报警提醒，并有记录）红色4）停机黑色

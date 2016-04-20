@@ -34,7 +34,7 @@
     <div class="page-group">
         <div class="page page-current">
             <div class="content" id="content">
-                <!-- <div class="content-padded grid-demo">
+                <div class="content-padded grid-demo">
                     <div class="row">                        
                         <div class="col-33 cell bg">
                             <a href="#" id="menu-leave">
@@ -81,7 +81,7 @@
                             </a>
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -119,7 +119,7 @@
                 }
                 return ;
             }
-            var url = baseUrl;
+            var url = projectBaseUrl;
             switch(id) {
                 case 'menu-leave':
                 url += 'leave.html';
@@ -140,7 +140,7 @@
             openWindow(url);
         })
 
-var moduleUrl = "http://api.listome.cn/v1/companies/app/h5/modules";
+var moduleUrl = requestBaseUrl + "companies/app/h5/modules";
 $.ajax({
     url: moduleUrl,
     type: 'GET',
@@ -148,11 +148,11 @@ $.ajax({
         'Authorization': 'Bearer ' + getToken()
     },
     success: function(response) {
-        if(response.status == 10001) {
-            showModules(response.data);
-        }else{
-            $.toast('获取模块出错' + response.status);    
-        }
+        // if(response.status == 10001) {
+        //     showModules(response.data);
+        // }else{
+        //     $.toast('获取模块出错' + response.status);    
+        // }
     },
     error: function(req, status, errorThrown) {
         $.toast('获取模块出错' + status);

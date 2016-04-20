@@ -33,7 +33,7 @@ $("[type='checkbox']").click(function() {
 function loadList() {
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.com/v1/companies/users/leave',
+        url: requestBaseUrl + 'companies/users/leave',
         headers: {
             "Authorization": "Bearer " + getToken()
         },
@@ -124,7 +124,7 @@ var leaveTypesNameArray = [];
 function loadLeaveTypes() {
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.com/v1/companies/leave/types',
+        url: requestBaseUrl + 'companies/leave/types',
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -166,7 +166,7 @@ $('input.date-picker').datetimePicker({
 function loadCheckLeaveList() {
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.com/v1/companies/users/leave/check',
+        url: requestBaseUrl + 'companies/users/leave/check',
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -241,7 +241,7 @@ function showAgreeOrNotDialog(id, isAgree, list) {
 
 //操作某条申请，同意或者拒绝
 function operateAgreeOrNot(id, isAgree, list) {
-    var url = 'http://api.listome.com/v1/companies/users/leave/' + id;
+    var url = requestBaseUrl + 'companies/users/leave/' + id;
     var type = 'PUT';
     if(!isAgree) {
         //拒绝加班申请，请求的method为delete，同意的method为put
