@@ -11,10 +11,13 @@
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
     <style>
-        .icon-operated {
-            width: 35px;
-            height: 35px;
-        }
+    .icon-operated {
+        width: 35px;
+        height: 35px;
+    }
+    .machine-name {
+        font-size: 15px;
+    }
     </style>
 </head>
 
@@ -22,30 +25,30 @@
     <!-- 这里是车间列表的模板 -->
     <script type="text/html" id="workshop-item">
         {{each list}}
-        <li class="item-content item-link workshop-item" id={{$value.id}}>
+        <li class="item-content item-link workshop-item" id="{{$value.id}}">
             <div class="item-inner">
                 <div class="item-title">{{$value.name}}</div>
                 <div class="item-after">{{$value.machine_count}}台机床</div>
             </div>
         </li>
-        <div class="row" id={{ "machine-list-" + $value.id}} hidden="hidden">
-        </div>
+        <div class="row" id={{"machine-list-" + $value.id}} hidden="hidden"></div>
         {{/each}}
     </script>
     <!-- 这里是机床列表的模板 -->
     <script type="text/html" id="machine-item">
         {{each list}}
         <div class="col-50">
-            <div class="card" id={{$value.workshop_id + '-' + $value.id}}>
+            <div class="card" id="{{$value.workshop_id + '-' + $value.id}}">
                 <div class="card-content">
                     <div class="card-content-inner">
                         <div class="list-block">
                         <li class="item-content">
                             <div class="item-media"><img src="images/ic_operated_punch.png" class="icon-operated"></div>
                             <div class="item-inner">
-                                <div class="item-title">{{$value.name}}</div>
+                                <div class="item-title machine-name">{{$value.name}}</div>
                             </div>
                         </li>
+                        </div>
                     </div>
                 </div>
             </div>
