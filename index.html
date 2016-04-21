@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>办公</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <link rel="shortcut icon" href="/favicon.ico">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
@@ -148,6 +147,7 @@ $.ajax({
         'Authorization': 'Bearer ' + getToken()
     },
     success: function(response) {
+        console.log(JSON.stringify(response));
         // if(response.status == 10001) {
         //     showModules(response.data);
         // }else{
