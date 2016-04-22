@@ -170,7 +170,7 @@ function getIsBoss() {
     var boss = false;
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.com/v1/companies/users/isboss',
+        url: requestBaseUrl + 'companies/users/isboss',
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -199,7 +199,7 @@ function getRole() {
     var role = 0;
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.com/v1/companies/users/roles',
+        url: requestBaseUrl + 'companies/users/roles',
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -217,7 +217,7 @@ var myLeaderEaseMobUsername = '';
 
 //获取我的领导
 function getMyLeader() {
-    var url = "http://api.listome.com/v1/companies/users/boss";
+    var url = requestBaseUrl + "companies/users/boss";
     $.ajax({
         type: 'GET',
         url: url,
