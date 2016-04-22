@@ -11,77 +11,30 @@
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
     <style type="text/css">
-        .cell {
-            height: 130px;
-            text-align: center;
-            padding-top: 15px;
-        }
-        img {
-            width: 75px;
-            height: 75px;
-        }
-        p {
-            margin-top: 5px;
-            font-size: 14px;
-            color: black;
-            font-weight: lighter;
-        }
+    .cell {
+        height: 130px;
+        text-align: center;
+        padding-top: 15px;
+    }
+    
+    img {
+        width: 75px;
+        height: 75px;
+    }
+    
+    p {
+        margin-top: 5px;
+        font-size: 14px;
+        color: black;
+        font-weight: lighter;
+    }
     </style>
 </head>
 
 <body>
     <div class="page-group">
         <div class="page page-current">
-            <div class="content" id="content">
-                <div class="content-padded grid-demo">
-                    <div class="row">                        
-                        <div class="col-33 cell bg">
-                            <a href="#" id="menu-leave">
-                                <img src="images/ic_apply_for_leave.png">
-                                <p>请假申请</p>
-                            </a>
-                        </div>
-                        <div class="col-33 cell">
-                            <a href="#" id="menu-overtime">
-                                <img src="images/ic_apply_for_extra_work.png">
-                                <p>加班申请</p>
-                            </a>
-                        </div>
-                        <div class="col-33 cell">
-                            <a href="#" id="menu-records">
-                                <img src="images/ic_checkin_record.png">
-                                <p>打卡记录</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">                        
-                        <div id="take-sample" class="col-33 cell">
-                            <a href="#" id="menu-take-sample">
-                                <img src="images/ic_take_samples.png">
-                                <p>人脸采样</p>
-                            </a>
-                        </div>
-                        <div class="col-33 cell">
-                            <a href="#" id="menu-statistics">
-                                <img src="images/ic_data_statistics.png">
-                                <p>数据统计</p> 
-                            </a>
-                        </div>
-                        <div class="col-33 cell" style="display: none;">
-                            <a href="#" id="menu-entrance-guard">
-                                <img src="images/ic_door.png">
-                                <p>WiFi门禁</p>
-                            </a>
-                        </div>
-                        <div class="col-33 cell">
-                            <a href="#" id="menu-machine">
-                                <img src="images/ic_machine.png">
-                                <p>设备管理 </p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="content" id="content"></div>
         </div>
     </div>
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
@@ -90,146 +43,105 @@
     <script type="text/javascript" src="js/apply.js"></script>
     <script type="text/javascript" src='js/common.js'></script>
     <script type="text/javascript">
-        var role = getRole();
-        if(role == 1 || role == 2) {
-            $('#take-sample').show();
-        }else{
-            $('#take-sample').hide();
-        }
-        $('div.row a').click(function() {
-            var id = $(this).attr('id');
-            if(id == 'menu-take-sample') {//采样
-                if(window.js_interface) {
-                    try {
-                        window.js_interface.takeSamplesForEmployee();
-                    }catch(e) {
-                        console.log(e);
-                    }
-                }else {
-                    $.toast('请在工厂宝APP上使用本功能');
-                }
-                return ;
+    //获取模块
+    var moduleUrl = requestBaseUrl + "companies/app/h5/modules";
+    $.ajax({
+        url: moduleUrl,
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        success: function(response) {
+            console.log(JSON.stringify(response));
+            if (response.status == 10001) {
+                showModules(response.data);
+            } else {
+                $.toast('获取模块出错' + response.status);
             }
-            if(id == 'menu-entrance-guard') {//门禁
-                if(window.js_interface) {
-                    window.js_interface.entranceGuard();
-                }else {
-                    $.toast('请在工厂宝APP上使用本功能');
-                }
-                return ;
-            }
-            var url = projectBaseUrl;
-            switch(id) {
-                case 'menu-leave':
-                url += 'leave.html';
-                break;
-                case 'menu-overtime':
-                url += 'overtime.html';
-                break;
-                case 'menu-records':
-                url += 'records.html';
-                break;
-                case 'menu-statistics':
-                url += 'statistics.html';
-                break;
-                case 'menu-machine':
-                url += 'machine.html';
-                break;
-            }
-            openWindow(url);
-        })
-
-var moduleUrl = requestBaseUrl + "companies/app/h5/modules";
-$.ajax({
-    url: moduleUrl,
-    type: 'GET',
-    headers: {
-        'Authorization': 'Bearer ' + getToken()
-    },
-    success: function(response) {
-        console.log(JSON.stringify(response));
-        // if(response.status == 10001) {
-        //     showModules(response.data);
-        // }else{
-        //     $.toast('获取模块出错' + response.status);    
-        // }
-    },
-    error: function(req, status, errorThrown) {
-        $.toast('获取模块出错' + status);
-    }
-})
-
-//显示模块
-function showModules(modules) {
-    var html = '<div class="content-padded grid-demo">';
-    var menu = ''; 
-    var picUrl = ''; 
-    var title = '';
-    var detailUrl = '';
-    for(var i = 0; i < modules.length; i++) {
-        menu = modules[i];
-        picUrl = menu.icon;
-        title = menu.name;
-        detailUrl = menu.url;
-        if(i % 3 == 0) { //一行开始
-            html = html + '<div class="row">' + getMenuHtml(picUrl, title, detailUrl);
-        }else if(i % 3 == 2 || i == modules.length - 1) { //一行结束
-            html = html + getMenuHtml(picUrl, title, detailUrl) + '</div>';
-        }else { //不是一行的开始也不是结束
-            html += getMenuHtml(picUrl, title, detailUrl);
-        }
-    }
-    html += '</div>';
-    $('#content').html(html);
-    addClickAndTouchOperation();
-}
-
-function addClickAndTouchOperation() {
-    //处理菜单点击事件
-    $('div.cell').click(function() {
-        var detailUrl = $(this).find('span').text();
-        if(!isEmpty(detailUrl)) {
-            if(detailUrl.indexOf('http://') == 0) {
-                openWindow(detailUrl);
-            }else if(detailUrl.indexOf('window.js_interface') == 0) {
-                if(window.js_interface) {
-                    try {
-                        eval(detailUrl);  //js调用本地方法
-                    }catch(e) {
-                        $.toast(e.toString());
-                    }
-                }else{
-                    $.toast('请在工厂宝APP中使用本功能')
-                }
-            }else {
-                $.toast('error! no detail!');
-            }
+        },
+        error: function(req, status, errorThrown) {
+            $.toast('获取模块出错' + status);
         }
     })
 
-    //菜单按下时添加背景颜色
-    $('.cell').bind('touchstart', function() {
-        $(this).css('background-color', '#dcdcdc');
-    });
+    //显示模块
+    function showModules(modules) {
+        var html = '<div class="content-padded grid-demo"><div class="row">';
+        var menu;
+        for (var i = 0; i < modules.length; i++) {
+            menu = modules[i];
+            html += getMenuHtml(menu.icon, menu.name, menu.url);
+        }
+        html += '</div></div>';
+        $('#content').html(html);
+        addClickAndTouchOperation();
+        showOrHideTakeSample();
+    }
 
-    //菜单不被按下时取消背景颜色
-    $('.cell').bind('touchend', function() {
-        $(this).css('background-color', '');
-    });
-}
+    //获取角色信息并显示或隐藏采样功能
+    function showOrHideTakeSample() {
+        var role = getRole();
+        if (role == 1 || role == 2) {
+            console.log('show take sample');
+            $('#take-sample').show();
+        } else {
+            $('#take-sample').hide();
+            console.log('hide take sample');
+        }
+    }
 
-//根据菜单的图片url、菜单标题、跳转url，生成一个菜单DOM
-function getMenuHtml(picUrl, title, detailUrl) {
-    var str = '<div class="col-33 cell">';
-    str += '<a href="#" id="menu-machine">';
-    str += '<span hidden>' + detailUrl + '</span>';
-    str += '<img src="' + picUrl + '">';
-    str += '<p>' + title + '</p>';
-    str += '</a>';
-    str += '</div>';
-    return str;
-}
+    //给模块添加点击事件处理
+    function addClickAndTouchOperation() {
+        //处理菜单点击事件
+        $('div.cell').click(function() {
+            var detailUrl = $(this).find('span').text();
+            if (!isEmpty(detailUrl)) {
+                if (detailUrl.indexOf('http://') == 0) {
+                    openWindow(detailUrl);
+                } else if (detailUrl.indexOf('window.js_interface') == 0) {
+                    if (window.js_interface) {
+                        try {
+                            eval(detailUrl); //js调用本地方法
+                        } catch (e) {
+                            console.log(e.toString());
+                            $.alert('请在工厂宝APP上使用本功能，或者升级工厂宝APP到最新版本。', '提示');
+                        }
+                    } else {
+                        $.alert('请在工厂宝APP上使用本功能，或者升级工厂宝APP到最新版本。', '提示');
+                    }
+                } else {
+                    $.toast('error! no detail!');
+                }
+            }
+        })
 
+        //菜单按下时添加背景颜色
+        $('.cell').bind('touchstart', function() {
+            $(this).css('background-color', '#dcdcdc');
+        });
+
+        //菜单不被按下时取消背景颜色
+        $('.cell').bind('touchend', function() {
+            $(this).css('background-color', '');
+        });
+    }
+
+    //根据菜单的图片url、菜单标题、跳转url，生成一个菜单DOM
+    function getMenuHtml(picUrl, title, detailUrl) {
+        var str = '';
+        if(title == '人脸采样') {
+            str = '<div class="col-33 cell" id="take-sample">';
+        }else{
+            str = '<div class="col-33 cell">';
+        }
+        str += '<a href="#" id="menu-machine">';
+        str += '<span hidden>' + detailUrl + '</span>';
+        str += '<img src="' + picUrl + '">';
+        str += '<p>' + title + '</p>';
+        str += '</a>';
+        str += '</div>';
+        return str;
+    }
     </script>
 </body>
 

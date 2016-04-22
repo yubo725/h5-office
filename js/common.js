@@ -23,7 +23,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "DQpT/4N3uHmDmUrbGwq5oxWn3WkAckf/PhH2P6dV0hg=";
+var testToken = "qOc6ZQTGNFIpavwZ/j58s+C3Iy8orCvSDazT8s7wzAI=";
 
 //获取AccessToken
 function getToken() {
@@ -59,6 +59,7 @@ function openWindow(url) {
             window.js_interface.jumpToDetail(url);
         }catch (e) {
             console.log(e);
+            $.alert('请在工厂宝APP上使用本功能，或者升级工厂宝APP到最新版本。', '提示');
         }
     }
 }

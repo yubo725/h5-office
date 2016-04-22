@@ -94,13 +94,11 @@ function showMachines(workshopId, list) {
 		list: list
 	};
 	var html = template("machine-item", data);
-	console.log('machines: ' + html);
-	$('div#machine-list-' + workshopId).html(html);
 	var machineNode = $('#machine-list-' + workshopId);
 	machineNode.addClass('loaded');
 	machineNode.removeAttr('hidden');
 	machineNode.show();
-	// machineNode.html(html);
+	machineNode.html(html);
 	addCardCss();
 }
 
