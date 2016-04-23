@@ -47,6 +47,58 @@
 </head>
 
 <body>
+    <!-- 请假记录列表的模板 -->
+    <script type="text/html" id="leave-list-template">
+    {{each list}}
+        <li class="item-content item-link list-item">
+        <div class="item-media">
+        <img class="item-img" src="
+        {{if $value.status == 0}}
+            images/ic_verify.png
+        {{else if $value.status == 1}}
+            images/ic_agree.png
+        {{else}}
+            images/ic_disagree.png
+        {{/if}}">
+        </div>
+        <div class="item-inner">
+        <div class="item-title" id="type">类型：{{$value.leave_type.name}}</div>
+        <div class="item-subtitle" id="reason">理由：{{$value.reason}}</div>
+        <div class="item-subtitle" id="result" style="display: none;">审核结果：
+        {{if $value.status == 0}}
+            审核中
+        {{else if $value.status == 1}}
+            审核通过
+        {{else}}
+            审核不通过
+        {{/if}}
+        </div>
+        <div class="item-subtitle" id="time">时间：{{$value.start_time | getTimeStr}}至{{$value.end_time | getTimeStr}}</div>
+        </div>
+        </li>
+    {{/each}}
+    </script>
+    <!-- end -->
+    <!-- 请假审核列表的模板 -->
+    <script type="text/html" id="leave-check-list-template">
+    {{each list}}
+        <div class="card" id="card-id-{{$value.id}}">
+        <div class="card-header orange-color">{{$value.user_name}}的请假申请</div>
+        <div class="card-content">
+        </div>
+        <div class="card-content-inner">
+        <span>原因：{{$value.reason}}</span><br/>
+        <span>时间：{{$value.start_time | getTimeStr}}至{{$value.end_time | getTimeStr}}</span>
+        </div>
+        <div class="card-footer">
+        <a href="#" id="{{$value.id}}" class="link agree">同意</a>
+        <a href="#" id="{{$value.id}}"  class="link disagree">拒绝</a>
+        <a href="#" class="link" style="display:none;">发消息</a>
+        </div>
+        </div>
+    {{/each}}
+    </script>
+    <!-- end -->
     <div class="content">
         <div class="buttons-tab fixed-tab buttons-fixed">
             <a href="#tab1" class="tab-link button active">请假记录</a>
@@ -163,8 +215,9 @@
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-    <script type="text/javascript" src="js/apply.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/apply.js"></script>
+    <script type="text/javascript" src="js/arttemplate.js"></script>
     <script type="text/javascript" src="js/leave.js"></script>
 </body>
 

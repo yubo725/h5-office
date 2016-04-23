@@ -57,46 +57,12 @@ function showList(response) {
         $('#tab-page-list').html('<div class="hint">暂无历史请假记录</div>');
         return;
     }
+    template.helper('getTimeStr', getTimeStr);
+    var data = {
+        list: dataList
+    };
     var str = '<div class="list-block media-list"><ul>';
-    var type = '';
-    var startTime = '';
-    var endTime = '';
-    var reason = '';
-    var status;
-    var imagePath = '';
-    var result = '';
-    for (var i = 0; i < dataList.length; i++) {
-        status = dataList[i].status;
-        type = dataList[i].leave_type.name;
-        reason = dataList[i].reason;
-        startTime = getTimeStr(dataList[i].start_time);
-        endTime = getTimeStr(dataList[i].end_time);
-        switch (status) {
-            case 1: //审核通过
-                imagePath = 'images/ic_agree.png';
-                result = '通过';
-                break;
-            case 0: //正在审核
-                imagePath = 'images/ic_verify.png';
-                result = '审核中';
-                break;
-            default: //审核不通过
-                imagePath = 'images/ic_disagree.png';
-                result = '不通过';
-        }
-
-        str += '<li class="item-content item-link list-item">';
-        str += '<div class="item-media">';
-        str += '<img class="item-img" src=' + imagePath + '>';
-        str += '</div>';
-        str += '<div class="item-inner">';
-        str += '<div class="item-title" id="type">类型：' + type + '</div>';
-        str += '<div class="item-subtitle" id="reason">理由：' + reason + '</div>';
-        str += '<div class="item-subtitle" id="result" style="display: none;">审核结果：' + result + '</div>';
-        str += '<div class="item-subtitle" id="time">时间：' + startTime + '至' + endTime + '</div>';
-        str += '</div>';
-        str += '</li>';
-    }
+    str += template('leave-list-template', data); 
     str += "</ul></div>";
     $('#tab-page-list').html(str);
     $('li.list-item').click(function() {
@@ -188,30 +154,11 @@ function loadCheckLeaveList() {
 
 //显示请假审核列表
 function showCheckLeaveList(list) {
-    var content = '';
-    for(var i = 0; i < list.length; i++) {
-        var obj = list[i];
-        var id = obj.id;
-        var name = obj.user_name;
-        var reason = obj.reason;
-        var startTime = getTimeStr(obj.start_time);
-        var endTime = getTimeStr(obj.end_time);
-        content += '<div class="card" id="card-id-' + id + '">';
-        content += '<div class="card-header orange-color">' + name + '的请假申请</div>';
-        content += '<div class="card-content">';
-        content += '</div>';
-        content += '<div class="card-content-inner">';
-        content += '<span>原因：' + reason + '</span><br/>';
-        content += '<span>时间：' + startTime + '至' + endTime + '</span>';
-        content += '</div>';
-        content += '<div class="card-footer">';
-        content += '<a href="#" id="' + id + '" class="link agree">同意</a>';
-        content += '<a href="#" id="' + id + '"  class="link disagree">拒绝</a>';
-        content += '<a href="#" class="link" style="display:none;">发消息</a>';
-        content += '</div>';
-        content += '</div>';
-    }
-    $('#tab-page-check-content').html(content);
+    var data = {
+        list: list
+    };
+    template.helper('getTimeStr', getTimeStr);
+    $('#tab-page-check-content').html(template('leave-check-list-template', data));
     
     //同意按钮的点击处理
     $('[class="link agree"]').click(function() {
