@@ -1,10 +1,8 @@
 //整个项目的根路径
-// var projectBaseUrl = "http://api.listome.com/app/";
-var projectBaseUrl = "http://192.168.1.170:8088/app/";
+var projectBaseUrl = "http://api.listome.com/app/";
 
 //数据请求的根路径
 var requestBaseUrl = "http://api.listome.com/v1/";
-// var requestBaseUrl = "http://api.listome.com/v1/";
 
 var Terminal = {
     // 辨别移动终端类型
