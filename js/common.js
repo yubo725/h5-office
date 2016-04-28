@@ -1,5 +1,5 @@
 //整个项目的根路径
-var projectBaseUrl = "http://api.listome.com/app/";
+var projectBaseUrl = "http://api.listome.com/app";
 
 //数据请求的根路径
 var requestBaseUrl = "http://api.listome.com/v1/";
@@ -23,7 +23,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "qOc6ZQTGNFIpavwZ/j58s+C3Iy8orCvSDazT8s7wzAI=";
+var testToken = "tHSEuYoS3Xz66F5Ad+KFjOZZWmScQcvJW8GxYL/A+Rw=";
 
 //获取AccessToken
 function getToken() {

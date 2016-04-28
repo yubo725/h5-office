@@ -20,10 +20,10 @@ if(isBoss) {
 }
 
 //是否带薪的CheckBox处理
-$("[type='checkbox']").click(function() {
-    var isChecked = $(this).attr("checked");
+$("#salary-checkbox").change(function() {
+    var checked = $(this).attr('checked');
     var hintLabel = $(".label_checkbox-hint");
-    if(isChecked) {
+    if(checked) {
         hintLabel.text("带薪");
     }else{
         hintLabel.text("不带薪");
@@ -205,7 +205,7 @@ $('#btn-submit').click(function() {
     var startTime = $('#start-time-picker').val();
     var endTime = $('#end-time-picker').val();
     var hours = $('#hours').val();
-    var isChecked = $("[type='checkbox']").attr('checked');
+    var isChecked = $("#salary-checkbox").attr('checked');
     var have_salary;
     if(isChecked) {
         have_salary = 1;
