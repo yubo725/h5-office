@@ -6,6 +6,11 @@ if(window.js_interface) {
     }
 }
 
+var workshopList;
+var statusData;
+var isRequestingStatus = false;
+var task = setInterval(getStatus, 1000 * 5);
+
 //获取车间列表
 function getWorkshops() {
 	$.ajax({
@@ -18,9 +23,10 @@ function getWorkshops() {
 			console.log('车间信息：' + JSON.stringify(response));
 			if(response.status == 10001) {
 				if(response.data.total > 0) {
+					workshopList = response.data.list;
 					showWorkshops(response.data.list);
 				}else{
-					$.toast('没有车间信息')
+					$.toast('没有车间信息');
 				}
 			}else{
 				$.toast('获取车间信息失败' + response.status);
@@ -58,6 +64,76 @@ function showWorkshops(list) {
 			getMachinesByWorkshopId(workshopId);
 		}
 	})
+}
+
+//获取车间及机器的状态
+function getStatus() {
+	if(isRequestingStatus || workshopList == 'undefined' || statusData == 'undefined') {
+		// console.log('获取状态信息，直接返回...');
+		return ;
+	}
+	isRequestingStatus = true;
+	// console.log('正在请求状态信息...');
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.listome.cn/v1/companies/machines/status',
+        data: {
+            workshop_id: 0
+        },
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        success: function(response) {
+        	isRequestingStatus = false;
+            console.log('车间状态信息：' + JSON.stringify(response));
+            if(response.status == 10001) {
+            	statusData = response.data;
+            	showStatus();
+    		}
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	isRequestingStatus = false;
+            console.log('get status error, ' + textStatus);
+        }
+    })
+}
+
+//显示状态信息
+function showStatus() {
+	var workshopId;
+	var workshopStatusObj;
+	var workshopStatus;
+	var machineStatusList;
+	var machineStatusObj;
+	for(var i = 0; i < workshopList.length; i++) {
+		workshopId = workshopList[i].id;                    //获取车间ID
+		workshopStatusObj = statusData['' + workshopId];          //获取该车间的状态信息
+		workshopStatus = workshopStatusObj.status;
+		if(workshopStatus == 1) {
+			//车间正常
+			$('img[id="' + workshopId + '"]').attr('src', 'images/ic_light_green.png');
+		}else{
+			//车间报警
+			$('img[id="' + workshopId + '"]').attr('src', 'images/ic_light_red.png');
+		}
+		machineStatusList = workshopStatusObj.machine;      //某一个车间中的所有机器状态
+		for(var j = 0; j < machineStatusList.length; j++) {
+			machineStatusObj = machineStatusList[j];
+			var machine = $('div[id="' + machineStatusObj.workshop_id + '-' + machineStatusObj.machine_id + '"]');
+			if(machineStatusObj.green == 2) {
+				machine.addClass('status-green');
+			}else if(machineStatusObj.yellow == 2) {
+				machine.removeClass('status-green');
+				machine.addClass('status-yellow');
+			}else if(machineStatusObj.red == 2) {
+				machine.removeClass('status-yellow');
+				machine.addClass('status-red');
+			}else if(machineStatusObj.purple == 2) {
+				machine.removeClass('status-red');
+				machine.addClass('status-purple');
+			}
+		}
+	}
 }
 
 //根据车间id获取车间中的机床列表
@@ -100,6 +176,7 @@ function showMachines(workshopId, list) {
 	machineNode.show();
 	machineNode.html(html);
 	addCardCss();
+	showStatus();
 }
 
 function addCardCss() {

@@ -101,6 +101,7 @@
     //获取车间和机床的ID
     var workshopId = getUrlParam('workshopId');
     var machineId = getUrlParam('machineId');
+    getPermission(workshopId, machineId);
 
     getMachineDetail(workshopId, machineId);
 
@@ -144,13 +145,36 @@
         $('#content').html(html);
         addClickOperation();
     }
-
+ 
     //添加点击处理
     function addClickOperation() {
         //新建任务
         $('#menu-new-task').click(function() {
             window.location = 'http://192.168.1.170:8088/h5Office/machine/machine_task.html';
         });
+    }
+
+    //获取是否有机器管理权限，有权限的话则可以修改备注和机器图片
+    function getPermission(workshopId, machineId) {
+        $.ajax({
+            type: 'GET',
+            url: requestBaseUrl + 'iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/manager/access',
+            async: false,
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            success: function(response) {
+                if(response.status == 10001) {
+                    //有权限
+
+                }else{
+                    //无权限
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('get permission error: ' + textStatus);
+            }
+        })
     }
 
     </script>

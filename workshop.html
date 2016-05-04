@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 
 <head>
@@ -11,12 +11,48 @@
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
     <style>
+    .status-red {  /* 红色，报警 */
+        background-color: red;
+        color: white;
+    }
+
+    .status-green {  /* 绿色，工作 */
+        background-color: #00FF00;
+        color: white;
+    }
+
+    .status-yellow {  /* 黄色，待机 */
+        background-color: #EC971F;
+        color: white;
+    }
+
+    .status-purple {  /* 紫色，正常 */
+        background-color: #5329CE;
+        color: white;   
+    }
+
     .icon-operated {
         width: 35px;
         height: 35px;
     }
+
     .machine-name {
         font-size: 15px;
+    }
+
+    .light-cell {
+        text-align: center;
+        padding-top: 15px;
+    }
+
+    .light-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .icon {
+        width: 30px;
+        height: 30px;
     }
     </style>
 </head>
@@ -28,7 +64,7 @@
         <li class="item-content item-link workshop-item" id="{{$value.id}}">
             <div class="item-inner">
                 <div class="item-title">{{$value.name}}</div>
-                <div class="item-after">{{$value.machine_count}}台机床</div>
+                <div class="item-after">{{$value.machine_count}}台机床<img src="" class="icon" id="{{$value.id}}"></img></div>
             </div>
         </li>
         <div class="row" id={{"machine-list-" + $value.id}} hidden="hidden"></div>
@@ -56,6 +92,12 @@
         {{/each}}
     </script>
     <div class="content">
+       <!--  <div class="row">
+            <div class="col-25 light-cell"><img src="images/ic_light_green.png" class="light-img" /></div>
+            <div class="col-25 light-cell"><img src="images/ic_light_red.png" class="light-img" /></div>
+            <div class="col-25 light-cell"><img src="images/ic_light_yellow.png" class="light-img" /></div>
+            <div class="col-25 light-cell"><img src="images/ic_light_purple.png" class="light-img" /></div>
+        </div> -->
         <div class="content-block-title">车间列表</div>
         <div class="list-block">
             <ul id="workshop-list"></ul>
@@ -68,22 +110,9 @@
     <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="js/machine.js"></script>
     <script type="text/javascript">
-    //获取车间列表
-    getWorkshops();
-    //菜单按下时改变背景透明度
-    $('.card').bind('touchstart', function() {
-        $(this).css('opacity', '0.6');
-    });
-
-    //菜单不被按下时取消透明度
-    $('.card').bind('touchend', function() {
-        $(this).css('opacity', '');
-    });
-
-    //点击卡片跳转到机床详情
-    $('.card').click(function() {
-        window.location = baseUrl + 'machine/machine_detail.html';
-    });
+        //获取车间列表
+        getWorkshops();
+        getStatus();
     </script>
 </body>
 
