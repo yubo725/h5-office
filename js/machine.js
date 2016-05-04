@@ -131,6 +131,11 @@ function showStatus() {
 			}else if(machineStatusObj.purple == 2) {
 				machine.removeClass('status-red');
 				machine.addClass('status-purple');
+			}else {
+				machine.removeClass('status-red');
+				machine.removeClass('status-green');
+				machine.removeClass('status-yellow');
+				machine.removeClass('status-purple');
 			}
 		}
 	}
