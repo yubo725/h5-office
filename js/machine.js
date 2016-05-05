@@ -15,7 +15,7 @@ var task = setInterval(getStatus, 1000 * 5);
 function getWorkshops() {
 	$.ajax({
 		type: 'GET',
-		url: requestBaseUrl + 'iot/companies/workshops',
+		url: 'http://api.listome.cn/v1/iot/companies/workshops',
 		headers: {
 			'Authorization': 'Bearer ' + getToken()
 		},
@@ -146,11 +146,12 @@ function getMachinesByWorkshopId(workshopId) {
 	$.showPreloader();
 	$.ajax({
 		type: 'GET',
-		url: requestBaseUrl + 'iot/companies/workshops/' + workshopId + '/machines',
+		url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines',
 		headers: {
 			'Authorization': 'Bearer ' + getToken()
 		},
 		success: function(response) {
+			console.log('machine list: ' + JSON.stringify(response));
 			$.hidePreloader();
 			if(response.status == 10001) {
 				if(response.data.total > 0) {

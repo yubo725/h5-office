@@ -57,13 +57,19 @@
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title">保养周期</div>
-                        <div class="item-after">每20天一次</div>
+                        <div class="item-after">
+                            {{if data.maintenance_cycle <= 0}}
+                                无
+                                {{else}}
+                                每{{data.maintenance_cycle / 86400}}天一次
+                            {{/if}}
+                        </div>
                     </div>
                 </li>
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title">上次保养日期</div>
-                        <div class="item-after">2016-03-01</div>
+                        <div class="item-after">{{data.last_maintenance_date | getTimeStr:''}}</div>
                     </div>
                 </li>
                 <li class="item-content">
@@ -127,6 +133,9 @@
     }
 
     template.helper('getTimeStr', function(unixTime, format) {
+        if(unixTime <= 0) {
+            return '无';
+        }
         var date = new Date(unixTime * 1000);
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
