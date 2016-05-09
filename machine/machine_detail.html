@@ -14,13 +14,35 @@
     <style>
     img.machine-img {
         width: 100%;
+        min-height: 300px;
+        background-color: white;
+        position: relative;
+    }
+    span.image-text {
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        color: white;
+        background-color: black;
+        opacity: 0.5;
+        font-size: 0.8em;
+        display: none;
     }
     </style>
 </head>
 
 <body>
     <script type="text/html" id="machine-detail">
-        <img class="machine-img" src="../images/machine_default.png">
+        <div>
+            <img class="machine-img" src="
+                {{if data.pic == ''}}
+                    ../images/machine_default.jpg
+                {{else}}
+                    http://img.listome.cn{{data.pic}}
+                {{/if}}
+            ">
+            <span class="image-text">点击图片可修改</span>
+        </div>
         <div class="content-block-title">机床详细信息</div>
         <div class="list-block">
             <ul>
@@ -75,7 +97,19 @@
                 <li class="item-content">
                     <div class="item-inner">
                         <div class="item-title label">备注</div>
-                        <div class="item-after">{{data.remark}}</div>
+                        <div class="item-after no-permission">
+                            {{if data.remark == ''}}
+                                无
+                            {{else}}
+                                {{data.remark}}
+                            {{/if}}
+                        </div>
+                        <div class="item-input has-permission" style="display: none;">
+                            <input type="text" id="remark-input" placeholder="填写备注信息" value="{{data.remark}}">
+                        </div>
+                        <div class="item-after has-permission" style="display: none;">
+                            <a href="#" class="button" id="btn-submit-remark">提交</a>
+                        </div>
                     </div>
                 </li>
             </ul>
@@ -107,7 +141,6 @@
     //获取车间和机床的ID
     var workshopId = getUrlParam('workshopId');
     var machineId = getUrlParam('machineId');
-    getPermission(workshopId, machineId);
 
     getMachineDetail(workshopId, machineId);
 
@@ -120,6 +153,7 @@
                 'Authorization': 'Bearer ' + getToken()
             },
             success: function(response) {
+                console.log('machine detail: ' + JSON.stringify(response));
                 if (response.status == 10001) {
                     showMachineDetail(response.data);
                 } else {
@@ -153,6 +187,7 @@
         var html = template('machine-detail', data);
         $('#content').html(html);
         addClickOperation();
+        getPermission(workshopId, machineId);
     }
  
     //添加点击处理
@@ -167,23 +202,73 @@
     function getPermission(workshopId, machineId) {
         $.ajax({
             type: 'GET',
-            url: requestBaseUrl + 'iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/manager/access',
+            url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/manager/access',
             async: false,
             headers: {
                 'Authorization': 'Bearer ' + getToken()
             },
             success: function(response) {
+                console.log('get permission: ' + JSON.stringify(response));
                 if(response.status == 10001) {
-                    //有权限
-
-                }else{
-                    //无权限
+                    //有权限修改机器信息，点击图片可修改图片，也可修改备注信息
+                    $('span.image-text').show();     
+                    $('div.no-permission').hide();
+                    $('div.has-permission').show();
+                    //提交备注信息
+                    $('#btn-submit-remark').click(function() {
+                        var remarkContent = $('#remark-input').val();
+                        if(remarkContent == '' || remarkContent.trim() == '') {
+                            $.toast('请填写备注再提交');
+                        }else{
+                            //这里提交备注
+                            submitRemark(remarkContent, workshopId, machineId);
+                        }
+                    })
+                    //点击图片修改图片
+                    $('img.machine-img').click(function() {
+                        try {
+                            var url = 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info';
+                            window.js_interface.modifyMachinePic(url);
+                        }catch(e) {
+                            $.alert('请在工厂宝APP上使用本功能，或者升级工厂宝APP到最新版本。', '提示');
+                        }
+                    });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('get permission error: ' + textStatus);
+                //有权限修改机器信息，点击图片可修改图片，也可修改备注信息
+                
             }
         })
+    }
+
+    //提交备注信息
+    function submitRemark(remark, workshopId, machineId) {
+        $.showPreloader();
+        $.ajax({
+            type: 'POST',
+            url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info',
+            data: {
+                remark: remark
+            },
+            ecntype: 'multipart/form-data',
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            success: function(response) {
+                $.hidePreloader();
+                if(response.status == 10001) {
+                    $.toast('修改备注信息成功');
+                }else{
+                    $.toast('修改备注信息失败');
+                }
+            },
+            error: function() {
+                $.hidePreloader();
+                $.toast('修改备注信息失败');
+            }
+        });
     }
 
     </script>
