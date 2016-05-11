@@ -64,7 +64,10 @@
         <li class="item-content item-link workshop-item" id="{{$value.id}}">
             <div class="item-inner">
                 <div class="item-title">{{$value.name}}</div>
-                <div class="item-after">{{$value.machine_count}}台机床<img src="" class="icon" id="{{$value.id}}"></img></div>
+                <div class="item-after">
+                    {{$value.machine_count + "台机床"}}
+                    <img src="" class="icon" id="{{$value.id}}" src="images/ic_light_green.png"></img>
+                </div>
             </div>
         </li>
         <div class="row" id={{"machine-list-" + $value.id}} hidden="hidden"></div>

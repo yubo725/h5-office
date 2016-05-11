@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>机床运行状态统计表</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style type="text/css">
+		* {
+			font-size: 1.2em;
+			font-family: 'KaiTi';
+		}
+		th {
+			background-color: #ececec;
+		} 
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <table class="table table-hover">
+        	<caption>机床运行状态统计表</caption>
+            <tr>
+                <th>车间名称</th>
+                <th>机器名称</th>
+                <th>当前运行状态</th>
+                <th>红灯点亮总时间</th>
+                <th>黄灯点亮总时间</th>
+                <th>绿灯点亮总时间</th>
+                <th>紫灯点亮总时间</th>
+            </tr>
+        </table>
+    </div>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/status.js"></script>
+    <script type="text/javascript">
+    	var dateNow = getTimeNow();
+    	var dateStr = '（' + dateNow.yearStr + '年' + dateNow.monthStr + '月' + dateNow.dayStr + '日）';
+    	$('caption').append(dateStr);
+    	getWorkshops();
+    </script>
+</body>
+
+</html>
