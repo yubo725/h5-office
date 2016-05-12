@@ -10,7 +10,7 @@ function getWorkshops() {
             'Authorization': 'Bearer ' + getToken()
         },
         success: function(response) {
-            console.log('获取到车间信息：' + JSON.stringify(response));
+            // console.log('获取到车间信息：' + JSON.stringify(response));
             if (response.status == 10001) {
                 if (response.data.total > 0) {
                     workshopList = response.data.list;
@@ -18,14 +18,14 @@ function getWorkshops() {
                         getMachinesByWorkshopId(workshopList[i].id, workshopList[i].name);
                     }
                 } else {
-                    $.toast('没有车间信息');
+                    console.log('没有车间信息');
                 }
             } else {
-                $.toast('获取车间信息失败' + response.status);
+                console.log('获取车间信息失败' + response.status);
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $.toast('加载车间列表出错' + textStatus);
+            console.log('加载车间列表出错' + textStatus);
         }
     })
 }
@@ -41,7 +41,7 @@ function getMachinesByWorkshopId(workshopId, workshopName) {
         success: function(response) {
             if (response.status == 10001) {
                 if (response.data.total > 0) {
-                    console.log('车间id' + workshopId + '对应的机器：' + JSON.stringify(response));
+                    // console.log('车间id' + workshopId + '对应的机器：' + JSON.stringify(response));
                     var machineList = response.data.list;
                     tableDataArray = [];  //添加数据前先清空数组
                     for (var i = 0; i < machineList.length; i++) {
@@ -80,11 +80,16 @@ function showTableData() {
         html += '<tr>';
         html += '<td>' + obj.workshopName + '</td>';
         html += '<td>' + obj.machineName + '</td>';
-        html += '<td id="status-' + obj.id + '">--</td>';
-        html += '<td id="red-' + obj.machineId + '">无数据</td>';   //red
-        html += '<td id="yellow-' + obj.machineId + '">无数据</td>';  //yellow
-        html += '<td id="green-' + obj.machineId + '">无数据</td>';  //green
-        html += '<td id="purple-' + obj.machineId + '">无数据</td>';  //purple
+        html += '<td id="status-' + obj.id + '">\
+        	<img id="status-red-' + obj.id + '" src="../images/ic_light_gray.png" class="light"/>\
+        	<img id="status-yellow-' + obj.id + '" src="../images/ic_light_gray.png" class="light"/>\
+        	<img id="status-green-' + obj.id + '" src="../images/ic_light_gray.png" class="light"/>\
+        	<img id="status-purple-' + obj.id + '" src="../images/ic_light_gray.png" class="light"/>\
+        </td>';
+        html += '<td id="red-' + obj.machineId + '">--</td>';   //red
+        html += '<td id="yellow-' + obj.machineId + '">--</td>';  //yellow
+        html += '<td id="green-' + obj.machineId + '">--</td>';  //green
+        html += '<td id="purple-' + obj.machineId + '">--</td>';  //purple
         html += '</tr>';
     }
     $('table.table').append(html);
@@ -99,7 +104,7 @@ function getMachineRunningData(machineId) {
 			'Authorization': 'Bearer ' + getToken()
 		},
 		data: {
-			day: new Date().getTime()
+			day: getTodayStartUnixTimestamp()
 		},
 		success: function(response) {
 			// console.info("获取机器运行状态数据：" + JSON.stringify(response));
@@ -122,7 +127,7 @@ function getMachineRunningData(machineId) {
 function refreshTime(data, machineId, color) {
 	var label = $('td#' + color + '-' + machineId);
 	if(data.length == 0) {
-		label.text("无数据");
+		label.text("--");
 	}else{
 		var totalTime = 0;
 		for(var i = 0; i < data.length; i++) {
@@ -132,9 +137,9 @@ function refreshTime(data, machineId, color) {
 		if(totalTime < 60) {
 			label.text(totalTime + "秒");
 		}else if(totalTime / 60 < 60) {
-			label.text((totalTime / 60) + "分");
+			label.text((totalTime / 60).toFixed(2) + "分钟");
 		}else{
-			label.text(totalTime / 3600 + "小时");
+			label.text((totalTime / 3600).toFixed(2) + "小时");
 		}
 	}
 }
@@ -152,6 +157,7 @@ function getMachineStatus() {
 		},
 		success: function(response) {
 			if(response.status == 10001) {
+				console.log('get machine status: ' + JSON.stringify(response));
 				var statusData = response.data;
 				if(workshopList.length > 0) {
 					//显示机器状态灯
@@ -179,16 +185,17 @@ function getMachineStatus() {
 
 //刷新状态信息
 function refreshStatus(statusObj) {
-	var label = $('td#status-' + statusObj.workshopId + '-' + statusObj.machineId);
+	var id = statusObj.workshop_id + '-' + statusObj.machine_id;
+	console.error('refresh status, id = ' + id + JSON.stringify(statusObj));
 	if(statusObj.red == 2) {
-		label.html('<label style="color:red">红灯</label>');
+		$('img#status-red-' + id).attr('src', '../images/ic_light_red.png');
 	}else if(statusObj.yellow == 2) {
-		label.html('<label style="color:yellow">黄灯</label>');
+		$('img#status-yellow-' + id).attr('src', '../images/ic_light_yellow.png');
 	}else if(statusObj.green == 2) {
-		label.html('<label style="color:green">绿灯</label>');
+		$('img#status-green-' + id).attr('src', '../images/ic_light_green.png');
 	}else if(statusObj.purple == 2) {
-		label.html('<label style="color:purple">紫灯</label>');
+		$('img#status-purple-' + id).attr('src', '../images/ic_light_purple.png');
 	}else {
-		label.html('--');
+		$('img#status-red-' + id).attr('src', '../images/ic_light_red.png');
 	}
 }

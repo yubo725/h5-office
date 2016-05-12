@@ -23,7 +23,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "privnH98ADt/971Y2FpQBmIaIXN12Kg6wLOZwR2BQK8=";
+var testToken = "4W45G+Yrp3C/hK5gfnXodMgq27Z8YzH8ZIcWRf8uqBA=";
 
 //获取AccessToken
 function getToken() {
@@ -92,6 +92,18 @@ function getStartEndTime(year, month) {
     };
     console.log(obj);
     return obj; 
+}
+
+//获取某一天的起始时间戳
+function getDayStartUnixTimestamp(year, month, day) {
+    var date = new Date(year + '/' + month + '/' + day);
+    return date.getTime() / 1000;
+}
+
+//获取当天的起始时间戳
+function getTodayStartUnixTimestamp() {
+    var now = getTimeNow();
+    return getDayStartUnixTimestamp(now.year, now.month, now.day);
 }
 
 function numberProcess(n) {
