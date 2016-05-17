@@ -157,7 +157,7 @@ function getMachinesByWorkshopId(workshopId) {
 				if(response.data.total > 0) {
 					showMachines(workshopId, response.data.list);
 				}else{
-					$.toast('没有机床信息')
+					$.toast('没有机床信息');
 				}
 			}else{
 				$.toast('获取机床列表失败' + response.status);

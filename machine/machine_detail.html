@@ -226,19 +226,23 @@
                     })
                     //点击图片修改图片
                     $('img.machine-img').click(function() {
+                        if (!Terminal.platform.android){
+                            window.location.href = "#modify_machine_picture"; //iOS需要根据这个来判断是否修改图片
+                        }
                         try {
                             var url = 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info';
                             window.js_interface.modifyMachinePic(url);
-                        }catch(e) {
-                            $.alert('请在工厂宝APP上使用本功能，或者升级工厂宝APP到最新版本。', '提示');
+                        } catch (e) {
+                            //如果是android平台，则提示错误，iOS平台不提示
+                            if (Terminal.platform.android){
+                                $.alert('请在工厂宝APP上使用本功能，或者升级工厂宝APP到最新版本。', '提示');    
+                            }
                         }
                     });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('get permission error: ' + textStatus);
-                //有权限修改机器信息，点击图片可修改图片，也可修改备注信息
-                
             }
         })
     }

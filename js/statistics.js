@@ -30,6 +30,9 @@ $('.item-content').click(function() {
         case "boss-menu-late-top10"://老板  迟到前十统计
         url = "statistics/statistics_boss_late_top.html";
         break;
+        case "boss-menu-machine":  //老板，机床数据统计
+        url = "statistics/statistics_employee_machine.html";
+        break;
         case "employee-menu-attendance"://员工  个人考勤统计
         url = "statistics/statistics_employee_attendance.html";
         break;

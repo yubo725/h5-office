@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>机床数据统计</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <script src="../js/echarts.common.min.js"></script>
+    <style type="text/css">
+    .chart-content {
+        width: 100%;
+        height: 500px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="main"></div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript">
+        getMachineStatisticsData();
+        //获取机器的统计数据
+        function getMachineStatisticsData() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://api.listome.cn/v1/companies/machines/datas',
+                data: {
+                    workshop_id: 0,
+                    start_time: getTodayStartUnixTimestamp(),
+                    end_time: getTodayStartUnixTimestamp() + 24 * 60 * 60
+                },
+                headers: {
+                    'Authorization': 'Bearer ' + getToken()
+                },
+                success: function(response) {
+                    console.log('获取到机器统计数据：' + JSON.stringify(response));
+                },
+                error: function(jqXHR, textStatus, errorThrown) {   
+                    console.log('获取机器统计数据失败：' + errorThrown);
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
+<!--
