@@ -23,7 +23,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "WzJXrPbQUamo4yZfso7z8RlYwDVS00Qv1SlRi3iRCsk=";
+var testToken = "amHBzgONiPZ7CcEAtOt9YZInj0KQejW5wWWL5qRWKVc=";
 
 //获取AccessToken
 function getToken() {
@@ -249,4 +249,34 @@ function getMyLeader() {
             $('#my_leader').val('加载领导信息失败');
         }
     })
+}
+
+//秒 转成 小时分钟秒
+function secondToFormattedTime(sec) {
+    var hours, minute, second;
+    if(sec < 60) {
+        return sec + '秒';
+    }else if(sec < 3600) {
+        minute = parseInt(sec / 60);
+        second = sec - 60 * minute;
+        if(second == 0) {
+            return minute + '分钟';
+        }
+        // return minute + '分钟' + second + '秒';
+        return (minute + 1) + '分钟';
+    }else {
+        hours = parseInt(sec / 3600);
+        var remain = sec - hours * 3600;
+        if(remain == 0) {
+            return hours + '小时';
+        }else if(remain < 60) {
+            // return hours + '小时' + remain + '秒';
+            return hours + '小时1分钟';
+        }else{
+            minute = parseInt(remain / 60);
+            second = remain - minute * 60;
+            // return hours + '小时' + minute + '分钟' + second + '秒';
+            return hours + '小时' + (minute + 1) + '分钟';
+        }
+    }
 }

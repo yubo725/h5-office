@@ -5,6 +5,8 @@ var loadedLightStatus; //是否加载了灯的状态
 
 //获取所有的车间
 function getWorkshops() {
+	$('#refresh-hint').show();
+	console.log('getWorkshops...');
 	loadedWorkshopSize = 0;
 	loadedLightStatus = false;
     $.ajax({
@@ -96,14 +98,15 @@ function showTableData() {
         	<img id="status-green-' + obj.id + '" src="../images/ic_light_gray.png" class="light"/>\
         	<img id="status-purple-' + obj.id + '" src="../images/ic_light_gray.png" class="light"/>\
         </td>';
-        html += '<td id="red-' + obj.machineId + '">--</td>';   //red
-        html += '<td id="yellow-' + obj.machineId + '">--</td>';  //yellow
-        html += '<td id="green-' + obj.machineId + '">--</td>';  //green
+        html += '<td class="red" id="red-' + obj.machineId + '">--</td>';   //red
+        html += '<td class="yellow" id="yellow-' + obj.machineId + '">--</td>';  //yellow
+        html += '<td class="green" id="green-' + obj.machineId + '">--</td>';  //green
         html += '<td id="purple-' + obj.machineId + '">--</td>';  //purple
         html += '</tr>';
     }
     $('tr.data').remove();
     $('table.table').append(html);
+    $('#refresh-hint').hide();
     //显示完表格数据后，再显示统计时间数据
     for(var i = 0; i < tableDataArray.length; i++) {
     	getMachineRunningData(tableDataArray[i].machineId);	
@@ -119,7 +122,8 @@ function getMachineRunningData(machineId) {
 			'Authorization': 'Bearer ' + getToken()
 		},
 		data: {
-			day: getTodayStartUnixTimestamp()
+			day: getTodayStartUnixTimestamp(),
+			is_today: 1
 		},
 		success: function(response) {
 			// console.info("获取机器运行状态数据：" + JSON.stringify(response));
@@ -149,13 +153,14 @@ function refreshTime(data, machineId, color) {
 			var obj = data[i];
 			totalTime += (obj.end - obj.start);
 		}
-		if(totalTime < 60) {
-			label.text(totalTime + "秒");
-		}else if(totalTime / 60 < 60) {
-			label.text((totalTime / 60).toFixed(2) + "分钟");
-		}else{
-			label.text((totalTime / 3600).toFixed(2) + "小时");
-		}
+		label.text(secondToFormattedTime(totalTime));
+		// if(totalTime < 60) {
+		// 	label.text(totalTime + "秒");
+		// }else if(totalTime / 60 < 60) {
+		// 	label.text((totalTime / 60).toFixed(2) + "分钟");
+		// }else{
+		// 	label.text((totalTime / 3600).toFixed(2) + "小时");
+		// }
 	}
 }
 
@@ -175,6 +180,7 @@ function getLightStatus() {
 			'Authorization': 'Bearer ' + getToken()
 		},
 		success: function(response) {
+			console.log('light status: ' + JSON.stringify(response));
 			if(response.status == 10001) {
 				var statusData = response.data;
 				if(workshopList.length > 0) {

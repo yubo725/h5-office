@@ -8,50 +8,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <style type="text/css">
-		* {
-			font-size: 1.1em;
-			font-family: 'KaiTi';
-		}
-		th {
-			background-color: #ececec;
-		} 
-        img.light {
-            width: 1.15em;
-            height: 1.15em;
-            line-height: 1.15em;
-            margin-bottom: 5px;
-        }
+    * {
+        font-size: 1.1em;
+    }
+    
+    th {
+        background-color: #ececec;
+    }
+    
+    img.light {
+        width: 1.15em;
+        height: 1.15em;
+        line-height: 1.15em;
+        margin-bottom: 5px;
+    }
+    
+    .red {
+        color: red;
+    }
+    
+    .green {
+        color: green;
+    }
+    
+    .yellow {
+        color: #999900;
+    }
     </style>
 </head>
 
 <body>
     <div class="container-fluid">
         <table class="table table-hover">
-        	<caption>机床运行状态监控表</caption>
+            <caption style="display: none;">机床运行状态监控表</caption>
             <tr>
                 <th>车间名称</th>
-                <th>机器名称</th>
+                <th>机器编号</th>
                 <th>当前运行状态</th>
-                <th>机器故障时间</th>
-                <th>机器待机时间</th>
-                <th>正常工作时间</th>
+                <th class="red">机器故障时间</th>
+                <th class="yellow">机器待机时间</th>
+                <th class="green">正常工作时间</th>
                 <th>其他</th>
             </tr>
-
         </table>
     </div>
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/status.js"></script>
     <script type="text/javascript">
-    	var dateNow = getTimeNow();
-    	var dateStr = '（' + dateNow.yearStr + '年' + dateNow.monthStr + '月' + dateNow.dayStr + '日）';
-    	$('caption').append(dateStr);
-    	getWorkshops();
+    try {
+        var dateNow = getTimeNow();
+        var dateStr = '（' + dateNow.yearStr + '年' + dateNow.monthStr + '月' + dateNow.dayStr + '日）';
+        $('caption').append(dateStr);
+        $('title').append(dateStr);
+        $('caption').append('<span class="green" id="refresh-hint">正在刷新...</span>');
+        getWorkshops();
         setInterval("getWorkshops()", 1000 * 10);
+    } catch (e) {
+        console.log(e.toString());
+    }
     </script>
 </body>
 
