@@ -6,7 +6,6 @@ var loadedLightStatus; //是否加载了灯的状态
 //获取所有的车间
 function getWorkshops() {
 	$('#refresh-hint').show();
-	console.log('getWorkshops...');
 	loadedWorkshopSize = 0;
 	loadedLightStatus = false;
     $.ajax({
@@ -117,7 +116,7 @@ function showTableData() {
 function getMachineRunningData(machineId) {
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/companies/machines/' + machineId + '/datas',
+		url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/datas',
 		headers: {
 			'Authorization': 'Bearer ' + getToken()
 		},
@@ -172,7 +171,7 @@ function getLightStatus() {
 	loadedLightStatus = true;
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/companies/machines/status',
+		url: 'http://api.listome.cn/v1/iot/companies/machines/status',
 		data: {
 			'workshop_id': 0
 		},
@@ -180,7 +179,7 @@ function getLightStatus() {
 			'Authorization': 'Bearer ' + getToken()
 		},
 		success: function(response) {
-			console.log('light status: ' + JSON.stringify(response));
+			// console.log('light status: ' + JSON.stringify(response));
 			if(response.status == 10001) {
 				var statusData = response.data;
 				if(workshopList.length > 0) {

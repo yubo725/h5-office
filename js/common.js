@@ -23,7 +23,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "amHBzgONiPZ7CcEAtOt9YZInj0KQejW5wWWL5qRWKVc=";
+var testToken = "FynsaudgFItmr9GxK8N/fSQX2VkeMKm870iuHb+aILU=";
 
 //获取AccessToken
 function getToken() {
@@ -275,6 +275,9 @@ function secondToFormattedTime(sec) {
         }else{
             minute = parseInt(remain / 60);
             second = remain - minute * 60;
+            if(minute >= 59) {
+                return (hours + 1) + '小时';
+            }
             // return hours + '小时' + minute + '分钟' + second + '秒';
             return hours + '小时' + (minute + 1) + '分钟';
         }
