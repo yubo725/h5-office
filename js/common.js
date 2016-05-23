@@ -275,11 +275,14 @@ function secondToFormattedTime(sec) {
         }else{
             minute = parseInt(remain / 60);
             second = remain - minute * 60;
-            if(minute >= 59) {
+            if(second > 0) {
+                minute++;
+            }
+            if(minute >= 60) {
                 return (hours + 1) + '小时';
             }
             // return hours + '小时' + minute + '分钟' + second + '秒';
-            return hours + '小时' + (minute + 1) + '分钟';
+            return hours + '小时' + minute + '分钟';
         }
     }
 }
