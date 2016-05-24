@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>机床工作状态监控表</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style type="text/css">
+    * {
+        font-size: 1.1em;
+    }
+    
+    th {
+        background-color: #ececec;
+    }
+
+    img {
+    	width: 40px;
+    	height: 60px;
+    }
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid" style="padding: 0; margin:0;">
+        <table class="table table-hover">
+            <caption style="display: none;">机床工作状态监控表</caption>
+            <tr>
+                <th>车间名称</th>
+                <th>机器编号</th>
+                <th>当前任务名称</th>
+                <th>加工工件名称</th>
+                <th>持续时间</th>
+                <th>操作人</th>
+                <th>历史记录</th>
+            </tr>
+        </table>
+    </div>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    	var str = '';
+    	for(var i = 0; i < 8; i++) {
+    		str += '<tr class="data">';
+    		str += '<td>一车间</td>';
+    		str += '<td>#00' + i + '</td>';
+    		str += '<td>任务' + i + '</td>';
+    		str += '<td>工件' + i + '</td>';
+    		str += '<td>20分钟</td>';
+    		str += '<td><img src="../images/person_01.jpg">\
+    		<img src="../images/person_02.jpg">\
+    		<img src="../images/person_03.jpg"></td>';
+    		str += '<td><a href="#">点击查看</a></td>';
+    		str += '</tr>';
+    	}
+    	$('table.table').append(str);
+    </script>
+</body>
+
+</html>

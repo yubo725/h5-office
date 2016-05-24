@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>机床数据统计</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <script src="../js/echarts.common.min.js"></script>
+    <style type="text/css">
+    .chart-content {
+        width: 100%;
+        height: 800px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div id="main" class="chart-content"></div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript">
+        getMachineStatisticsData();
+        //获取机器的统计数据
+        function getMachineStatisticsData() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://api.listome.cn/v1/iot/companies/machines/datas',
+                data: {
+                    workshop_id: 0,
+                    start_time: getTodayStartUnixTimestamp() ,
+                    end_time: getTodayStartUnixTimestamp() + 24 * 60 * 60 - 1
+                },
+                headers: {
+                    'Authorization': 'Bearer ' + getToken()
+                },
+                success: function(response) {
+                    console.log('获取到机器统计数据：' + formatJSON(JSON.stringify(response)));
+                    if(response.status == 10001) {
+                        showBarCharts(response.data);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('获取机器统计数据失败：' + errorThrown);
+                }
+            })
+        }
+
+        //显示柱状图
+        function showBarCharts(obj) {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+            var timeArr = obj.keys;
+            var redData = [];
+            var greenData = [];
+            var yellowData = [];
+            var purpleData = [];
+            var yData = [];
+            for(var i = 0; i < timeArr.length; i++) {
+                yData.push(timeArr[i] + '点');
+                redData.push((obj.datas[timeArr[i]].red / 60).toFixed(1));
+                greenData.push((obj.datas[timeArr[i]].green / 60).toFixed(1));
+                yellowData.push((obj.datas[timeArr[i]].yellow / 60).toFixed(1));
+                purpleData.push((obj.datas[timeArr[i]].purple / 60).toFixed(1));
+            } 
+
+            var dateNow = getTimeNow();
+            var dateStr = '（' + dateNow.yearStr + '年' + dateNow.monthStr + '月' + dateNow.dayStr + '日）';
+            var chartTitle = '机床运行数据统计图' + dateStr; 
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: chartTitle,
+                    subtext: '单位：分钟',
+                    x: 'center'
+                },
+                grid: {
+                    top: '7%'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                color: ['#CC0033', '#CCCC33', '#66CC99'],
+                legend: {
+                    data: ['故障时间', '待机时间', '工作时间'],
+                    top: 60
+                },
+                xAxis: [{
+                    data: yData,
+                    type: 'category'
+                }],
+                yAxis: [{
+                    type: 'value'
+                }],
+                series: [{
+                    name: '故障时间',
+                    type: 'line',
+                    data: redData,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right'
+                        }
+                    },
+                }, {
+                    name: '待机时间',
+                    type: 'line',
+                    data: yellowData,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right'
+                        }
+                    },
+                }, {
+                    name: '工作时间',
+                    type: 'line',
+                    data: greenData,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right'
+                        }
+                    },
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+    </script>
+</body>
+
+</html>
+<!--

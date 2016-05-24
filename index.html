@@ -52,7 +52,7 @@
             'Authorization': 'Bearer ' + getToken()
         },
         success: function(response) {
-            console.log(JSON.stringify(response));
+            console.log('获取到模块：\n' + formatJSON(JSON.stringify(response)));
             if (response.status == 10001) {
                 showModules(response.data);
             } else {

@@ -31,7 +31,7 @@ $('.item-content').click(function() {
         url = "statistics/statistics_boss_late_top.html";
         break;
         case "boss-menu-machine":  //老板，机床数据统计
-        url = "statistics/statistics_employee_machine.html";
+        url = "statistics/statistics_boss_machine.html";
         break;
         case "employee-menu-attendance"://员工  个人考勤统计
         url = "statistics/statistics_employee_attendance.html";
