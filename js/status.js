@@ -370,8 +370,8 @@ function getWorkHistory(machineId) {
 		},
 		data: {
 			machine_id: machineId,
-			offset: 1,
-			skip: 15
+			offset: 0,
+			skip: 9
 		},
 		success: function(response) {
 			console.log('get work history: \n' + formatJSON(JSON.stringify(response)));
@@ -397,7 +397,7 @@ function showWorkHistory(list, machineId) {
 			html += '<td>' + obj.workpiece_sm + '</td>';
 			html += '<td>' + obj.workpiece_name + '</td>';
 			html += '<td id="operators-' + machineId + '-' + i + '"></td>';
-			html += '<td>' + obj.remark + '</td>';
+			html += '<td class="remark-label">' + obj.remark + '</td>';
 			html += '</tr>';
 		}
 		$('tr.data').remove();
@@ -422,8 +422,12 @@ function getNamesByIds(ids, machineId, index) {
 		success: function(response) {
 			if(response.status == 10001) {
 				var nameArr = response.data.names;
+				var names = '';
 				if(nameArr.length > 0) {
-					$('td#operators-' + machineId + '-' + index).html(JSON.stringify(nameArr));
+					for(var i = 0; i < nameArr.length; i++) {
+						names += nameArr[i] + ', ';
+					}
+					$('td#operators-' + machineId + '-' + index).html(names.substring(0, names.length - 2));
 				}
 			}
 		},
