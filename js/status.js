@@ -1,10 +1,15 @@
 var workshopList; //车间列表
-var tableDataArray = []; //整个table中的数据数组
+var runningTableDataArray = []; //状态表中的数据数组
+var workingTableDataArray = []; //任务表中的数组数组
 var loadedWorkshopSize; //已加载的车间个数
 var loadedLightStatus; //是否加载了灯的状态
 
+var isRunningStatus; //标记是否是获取当前机床的运行状态，true为运行状态，false为工作状态
+
 //获取所有的车间
-function getWorkshops() {
+function getWorkshops(b) {
+	console.log('isRunningStatus = ' + b);
+	isRunningStatus = b;
 	$('#refresh-hint').show();
 	loadedWorkshopSize = 0;
 	loadedLightStatus = false;
@@ -18,7 +23,7 @@ function getWorkshops() {
             if (response.status == 10001) {
                 if (response.data.total > 0) {
                     workshopList = response.data.list;
-   					tableDataArray = [];  //添加数据前先清空数组
+   					runningTableDataArray = [];  //添加数据前先清空数组
                     for (var i = 0; i < workshopList.length; i++) {
                         getMachinesByWorkshopId(workshopList[i].id, workshopList[i].name);
                     }
@@ -60,11 +65,18 @@ function getMachinesByWorkshopId(workshopId, workshopName) {
                             workshopName: workshopName,
                             machineName: machineName
                         };
-                        tableDataArray.push(row);
+                        runningTableDataArray.push(row);
+                        workingTableDataArray.push(row);
                     }
                     loadedWorkshopSize++;
                     if(loadedWorkshopSize == workshopList.length) {//当所有车间的机床都获取完毕后，再显示数据
-	            		showTableData();
+                    	if(isRunningStatus) {
+		            		//是机床运行状态
+		            		showRunningTableData();
+		            	}else {
+		            		//是机床工作状态
+		            		showWorkingTableData();
+		            	}
 	            	}
                 } else {
                     console.log('没有机床信息');
@@ -79,15 +91,128 @@ function getMachinesByWorkshopId(workshopId, workshopName) {
     })
 }
 
-//显示表格中的数据
-function showTableData() {
-	tableDataArray.sort(function(a, b) {
+//显示工作表中的数据
+function showWorkingTableData() {
+	workingTableDataArray.sort(function(a, b) {
+		return a.index - b.index;
+	});	
+
+	var html = '';
+    for (var i = 0; i < workingTableDataArray.length; i++) {
+    	var obj = workingTableDataArray[i];
+    	html += '<tr class="data">';
+        html += '<td>' + obj.workshopName + '</td>';
+        html += '<td>' + obj.machineName + '</td>';
+        html += '<td id="task-name-' + obj.machineId + '">--</td>';
+        html += '<td id="piece-name-' + obj.machineId + '">--</td>';
+        html += '<td id="duration-' + obj.machineId + '">--</td>';
+        html += '<td id="operators-' + obj.machineId + '">--</td>';
+        html += '<td id="history-"><a href="machine_working_history.html?id=' + obj.machineId + '">点击查看</a></td>';
+        html += '</tr>';
+    }
+    $('tr.data').remove();
+    $('table.table').append(html);
+    $('#refresh-hint').hide();
+    //显示完表格数据后，再显示统计时间数据
+    for(var i = 0; i < workingTableDataArray.length; i++) {
+    	getMachineWorkingData(workingTableDataArray[i].machineId);	
+    }
+}
+
+//获取机床的工作数据
+function getMachineWorkingData(machineId) {
+	$.ajax({
+		type: 'GET',
+		url: 'http://api.listome.cn/v1/iot/companies/task/running/data',
+		headers: {
+			'Authorization': 'Bearer ' + getToken()
+		},
+		data: {
+			machine_id: machineId,
+			day: getTodayStartUnixTimestamp()
+		},
+		success: function(response) {
+			console.log('get machine working data: ' + formatJSON(JSON.stringify(response)));
+			if(response.status == 10001) {
+				refreshWorkingTableRow(response.data, machineId);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(errorThrown);
+		}
+	})
+}
+
+//根据machineId刷新任务表中的一行
+function refreshWorkingTableRow(data, machineId) {
+	//设置任务名称
+	var taskName = data.machining_task.name;
+	$('td#task-name-' + machineId).html(taskName); 
+
+	//设置工件名称
+	var pieceName = data.machining_task.workpiece_name;
+	$('td#piece-name-' + machineId).html(pieceName); 
+
+	//计算持续时间
+	var timeArr = data.time_point;
+	var totalTime = 0;
+	if(timeArr.length > 0) {
+		for(var i = 0; i < timeArr.length; i++) {
+			totalTime += (timeArr[i].end - timeArr[i].start);
+		}
+		$('td#duration-' + machineId).html(secondToFormattedTime(totalTime));
+	}
+
+	//显示操作人照片
+	var operatorsIds = data.machining_task.operator_ids;//id数组
+	if(operatorsIds.length > 0) {
+		showOperatorsPicture(operatorsIds, machineId);
+	}
+}
+
+//显示操作人照片
+function showOperatorsPicture(operatorIds, machineId) {
+	var html = '';
+	var operatorId;
+	var dom = $('td#operators-' + machineId);
+	dom.html('');
+	for(var i = 0; i < operatorIds.length; i++) {
+		operatorId = operatorIds[i];
+		$.ajax({
+			type: 'GET',
+			url: 'http://api.listome.cn/v1/companies/users/face_samples',
+			headers: { 
+				'Authorization': 'Bearer ' + getToken()
+			},
+			data: {
+				user_id: operatorId
+			},
+			success: function(response) {
+				if(response.status == 10001) {
+					var samples = response.data.face_samples;
+					if(samples.length > 0) {
+						var sampleUrl = 'http://sample.listome.com' + samples[0];
+						html = '<img src="' + sampleUrl + '">';
+						dom.append(html);
+					}
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log(errorThrown);
+			}
+		})
+	}
+}
+
+//显示运行状态表格中的数据
+function showRunningTableData() {
+	runningTableDataArray.sort(function(a, b) {
 		return a.index - b.index;
 	});
 
     var html = '';
-    for (var i = 0; i < tableDataArray.length; i++) {
-    	var obj = tableDataArray[i];
+    for (var i = 0; i < runningTableDataArray.length; i++) {
+    	var obj = runningTableDataArray[i];
         html += '<tr class="data">';
         html += '<td>' + obj.workshopName + '</td>';
         html += '<td>' + obj.machineName + '</td>';
@@ -107,8 +232,8 @@ function showTableData() {
     $('table.table').append(html);
     $('#refresh-hint').hide();
     //显示完表格数据后，再显示统计时间数据
-    for(var i = 0; i < tableDataArray.length; i++) {
-    	getMachineRunningData(tableDataArray[i].machineId);	
+    for(var i = 0; i < runningTableDataArray.length; i++) {
+    	getMachineRunningData(runningTableDataArray[i].machineId);	
     }
 }
 
@@ -233,4 +358,77 @@ function refreshLightStatus(statusObj) {
 	}else {
 		$('img#status-purple-' + id).attr('src', '../images/ic_light_gray.png');
 	}
+}
+
+//根据机器id获取该机器的历史任务记录
+function getWorkHistory(machineId) {
+	$.ajax({
+		type: 'GET',
+		url: 'http://api.listome.cn/v1/iot/companies/task/history',
+		headers: {
+			'Authorization': 'Bearer ' + getToken()
+		},
+		data: {
+			machine_id: machineId,
+			offset: 1,
+			skip: 15
+		},
+		success: function(response) {
+			console.log('get work history: \n' + formatJSON(JSON.stringify(response)));
+			if(response.status == 10001) {
+				showWorkHistory(response.data.list, machineId);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(errorThrown);
+		}
+	})
+}
+
+//显示任务历史记录
+function showWorkHistory(list, machineId) {
+	if(list.length > 0) {
+		var html = '';
+		for(var i = 0; i < list.length; i++) {
+			var obj = list[i];
+			html += '<tr class="data">';
+			html += '<td>' + (i + 1) + '</td>';
+			html += '<td>' + obj.name + '</td>';
+			html += '<td>' + obj.workpiece_sm + '</td>';
+			html += '<td>' + obj.workpiece_name + '</td>';
+			html += '<td id="operators-' + machineId + '-' + i + '"></td>';
+			html += '<td>' + obj.remark + '</td>';
+			html += '</tr>';
+		}
+		$('tr.data').remove();
+		$('table.table').append(html);
+		for(var i = 0; i < list.length; i++) {
+			getNamesByIds(list[i].operator_ids, machineId, i);
+		}
+	}
+} 
+
+//根据操作人的id数组获取对应的姓名数组
+function getNamesByIds(ids, machineId, index) {
+	$.ajax({
+		type: 'GET',
+		url: 'http://api.listome.cn/v1/companies/users/names',
+		data: {
+			user_ids: JSON.stringify(ids)
+		},
+		headers: {
+			'Authorization': 'Bearer ' + getToken()
+		},
+		success: function(response) {
+			if(response.status == 10001) {
+				var nameArr = response.data.names;
+				if(nameArr.length > 0) {
+					$('td#operators-' + machineId + '-' + index).html(JSON.stringify(nameArr));
+				}
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(errorThrown);
+		}
+	})
 }

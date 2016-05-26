@@ -43,22 +43,35 @@
     </div>
     <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/status.js"></script>
     <script type="text/javascript">
-    	var str = '';
-    	for(var i = 0; i < 8; i++) {
-    		str += '<tr class="data">';
-    		str += '<td>一车间</td>';
-    		str += '<td>#00' + i + '</td>';
-    		str += '<td>任务' + i + '</td>';
-    		str += '<td>工件' + i + '</td>';
-    		str += '<td>20分钟</td>';
-    		str += '<td><img src="../images/person_01.jpg">\
-    		<img src="../images/person_02.jpg">\
-    		<img src="../images/person_03.jpg"></td>';
-    		str += '<td><a href="#">点击查看</a></td>';
-    		str += '</tr>';
-    	}
-    	$('table.table').append(str);
+    try {
+        var dateNow = getTimeNow();
+        var dateStr = '（' + dateNow.yearStr + '年' + dateNow.monthStr + '月' + dateNow.dayStr + '日）';
+        $('caption').append(dateStr);
+        $('title').append(dateStr);
+        $('caption').append('<span class="green" id="refresh-hint">正在刷新...</span>');
+        getWorkshops(false);
+        // setInterval("getWorkshops(true)", 1000 * 10);
+    } catch (e) {
+        console.log(e.toString());
+    }
+    	// var str = '';
+    	// for(var i = 0; i < 8; i++) {
+    	// 	str += '<tr class="data">';
+    	// 	str += '<td>一车间</td>';
+    	// 	str += '<td>#00' + i + '</td>';
+    	// 	str += '<td>任务' + i + '</td>';
+    	// 	str += '<td>工件' + i + '</td>';
+    	// 	str += '<td>20分钟</td>';
+    	// 	str += '<td><img src="../images/person_01.jpg">\
+    	// 	<img src="../images/person_02.jpg">\
+    	// 	<img src="../images/person_03.jpg"></td>';
+    	// 	str += '<td><a href="#">点击查看</a></td>';
+    	// 	str += '</tr>';
+    	// }
+    	// $('table.table').append(str);
     </script>
 </body>
 

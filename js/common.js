@@ -23,7 +23,7 @@ var Terminal = {
     }(),
 }
 
-var testToken = "gWfpDAJySF7M+JlHNK9DcVcvu7DW/628k6f1blJWjOw=";
+var testToken = "9tF7/XgohZghesiFCH5xcoXQv9YWAQ0RgvJ1VIJ1Jik=";
 
 //获取AccessToken
 function getToken() {
