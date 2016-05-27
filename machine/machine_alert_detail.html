@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>机床报警详情</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style>
+    .card-alert-img {
+        height: 200px;
+    }
+    
+    #card-time {
+        color: red;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="content" id="content">
+        <div class="card">
+            <div class="card-header" id="card-time"></div>
+            <div class="card-content">
+                <div class="card-content-inner" id="card-image"></div>
+            </div>
+            <div class="card-footer" id="card-manager"></div>
+        </div>
+        <div class="card" id="take-picture">
+            <div class="card-content">
+                <div class="list-block">
+                    <ul>
+                        <li class="item-content item-link">
+                            <div class="item-inner">
+                                <div class="item-title" style="font-size: 0.85em; color: red;">故障拍照</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript">
+    var machineId = getUrlParam('machineId');
+    var alertId = getUrlParam('alertId');
+    getMachineAlertDetail(machineId, alertId);
+
+    $('#take-picture').bind('touchstart', function() {
+        $(this).css('background-color', '#dcdcdc');
+    });
+
+    $('#take-picture').bind('touchend', function() {
+        $(this).css('background-color', '');
+    });
+
+    $('#take-picture').click(function() {
+        try {
+            var url = 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records/' + alertId + '/pic';
+            window.js_interface.modifyMachinePic(url);
+        } catch (e) {
+            $.toast('错误');
+        }
+    });
+
+    //根据机床id和报警id查看该报警详情
+    function getMachineAlertDetail(machineId, alertId) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records/' + alertId,
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            success: function(response) {
+                console.log('get alert detail: ' + formatJSON(JSON.stringify(response)));
+                if (response.status == 10001) {
+                    showMachineAlertDetail(response.data);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        })
+    }
+
+    //显示报警详情
+    function showMachineAlertDetail(data) {
+        var time = getTimeStr(data.time);
+        $('#card-time').html('报警时间：' + time);
+        if (data.pic.length == 0) {
+            $('#card-image').html('暂无报警图片');
+        } else {
+            var imageUrl = 'http://img.listome.cn' + data.pic;
+            var html = '<img class="card-alert-img" src="' + imageUrl + '">';
+            $('#card-image').html(html);
+        }
+        getManagerNames(data.manager_ids);
+    }
+
+    //根据id数组获取对应的姓名数组
+    function getManagerNames(ids) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://api.listome.cn/v1/companies/users/names',
+            data: {
+                user_ids: JSON.stringify(ids)
+            },
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            success: function(response) {
+                if (response.status == 10001) {
+                    var nameArr = response.data.names;
+                    var names = '';
+                    if (nameArr.length > 0) {
+                        for (var i = 0; i < nameArr.length; i++) {
+                            names += nameArr[i] + ', ';
+                        }
+                        $('#card-manager').html('机床负责人：' + names.substring(0, names.length - 2));
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        })
+    }
+
+
+    //获取报警记录
+    function getMachineAlertRecords(machineId) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records',
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            success: function(response) {
+                console.log('get machine alert records: ' + formatJSON(JSON.stringify(response)));
+                if (response.status == 10001) {
+                    if (response.data.total > 0) {
+                        var list = response.data.list;
+                        showAlertList(list);
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        })
+    }
+
+    //显示报警列表
+    function showAlertList(list) {
+        var data = {
+            list: list
+        };
+        template.helper('getTimeStr', getTimeStr);
+        $('ul#list').html(template('alert-record-row', data));
+        $('li.item-link').click(function() {
+            //跳转到报警详情
+            $.toast('detail, id = ' + $(this).attr('id') + '-' + machineId);
+        })
+    }
+    </script>
+</body>
+
+</html>
+<!--

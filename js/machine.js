@@ -76,7 +76,7 @@ function getStatus() {
 	// console.log('正在请求状态信息...');
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.cn/v1/companies/machines/status',
+        url: 'http://api.listome.cn/v1/iot/companies/machines/status',
         data: {
             workshop_id: 0
         },

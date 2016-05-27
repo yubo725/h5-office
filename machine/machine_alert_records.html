@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>机床报警记录</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script type="text/html" id="alert-record-row">
+        {{each list}}
+            <li class="item-content item-link" id={{$value.id}}>
+                <div class="item-media"><i class="icon icon-f7"></i></div>
+                <div class="item-inner">
+                    <div class="item-title">{{$value.time | getTimeStr}}</div>
+                </div>
+            </li>
+        {{/each}}
+    </script>
+    <div class="content" id="content">
+        <div class="content-block-title">机床报警列表</div>
+        <div class="list-block">
+            <ul id="list"></ul>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="../js/arttemplate.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript">
+    var machineId = getUrlParam('id');
+    getMachineAlertRecords(machineId);
+
+    try {
+        window.js_interface.useGoBack(true);
+    }catch(e) {
+
+    }
+
+    //获取报警记录
+    function getMachineAlertRecords(machineId) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records',
+            headers: {
+                'Authorization': 'Bearer ' + getToken()
+            },
+            success: function(response) {
+                console.log('get machine alert records: ' + formatJSON(JSON.stringify(response)));
+                if (response.status == 10001) {
+                    if(response.data.total > 0) {
+                        var list = response.data.list;
+                        showAlertList(list);
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        })
+    }
+
+    //显示报警列表
+    function showAlertList(list) {
+        var data = {
+            list: list
+        };
+        template.helper('getTimeStr', getTimeStr);
+        $('ul#list').html(template('alert-record-row', data));
+        $('li.item-link').click(function() {
+            //跳转到报警详情
+            window.location.href = 'machine_alert_detail.html?machineId=' + machineId + '&alertId=' + $(this).attr('id');
+        })
+    }
+    </script>
+</body>
+
+</html>
+<!--
