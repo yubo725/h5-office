@@ -1,5 +1,5 @@
 //整个项目的根路径
-var projectBaseUrl = "http://192.168.1.170:8088/h5Office/";
+var projectBaseUrl = "http://api.listome.com/app/";
 
 //数据请求的根路径
 var requestBaseUrl = "http://api.listome.com/v1/";
