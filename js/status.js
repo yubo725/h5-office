@@ -15,7 +15,7 @@ function getWorkshops(b) {
 	loadedLightStatus = false;
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.cn/v1/iot/companies/workshops',
+        url: 'http://api.listome.com/v1/iot/companies/workshops',
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -45,7 +45,7 @@ function getWorkshops(b) {
 function getMachinesByWorkshopId(workshopId, workshopName) {
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines',
+        url: 'http://api.listome.com/v1/iot/companies/workshops/' + workshopId + '/machines',
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -124,7 +124,7 @@ function showWorkingTableData() {
 function getMachineWorkingData(machineId) {
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/iot/companies/task/running/data',
+		url: 'http://api.listome.com/v1/iot/companies/task/running/data',
 		headers: {
 			'Authorization': 'Bearer ' + getToken()
 		},
@@ -181,7 +181,7 @@ function showOperatorsPicture(operatorIds, machineId) {
 		operatorId = operatorIds[i];
 		$.ajax({
 			type: 'GET',
-			url: 'http://api.listome.cn/v1/companies/users/face_samples',
+			url: 'http://api.listome.com/v1/companies/users/face_samples',
 			headers: { 
 				'Authorization': 'Bearer ' + getToken()
 			},
@@ -242,7 +242,7 @@ function showRunningTableData() {
 function getMachineRunningData(machineId) {
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/datas',
+		url: 'http://api.listome.com/v1/iot/companies/machines/' + machineId + '/datas',
 		headers: {
 			'Authorization': 'Bearer ' + getToken()
 		},
@@ -297,7 +297,7 @@ function getLightStatus() {
 	loadedLightStatus = true;
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/iot/companies/machines/status',
+		url: 'http://api.listome.com/v1/iot/companies/machines/status',
 		data: {
 			'workshop_id': 0
 		},
@@ -365,7 +365,7 @@ function refreshLightStatus(statusObj) {
 function getWorkHistory(machineId) {
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/iot/companies/task/history',
+		url: 'http://api.listome.com/v1/iot/companies/task/history',
 		headers: {
 			'Authorization': 'Bearer ' + getToken()
 		},
@@ -413,7 +413,7 @@ function showWorkHistory(list, machineId) {
 function getNamesByIds(ids, machineId, index) {
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/companies/users/names',
+		url: 'http://api.listome.com/v1/companies/users/names',
 		data: {
 			user_ids: JSON.stringify(ids)
 		},

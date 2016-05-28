@@ -46,7 +46,7 @@
     function getMachineAlertRecords(machineId) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records',
+            url: 'http://api.listome.com/v1/iot/companies/machines/' + machineId + '/alert/records',
             headers: {
                 'Authorization': 'Bearer ' + getToken()
             },

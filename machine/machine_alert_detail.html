@@ -64,7 +64,7 @@
 
     $('#take-picture').click(function() {
         try {
-            var url = 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records/' + alertId + '/pic';
+            var url = 'http://api.listome.com/v1/iot/companies/machines/' + machineId + '/alert/records/' + alertId + '/pic';
             window.js_interface.modifyMachinePic(url);
         } catch (e) {
             $.toast('错误');
@@ -75,7 +75,7 @@
     function getMachineAlertDetail(machineId, alertId) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records/' + alertId,
+            url: 'http://api.listome.com/v1/iot/companies/machines/' + machineId + '/alert/records/' + alertId,
             headers: {
                 'Authorization': 'Bearer ' + getToken()
             },
@@ -98,7 +98,7 @@
         if (data.pic.length == 0) {
             $('#card-image').html('暂无报警图片');
         } else {
-            var imageUrl = 'http://img.listome.cn' + data.pic;
+            var imageUrl = 'http://img.listome.com' + data.pic;
             var html = '<img class="card-alert-img" src="' + imageUrl + '">';
             $('#card-image').html(html);
         }
@@ -109,7 +109,7 @@
     function getManagerNames(ids) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/companies/users/names',
+            url: 'http://api.listome.com/v1/companies/users/names',
             data: {
                 user_ids: JSON.stringify(ids)
             },
@@ -139,7 +139,7 @@
     function getMachineAlertRecords(machineId) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records',
+            url: 'http://api.listome.com/v1/iot/companies/machines/' + machineId + '/alert/records',
             headers: {
                 'Authorization': 'Bearer ' + getToken()
             },

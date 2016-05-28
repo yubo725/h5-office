@@ -38,7 +38,7 @@
                 {{if data.pic == ''}}
                     ../images/machine_default.jpg
                 {{else}}
-                    http://img.listome.cn{{data.pic}}
+                    http://img.listome.com{{data.pic}}
                 {{/if}}
             ">
             <span class="image-text">点击图片可修改</span>
@@ -197,7 +197,7 @@
     function getPermission(workshopId, machineId) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/manager/access',
+            url: 'http://api.listome.com/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/manager/access',
             async: false,
             headers: {
                 'Authorization': 'Bearer ' + getToken()
@@ -225,7 +225,7 @@
                             window.location.href = "#modify_machine_picture"; //iOS需要根据这个来判断是否修改图片
                         }
                         try {
-                            var url = 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info';
+                            var url = 'http://api.listome.com/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info';
                             window.js_interface.modifyMachinePic(url);
                         } catch (e) {
                             //如果是android平台，则提示错误，iOS平台不提示
@@ -247,7 +247,7 @@
         $.showPreloader();
         $.ajax({
             type: 'POST',
-            url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info',
+            url: 'http://api.listome.com/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info',
             data: {
                 remark: remark
             },
