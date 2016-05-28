@@ -61,9 +61,9 @@ function getMachinesByWorkshopId(workshopId, workshopName) {
                         var row = {
                         	index: index,
                             id: rowId,
-                            workshopId: workshopId,
+                            workshopId: 1,
                             machineId: obj.id,
-                            workshopName: workshopName,
+                            workshopName: '一车间',
                             machineName: machineName
                         };
                         runningTableDataArray.push(row);
