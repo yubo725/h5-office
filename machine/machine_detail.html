@@ -114,17 +114,12 @@
                 </li>
             </ul>
         </div>
-        <div class="content-block-title">机床操作</div>
+        <div class="content-block-title">机床故障</div>
         <div class="list-block">
             <ul>
-                <li class="item-content item-link" id="menu-new-task">
+                <li class="item-content item-link" id="menu-machine-alert">
                     <div class="item-inner">
-                        <div class="item-title">新建任务</div>
-                    </div>
-                </li>
-                <li class="item-content item-link">
-                    <div class="item-inner">
-                        <div class="item-title">故障拍照</div>
+                        <div class="item-title">查看机床故障</div>
                     </div>
                 </li>
             </ul>
@@ -193,8 +188,8 @@
     //添加点击处理
     function addClickOperation() {
         //新建任务
-        $('#menu-new-task').click(function() {
-            window.location = 'http://192.168.1.170:8088/h5Office/machine/machine_task.html';
+        $('#menu-machine-alert').click(function() {
+            window.location = 'machine_alert_records.html?id=' + machineId;
         });
     }
 

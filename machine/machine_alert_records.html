@@ -42,12 +42,6 @@
     var machineId = getUrlParam('id');
     getMachineAlertRecords(machineId);
 
-    try {
-        window.js_interface.useGoBack(true);
-    }catch(e) {
-
-    }
-
     //获取报警记录
     function getMachineAlertRecords(machineId) {
         $.ajax({
@@ -57,11 +51,14 @@
                 'Authorization': 'Bearer ' + getToken()
             },
             success: function(response) {
-                console.log('get machine alert records: ' + formatJSON(JSON.stringify(response)));
+                // console.log('get machine alert records: ' + formatJSON(JSON.stringify(response)));
                 if (response.status == 10001) {
                     if(response.data.total > 0) {
                         var list = response.data.list;
+                        $('div.content-block-title').html('机床报警列表（' + response.data.total + '条）');
                         showAlertList(list);
+                    }else {
+                        $('div.content-block-title').html('机床报警列表（0条）');
                     }
                 }
             },
