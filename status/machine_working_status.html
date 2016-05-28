@@ -53,25 +53,10 @@
         $('title').append(dateStr);
         $('caption').append('<span class="green" id="refresh-hint">正在刷新...</span>');
         getWorkshops(false);
-        // setInterval("getWorkshops(true)", 1000 * 10);
+        setInterval("getWorkshops(false)", 1000 * 5);
     } catch (e) {
         console.log(e.toString());
     }
-    	// var str = '';
-    	// for(var i = 0; i < 8; i++) {
-    	// 	str += '<tr class="data">';
-    	// 	str += '<td>一车间</td>';
-    	// 	str += '<td>#00' + i + '</td>';
-    	// 	str += '<td>任务' + i + '</td>';
-    	// 	str += '<td>工件' + i + '</td>';
-    	// 	str += '<td>20分钟</td>';
-    	// 	str += '<td><img src="../images/person_01.jpg">\
-    	// 	<img src="../images/person_02.jpg">\
-    	// 	<img src="../images/person_03.jpg"></td>';
-    	// 	str += '<td><a href="#">点击查看</a></td>';
-    	// 	str += '</tr>';
-    	// }
-    	// $('table.table').append(str);
     </script>
 </body>
 

@@ -66,7 +66,7 @@
         $('title').append(dateStr);
         $('caption').append('<span class="green" id="refresh-hint">正在刷新...</span>');
         getWorkshops(true);
-        setInterval("getWorkshops(true)", 1000 * 10);
+        setInterval("getWorkshops(true)", 1000 * 60);
     } catch (e) {
         console.log(e.toString());
     }

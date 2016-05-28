@@ -24,6 +24,7 @@ function getWorkshops(b) {
                 if (response.data.total > 0) {
                     workshopList = response.data.list;
    					runningTableDataArray = [];  //添加数据前先清空数组
+   					workingTableDataArray = [];
                     for (var i = 0; i < workshopList.length; i++) {
                         getMachinesByWorkshopId(workshopList[i].id, workshopList[i].name);
                     }
