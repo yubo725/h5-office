@@ -20,6 +20,7 @@ function getWorkshops(b) {
             'Authorization': 'Bearer ' + getToken()
         },
         success: function(response) {
+        	console.log('车间信息：\n' + formatJSON(JSON.stringify(response)));
             if (response.status == 10001) {
                 if (response.data.total > 0) {
                     workshopList = response.data.list;
@@ -63,25 +64,26 @@ function getMachinesByWorkshopId(workshopId, workshopName) {
                             id: rowId,
                             workshopId: 1,
                             machineId: obj.id,
-                            workshopName: '一车间',
+                            workshopName: '三车间',
                             machineName: machineName
                         };
                         runningTableDataArray.push(row);
                         workingTableDataArray.push(row);
                     }
-                    loadedWorkshopSize++;
-                    if(loadedWorkshopSize == workshopList.length) {//当所有车间的机床都获取完毕后，再显示数据
-                    	if(isRunningStatus) {
-		            		//是机床运行状态
-		            		showRunningTableData();
-		            	}else {
-		            		//是机床工作状态
-		            		showWorkingTableData();
-		            	}
-	            	}
+                    
                 } else {
                     console.log('没有机床信息');
                 }
+                loadedWorkshopSize++;
+                if(loadedWorkshopSize == workshopList.length) {//当所有车间的机床都获取完毕后，再显示数据
+                	if(isRunningStatus) {
+	            		//是机床运行状态
+	            		showRunningTableData();
+	            	}else {
+	            		//是机床工作状态
+	            		showWorkingTableData();
+	            	}
+            	}
             } else {
                 console.log('获取机床列表失败' + response.status);
             }
