@@ -19,9 +19,9 @@
         <h3 class="col-xs-12 text-center"></h3>
         <p class="col-xs-12" style="text-indent:2em;"></p>
     </div>
-    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
     <script type="text/javascript" src='js/common.js'></script>
     <script type="text/javascript">
         var id = getUrlParam('id');
@@ -39,8 +39,8 @@
                     $.toast('加载公告信息失败');    
                 }
             },
-            error: function() {
-                $.toast('加载公告信息失败');
+            error: function(jqXHR, textStatus, errorThrown) {
+                $.toast('加载公告信息失败' + jqXHR.status);
             }
         })
     </script>

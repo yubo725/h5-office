@@ -45,9 +45,9 @@
             </div>
         </div>
     </div>
-    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
     <script type="text/javascript" src="../js/common.js"></script>
     <script type="text/javascript">
     var machineId = getUrlParam('machineId');
@@ -63,11 +63,16 @@
     });
 
     $('#take-picture').click(function() {
+        if (!Terminal.platform.android){
+            window.location.href = "#modify_machine_picture"; //iOS需要根据这个来判断是否修改图片
+        }
         try {
-            var url = 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records/' + alertId + '/pic';
+            var url = requestBaseUrl + 'iot/companies/machines/' + machineId + '/alert/records/' + alertId + '/pic';
             window.js_interface.modifyMachinePic(url);
         } catch (e) {
-            $.toast('错误');
+            if (Terminal.platform.android){
+                $.alert('请在工厂宝APP上使用本功能，或者升级工厂宝APP到最新版本。', '提示');    
+            }
         }
     });
 
@@ -75,7 +80,7 @@
     function getMachineAlertDetail(machineId, alertId) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records/' + alertId,
+            url: requestBaseUrl + 'iot/companies/machines/' + machineId + '/alert/records/' + alertId,
             headers: {
                 'Authorization': 'Bearer ' + getToken()
             },
@@ -98,7 +103,7 @@
         if (data.pic.length == 0) {
             $('#card-image').html('暂无报警图片');
         } else {
-            var imageUrl = 'http://img.listome.cn' + data.pic;
+            var imageUrl = 'http://img.listome.com' + data.pic;
             var html = '<img class="card-alert-img" src="' + imageUrl + '">';
             $('#card-image').html(html);
         }
@@ -109,7 +114,7 @@
     function getManagerNames(ids) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/companies/users/names',
+            url: requestBaseUrl + 'companies/users/names',
             data: {
                 user_ids: JSON.stringify(ids)
             },
@@ -139,7 +144,7 @@
     function getMachineAlertRecords(machineId) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/iot/companies/machines/' + machineId + '/alert/records',
+            url: requestBaseUrl + 'iot/companies/machines/' + machineId + '/alert/records',
             headers: {
                 'Authorization': 'Bearer ' + getToken()
             },

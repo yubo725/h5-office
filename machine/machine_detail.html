@@ -38,7 +38,7 @@
                 {{if data.pic == ''}}
                     ../images/machine_default.jpg
                 {{else}}
-                    http://img.listome.cn{{data.pic}}
+                    http://img.listome.com{{data.pic}}
                 {{/if}}
             ">
             <span class="image-text">点击图片可修改</span>
@@ -127,9 +127,9 @@
     </script>
     <div class="content" id="content">
     </div>
-    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
     <script type="text/javascript" src="../js/arttemplate.js"></script>
     <script type="text/javascript" src="../js/common.js"></script>
     <script type="text/javascript">
@@ -156,7 +156,7 @@
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $.toast('获取机床详情出错' + textStatus);
+                $.toast('获取机床详情出错' + jqXHR.status);
             }
         })
     }
@@ -197,7 +197,7 @@
     function getPermission(workshopId, machineId) {
         $.ajax({
             type: 'GET',
-            url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/manager/access',
+            url: requestBaseUrl + 'iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/manager/access',
             async: false,
             headers: {
                 'Authorization': 'Bearer ' + getToken()
@@ -225,7 +225,7 @@
                             window.location.href = "#modify_machine_picture"; //iOS需要根据这个来判断是否修改图片
                         }
                         try {
-                            var url = 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info';
+                            var url = requestBaseUrl + 'iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info';
                             window.js_interface.modifyMachinePic(url);
                         } catch (e) {
                             //如果是android平台，则提示错误，iOS平台不提示
@@ -247,7 +247,7 @@
         $.showPreloader();
         $.ajax({
             type: 'POST',
-            url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info',
+            url: requestBaseUrl + 'iot/companies/workshops/' + workshopId + '/machines/' + machineId + '/info',
             data: {
                 remark: remark
             },
@@ -263,9 +263,9 @@
                     $.toast('修改备注信息失败');
                 }
             },
-            error: function() {
+            error: function(jqXHR) {
                 $.hidePreloader();
-                $.toast('修改备注信息失败');
+                $.toast('修改备注信息失败' + jqXHR.status);
             }
         });
     }

@@ -9,13 +9,13 @@ if(window.js_interface) {
 var workshopList;
 var statusData;
 var isRequestingStatus = false;
-var task = setInterval(getStatus, 1000 * 5);
+setInterval(getStatus, 1000 * 5);
 
 //获取车间列表
 function getWorkshops() {
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/iot/companies/workshops',
+		url: requestBaseUrl + 'iot/companies/workshops',
 		headers: {
 			'Authorization': 'Bearer ' + getToken()
 		},
@@ -68,15 +68,15 @@ function showWorkshops(list) {
 
 //获取车间及机器的状态
 function getStatus() {
-	if(isRequestingStatus || workshopList == 'undefined' || statusData == 'undefined') {
-		// console.log('获取状态信息，直接返回...');
+	if(isRequestingStatus || workshopList == undefined || statusData == undefined) {
+		console.log('获取状态信息，直接返回...');
 		return ;
 	}
 	isRequestingStatus = true;
-	// console.log('正在请求状态信息...');
+	console.log('正在请求状态信息...');
     $.ajax({
         type: 'GET',
-        url: 'http://api.listome.cn/v1/iot/companies/machines/status',
+        url: requestBaseUrl + 'iot/companies/machines/status',
         data: {
             workshop_id: 0
         },
@@ -100,6 +100,9 @@ function getStatus() {
 
 //显示状态信息
 function showStatus() {
+	if(workshopList == undefined || statusData == undefined) {
+		return ;
+	}
 	var workshopId;
 	var workshopStatusObj;
 	var workshopStatus;
@@ -146,7 +149,7 @@ function getMachinesByWorkshopId(workshopId) {
 	$.showPreloader();
 	$.ajax({
 		type: 'GET',
-		url: 'http://api.listome.cn/v1/iot/companies/workshops/' + workshopId + '/machines',
+		url: requestBaseUrl + 'iot/companies/workshops/' + workshopId + '/machines',
 		headers: {
 			'Authorization': 'Bearer ' + getToken()
 		},
@@ -199,6 +202,6 @@ function addCardCss() {
     //点击卡片跳转到机床详情
     $('.card').click(function() {
     	var idArray = $(this).attr('id').split('-');
-        window.location = 'http://192.168.1.170:8088/h5Office/machine/machine_detail.html?workshopId=' + idArray[0] + '&machineId=' + idArray[1];
+        window.location = projectBaseUrl + 'machine/machine_detail.html?workshopId=' + idArray[0] + '&machineId=' + idArray[1];
     });
 }
