@@ -253,7 +253,7 @@ function getMachineRunningData(machineId) {
 			is_today: 1
 		},
 		success: function(response) {
-			// console.info("获取机器运行状态数据：" + JSON.stringify(response));
+			console.info("获取机器运行状态数据：" + JSON.stringify(response));
 			if(response.status == 10001) {
 				var data = response.data;
 				refreshTime(data.green, machineId, "green");
@@ -272,7 +272,7 @@ function getMachineRunningData(machineId) {
 //刷新灯的时间
 function refreshTime(data, machineId, color) {
 	var label = $('td#' + color + '-' + machineId);
-	if(data.length == 0) {
+	if(data == null || data.length == 0) {
 		label.text("--");
 	}else{
 		var totalTime = 0;
