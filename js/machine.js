@@ -9,7 +9,7 @@ if(window.js_interface) {
 var workshopList;
 var statusData;
 var isRequestingStatus = false;
-setInterval(getStatus, 1000 * 5);
+setInterval(getStatus, 1000 * 10);
 
 //获取车间列表
 function getWorkshops() {

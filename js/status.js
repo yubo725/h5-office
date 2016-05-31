@@ -53,6 +53,7 @@ function getMachinesByWorkshopId(workshopId, workshopName) {
         success: function(response) {
             if (response.status == 10001) {
                 if (response.data.total > 0) {
+                	console.log(workshopName + '机器数据：\n' + formatJSON(JSON.stringify(response)));
                     var machineList = response.data.list;
                     for (var i = 0; i < machineList.length; i++) {
                         var obj = machineList[i];
@@ -70,9 +71,8 @@ function getMachinesByWorkshopId(workshopId, workshopName) {
                         runningTableDataArray.push(row);
                         workingTableDataArray.push(row);
                     }
-                    
                 } else {
-                    console.log('没有机床信息');
+                    console.log(workshopName + '没有机床信息');
                 }
                 loadedWorkshopSize++;
                 if(loadedWorkshopSize == workshopList.length) {//当所有车间的机床都获取完毕后，再显示数据
@@ -307,7 +307,7 @@ function getLightStatus() {
 			'Authorization': 'Bearer ' + getToken()
 		},
 		success: function(response) {
-			// console.log('light status: ' + JSON.stringify(response));
+			console.log('light status: ' + formatJSON(JSON.stringify(response)));
 			if(response.status == 10001) {
 				var statusData = response.data;
 				if(workshopList.length > 0) {
