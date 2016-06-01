@@ -68,7 +68,7 @@ function showWorkshops(list) {
 
 //获取车间及机器的状态
 function getStatus() {
-	if(isRequestingStatus || workshopList == undefined || statusData == undefined) {
+	if(isRequestingStatus || workshopList == undefined) {
 		console.log('获取状态信息，直接返回...');
 		return ;
 	}
